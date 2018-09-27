@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>赵金帅的博客</title>
+  <title>简单可重入锁的实例 | 赵金帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="赵金帅的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="可重入锁">
+<meta name="keywords" content="多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简单可重入锁的实例">
+<meta property="og:url" content="http://yoursite.com/2018/09/27/简单可重入锁的实例/index.html">
 <meta property="og:site_name" content="赵金帅的博客">
+<meta property="og:description" content="可重入锁">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-27T03:50:23.352Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="赵金帅的博客">
+<meta name="twitter:title" content="简单可重入锁的实例">
+<meta name="twitter:description" content="可重入锁">
   
     <link rel="alternative" href="/atom.xml" title="赵金帅的博客" type="application/atom+xml">
   
@@ -150,16 +155,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-简单可重入锁的实例" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-简单可重入锁的实例" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/27/简单可重入锁的实例/">简单可重入锁的实例</a>
+    <h1 class="article-title" itemprop="name">
+      简单可重入锁的实例
     </h1>
   
 
@@ -170,13 +173,52 @@
 </a>
         
         
+          <span class="archive-article-date">
+            阅读量 <span id="busuanzi_value_page_pv"></span>
+          </span>
+        
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>可重入锁<br>
-        
+        <p>可重入锁<br><a id="more"></a></p>
+<h1 id="一-可重入锁的概念"><a href="#一-可重入锁的概念" class="headerlink" title="一.可重入锁的概念"></a>一.可重入锁的概念</h1><pre><code>当对一个对象加锁时，同一个线程再次可以再次进入，无需阻塞等待。
+</code></pre><h1 id="二-实现"><a href="#二-实现" class="headerlink" title="二.实现"></a>二.实现</h1><h2 id="1-哪些是可重入锁"><a href="#1-哪些是可重入锁" class="headerlink" title="1.哪些是可重入锁"></a>1.哪些是可重入锁</h2><pre><code>ReentrantLock和synchronize都是可重入锁
+</code></pre><h2 id="2-ReentrantLock和Synchronize的异同"><a href="#2-ReentrantLock和Synchronize的异同" class="headerlink" title="2.ReentrantLock和Synchronize的异同"></a>2.ReentrantLock和Synchronize的异同</h2><h3 id="1-相同点"><a href="#1-相同点" class="headerlink" title="1.相同点"></a>1.相同点</h3><p>​     都是可重入锁，两者都是同一个线程每进入一次，计数器加1，等到计数器变为0时才释放锁。都是在用户态把加锁问题解决，避免进入内核造成阻塞，在synchronize引入轻量锁，偏向锁之后，两者性能差不多，官方推荐使用synchronize。</p>
+<h3 id="2-不同点"><a href="#2-不同点" class="headerlink" title="2)不同点"></a>2)不同点</h3><p>  ReentrantLock是jdk实现的，synchronize是jvm实现的；ReentrantLock需要手动释放锁，synchronize是由编译器自动释放；ReentrantLock可以指定是公平锁还是非公平锁，synchronize只能是非公平锁。</p>
+<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        ReenTranlock r = <span class="keyword">new</span> ReenTranlock();</span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            r.func1();</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">func1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"func1 executing..."</span>);</span><br><span class="line">        func2();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">func2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"func2 executing..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">输出结果：</span><br><span class="line">func1 executing...</span><br><span class="line">func2 executing...</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">在方法上加锁，即为对象加锁，当线程调用func1方法时，func1方法中调用了func2方法，而此时并未释放锁，线程可以重新进入获得锁。</span><br></pre></td></tr></table></figure>
+<h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h4><pre><code>多线程的测试不能在Junit4中进行，因为Junit4没有等待子线程完成再关闭主线程。
+</code></pre>
       
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>赏个好友位呗!!!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/wechat.jpeg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+            <span id="busuanzi_container_page_pv">
+              本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
 
@@ -197,16 +239,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/27/简单可重入锁的实例/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/09/27/简单可重入锁的实例/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/09/18/left-join加上where条件的困惑/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">left join加上where条件的困惑</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -221,169 +322,52 @@
         </div>
         
         
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-left-join加上where条件的困惑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/18/left-join加上where条件的困惑/">left join加上where条件的困惑</a>
-    </h1>
-  
-
-
-        
-        <a href="/2018/09/18/left-join加上where条件的困惑/" class="archive-article-date">
-  	<time datetime="2018-09-18T06:35:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-18</time>
-</a>
-        
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>left join的困惑：一旦加上where条件，则显示的结果等于inner join<br>
-        
-      
-      
-    </div>
-
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">DB</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/18/left-join加上where条件的困惑/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一-可重入锁的概念"><span class="toc-number">1.</span> <span class="toc-text">一.可重入锁的概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二-实现"><span class="toc-number">2.</span> <span class="toc-text">二.实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-哪些是可重入锁"><span class="toc-number">2.1.</span> <span class="toc-text">1.哪些是可重入锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-ReentrantLock和Synchronize的异同"><span class="toc-number">2.2.</span> <span class="toc-text">2.ReentrantLock和Synchronize的异同</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-相同点"><span class="toc-number">2.2.1.</span> <span class="toc-text">1.相同点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-不同点"><span class="toc-number">2.2.2.</span> <span class="toc-text">2)不同点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-代码实现"><span class="toc-number">2.3.</span> <span class="toc-text">3.代码实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#注意："><span class="toc-number">2.3.0.1.</span> <span class="toc-text">注意：</span></a></li></ol></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
             </div>
         </div>
         
-        
     </div>
 </aside>
 
 
 
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="简单可重入锁的实例" data-title="简单可重入锁的实例" data-url="http://yoursite.com/2018/09/27/简单可重入锁的实例/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
   
-    <article id="post-title" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/17/title/">title</a>
-    </h1>
   
 
-
-        
-        <a href="/2018/09/17/title/" class="archive-article-date">
-  	<time datetime="2018-09-17T03:30:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-17</time>
-</a>
-        
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>优惠券相关表操作<br><img src="/img/wechat.jpeg" alt=""><br>
-        
-      
-      
-    </div>
-
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">DB</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">JAVA</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/17/title/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
+  
 
   
+
   
 
 
@@ -408,8 +392,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

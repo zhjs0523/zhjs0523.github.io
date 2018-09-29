@@ -9,14 +9,14 @@
   <title>简单可重入锁的实例 | 赵金帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="可重入锁">
-<meta name="keywords" content="多线程">
+<meta name="keywords" content="多线程,并发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简单可重入锁的实例">
 <meta property="og:url" content="http://yoursite.com/2018/09/27/简单可重入锁的实例/index.html">
 <meta property="og:site_name" content="赵金帅的博客">
 <meta property="og:description" content="可重入锁">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-27T03:50:23.352Z">
+<meta property="og:updated_time" content="2018-09-28T07:46:11.588Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="简单可重入锁的实例">
 <meta name="twitter:description" content="可重入锁">
@@ -183,9 +183,9 @@
       
         <p>可重入锁<br><a id="more"></a></p>
 <h1 id="一-可重入锁的概念"><a href="#一-可重入锁的概念" class="headerlink" title="一.可重入锁的概念"></a>一.可重入锁的概念</h1><pre><code>当对一个对象加锁时，同一个线程再次可以再次进入，无需阻塞等待。
-</code></pre><h1 id="二-实现"><a href="#二-实现" class="headerlink" title="二.实现"></a>二.实现</h1><h2 id="1-哪些是可重入锁"><a href="#1-哪些是可重入锁" class="headerlink" title="1.哪些是可重入锁"></a>1.哪些是可重入锁</h2><pre><code>ReentrantLock和synchronize都是可重入锁
-</code></pre><h2 id="2-ReentrantLock和Synchronize的异同"><a href="#2-ReentrantLock和Synchronize的异同" class="headerlink" title="2.ReentrantLock和Synchronize的异同"></a>2.ReentrantLock和Synchronize的异同</h2><h3 id="1-相同点"><a href="#1-相同点" class="headerlink" title="1.相同点"></a>1.相同点</h3><p>​     都是可重入锁，两者都是同一个线程每进入一次，计数器加1，等到计数器变为0时才释放锁。都是在用户态把加锁问题解决，避免进入内核造成阻塞，在synchronize引入轻量锁，偏向锁之后，两者性能差不多，官方推荐使用synchronize。</p>
-<h3 id="2-不同点"><a href="#2-不同点" class="headerlink" title="2)不同点"></a>2)不同点</h3><p>  ReentrantLock是jdk实现的，synchronize是jvm实现的；ReentrantLock需要手动释放锁，synchronize是由编译器自动释放；ReentrantLock可以指定是公平锁还是非公平锁，synchronize只能是非公平锁。</p>
+</code></pre><h1 id="二-实现"><a href="#二-实现" class="headerlink" title="二.实现"></a>二.实现</h1><h2 id="1-哪些是可重入锁"><a href="#1-哪些是可重入锁" class="headerlink" title="1.哪些是可重入锁"></a>1.哪些是可重入锁</h2><pre><code>ReentrantLock和synchronized都是可重入锁
+</code></pre><h2 id="2-ReentrantLock和Synchronized的异同"><a href="#2-ReentrantLock和Synchronized的异同" class="headerlink" title="2.ReentrantLock和Synchronized的异同"></a>2.ReentrantLock和Synchronized的异同</h2><h3 id="1-相同点"><a href="#1-相同点" class="headerlink" title="1.相同点"></a>1.相同点</h3><p>  都是可重入锁，两者都是同一个线程每进入一次，计数器加1，等到计数器变为0时才释放锁。都是在用户态把加锁问题解决，避免进入内核造成阻塞，在synchronized引入轻量锁，偏向锁之后，两者性能差不多，官方推荐使用synchronized。</p>
+<h3 id="2-不同点"><a href="#2-不同点" class="headerlink" title="2)不同点"></a>2)不同点</h3><p>  ReentrantLock是jdk实现的，synchronized是jvm实现的；ReentrantLock需要手动释放锁，synchronized是由编译器自动释放；ReentrantLock可以指定是公平锁还是非公平锁，synchronized只能是非公平锁。</p>
 <h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        ReenTranlock r = <span class="keyword">new</span> ReenTranlock();</span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            r.func1();</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">func1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"func1 executing..."</span>);</span><br><span class="line">        func2();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">func2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"func2 executing..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">输出结果：</span><br><span class="line">func1 executing...</span><br><span class="line">func2 executing...</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">在方法上加锁，即为对象加锁，当线程调用func1方法时，func1方法中调用了func2方法，而此时并未释放锁，线程可以重新进入获得锁。</span><br></pre></td></tr></table></figure>
 <h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h4><pre><code>多线程的测试不能在Junit4中进行，因为Junit4没有等待子线程完成再关闭主线程。
 </code></pre>
@@ -231,6 +231,10 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
         		</li>
       		
 		</ul>
@@ -300,6 +304,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2018/09/29/程序员你为什么这么累-编码习惯之工具类规范/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          程序员你为什么这么累:编码习惯之工具类规范
+        
+      </div>
+    </a>
+  
   
     <a href="/2018/09/18/left-join加上where条件的困惑/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">left join加上where条件的困惑</div>
@@ -329,7 +342,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一-可重入锁的概念"><span class="toc-number">1.</span> <span class="toc-text">一.可重入锁的概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二-实现"><span class="toc-number">2.</span> <span class="toc-text">二.实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-哪些是可重入锁"><span class="toc-number">2.1.</span> <span class="toc-text">1.哪些是可重入锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-ReentrantLock和Synchronize的异同"><span class="toc-number">2.2.</span> <span class="toc-text">2.ReentrantLock和Synchronize的异同</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-相同点"><span class="toc-number">2.2.1.</span> <span class="toc-text">1.相同点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-不同点"><span class="toc-number">2.2.2.</span> <span class="toc-text">2)不同点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-代码实现"><span class="toc-number">2.3.</span> <span class="toc-text">3.代码实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#注意："><span class="toc-number">2.3.0.1.</span> <span class="toc-text">注意：</span></a></li></ol></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一-可重入锁的概念"><span class="toc-number">1.</span> <span class="toc-text">一.可重入锁的概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二-实现"><span class="toc-number">2.</span> <span class="toc-text">二.实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-哪些是可重入锁"><span class="toc-number">2.1.</span> <span class="toc-text">1.哪些是可重入锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-ReentrantLock和Synchronized的异同"><span class="toc-number">2.2.</span> <span class="toc-text">2.ReentrantLock和Synchronized的异同</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-相同点"><span class="toc-number">2.2.1.</span> <span class="toc-text">1.相同点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-不同点"><span class="toc-number">2.2.2.</span> <span class="toc-text">2)不同点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-代码实现"><span class="toc-number">2.3.</span> <span class="toc-text">3.代码实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#注意："><span class="toc-number">2.3.0.1.</span> <span class="toc-text">注意：</span></a></li></ol></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -473,6 +486,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">多线程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">并发</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">编程规范</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">转载</a>
               </li>
             
             <div class="clearfix"></div>

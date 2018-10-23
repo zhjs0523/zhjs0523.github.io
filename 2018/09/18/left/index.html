@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: DB | 赵金帅的博客</title>
+  <title>left join加上where条件的困惑 | 赵金帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="赵金帅的博客">
-<meta property="og:url" content="http://yoursite.com/tags/DB/index.html">
+  <meta name="description" content="left join的困惑：一旦加上where条件，则显示的结果等于inner join将where 换成 and   用where 是先连接然后再筛选用and 是先筛选再连接 数据库在通过连接两张或多张表来返回记录时，都会生成一张中间的临时表，然后再将这张临时表返回给用户。 在使用left jion时，on和where条件的区别如下： 1、 on条件是在生成临时表时使用的条件，它不管on中的条件">
+<meta name="keywords" content="DB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="left join加上where条件的困惑">
+<meta property="og:url" content="http://yoursite.com/2018/09/18/left/index.html">
 <meta property="og:site_name" content="赵金帅的博客">
+<meta property="og:description" content="left join的困惑：一旦加上where条件，则显示的结果等于inner join将where 换成 and   用where 是先连接然后再筛选用and 是先筛选再连接 数据库在通过连接两张或多张表来返回记录时，都会生成一张中间的临时表，然后再将这张临时表返回给用户。 在使用left jion时，on和where条件的区别如下： 1、 on条件是在生成临时表时使用的条件，它不管on中的条件">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-23T02:31:42.916Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="赵金帅的博客">
+<meta name="twitter:title" content="left join加上where条件的困惑">
+<meta name="twitter:description" content="left join的困惑：一旦加上where条件，则显示的结果等于inner join将where 换成 and   用where 是先连接然后再筛选用and 是先筛选再连接 数据库在通过连接两张或多张表来返回记录时，都会生成一张中间的临时表，然后再将这张临时表返回给用户。 在使用left jion时，on和where条件的区别如下： 1、 on条件是在生成临时表时使用的条件，它不管on中的条件">
   
     <link rel="alternative" href="/atom.xml" title="赵金帅的博客" type="application/atom+xml">
   
@@ -150,37 +155,216 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-left" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/18/left-join加上where条件的困惑/" class="archive-article-date">
-  	<time datetime="2018-09-18T06:35:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-18</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/18/left-join加上where条件的困惑/">left join加上where条件的困惑</a>
+    <h1 class="article-title" itemprop="name">
+      left join加上where条件的困惑
     </h1>
   
 
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/09/18/left/" class="archive-article-date">
+  	<time datetime="2018-09-18T06:35:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-18</time>
+</a>
+        
+        
+          <span class="archive-article-date">
+            阅读量 <span id="busuanzi_value_page_pv"></span>
+          </span>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <a id="more"></a>
+<p>left join的困惑：一旦加上where条件，则显示的结果等于inner join<br>将where 换成 and  </p>
+<p>用where 是先连接然后再筛选<br>用and 是先筛选再连接</p>
+<p>数据库在通过连接两张或多张表来返回记录时，都会生成一张中间的临时表，然后再将这张临时表返回给用户。</p>
+<p>在使用left jion时，on和where条件的区别如下：</p>
+<p>1、 on条件是在生成临时表时使用的条件，它不管on中的条件是否为真，都会返回左边表中的记录。</p>
+<p>2、where条件是在临时表生成好后，再对临时表进行过滤的条件。这时已经没有left join的含义（必须返回左边表的记录）了，条件不为真的就全部过滤掉</p>
+<p>假设有两张表:</p>
+<p>Tab1:</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>10</td>
+</tr>
+<tr>
+<td>2</td>
+<td>20</td>
+</tr>
+<tr>
+<td>3</td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+<p>Tab2:</p>
+<table>
+<thead>
+<tr>
+<th>size</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>AAA</td>
+</tr>
+<tr>
+<td>20</td>
+<td>BBB</td>
+</tr>
+<tr>
+<td>20</td>
+<td>CCC</td>
+</tr>
+</tbody>
+</table>
+<p>现有以下两条SQL:</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、select * <span class="keyword">form</span> <span class="keyword">tab1</span> left join <span class="keyword">tab2</span> <span class="keyword">on</span> <span class="keyword">tab1</span>.size = <span class="keyword">tab2</span>.size where <span class="keyword">tab2</span>.name=’AAA’</span><br><span class="line">2、select * <span class="keyword">form</span> <span class="keyword">tab1</span> left join <span class="keyword">tab2</span> <span class="keyword">on</span> <span class="keyword">tab1</span>.size = <span class="keyword">tab2</span>.size and <span class="keyword">tab2</span>.name=’AAA’</span><br></pre></td></tr></table></figure>
+<p><strong>第一条SQL的执行过程是</strong>:</p>
+<p>先根据on 条件tab1.size = tab2.size生成一张中间表:</p>
+<table>
+<thead>
+<tr>
+<th>tab1.id</th>
+<th>tab1.size</th>
+<th>tab2.size</th>
+<th>tab2.name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>10</td>
+<td>10</td>
+<td>AAA</td>
+</tr>
+<tr>
+<td>2</td>
+<td>20</td>
+<td>20</td>
+<td>BBB</td>
+</tr>
+<tr>
+<td>2</td>
+<td>20</td>
+<td>20</td>
+<td>CCC</td>
+</tr>
+<tr>
+<td>3</td>
+<td>30</td>
+<td>(null)</td>
+<td>(null)</td>
+</tr>
+</tbody>
+</table>
+<p>然后再从中间表中筛选where条件tab2.name=’AAA’:</p>
+<table>
+<thead>
+<tr>
+<th>tab1.id</th>
+<th>tab1.size</th>
+<th>tab2.size</th>
+<th>tab2.name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>10</td>
+<td>10</td>
+<td>AAA</td>
+</tr>
+</tbody>
+</table>
+<p><strong>第二条SQL的执行过程是:</strong></p>
+<p>直接根据on条件tab1.size = tab2.size and tab2.name=’AAA’查询出来结果</p>
+<table>
+<thead>
+<tr>
+<th>tab1.id</th>
+<th>tab1.size</th>
+<th>tab2.size</th>
+<th>tab2.name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>10</td>
+<td>10</td>
+<td>AAA</td>
+</tr>
+<tr>
+<td>2</td>
+<td>20</td>
+<td>null</td>
+<td>Null</td>
+</tr>
+<tr>
+<td>3</td>
+<td>30</td>
+<td>Null</td>
+<td>Null</td>
+</tr>
+</tbody>
+</table>
+<p>两条语句执行的结果不同。</p>
+<p><strong>总结</strong>：产生以上结果的原因就是SQL语句的执行计划的顺序不同（explain），还有就是left join,right join,full join的特殊性，不管on上的条件是否为真都会返回left或right表中的记录，full则具有left和right的特性的并集。 而inner jion没这个特殊性，则条件放在on中和where中，返回的结果集是相同的。</p>
+
+      
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>赏个好友位呗!!!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/wechat.jpeg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+            <span id="busuanzi_container_page_pv">
+              本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -192,58 +376,143 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/09/18/left/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/18/left/" class="archive-article-date">
-  	<time datetime="2018-09-18T06:35:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-18</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2018/09/18/left-join加上where条件的困惑/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          left join加上where条件的困惑
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/18/left/">left join加上where条件的困惑</a>
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">DB</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    目录，不存在的…
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="left" data-title="left join加上where条件的困惑" data-url="http://yoursite.com/2018/09/18/left/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -268,9 +537,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

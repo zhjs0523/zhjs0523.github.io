@@ -6,22 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>title | 赵金帅的博客</title>
+  <title>Tag: Spring | 赵金帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="优惠券相关表操作">
-<meta name="keywords" content="DB,JAVA">
-<meta property="og:type" content="article">
-<meta property="og:title" content="title">
-<meta property="og:url" content="http://yoursite.com/2018/09/17/title/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="赵金帅的博客">
+<meta property="og:url" content="http://yoursite.com/tags/Spring/index.html">
 <meta property="og:site_name" content="赵金帅的博客">
-<meta property="og:description" content="优惠券相关表操作">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/img/wechat.jpeg">
-<meta property="og:updated_time" content="2018-09-18T07:44:47.375Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="title">
-<meta name="twitter:description" content="优惠券相关表操作">
-<meta name="twitter:image" content="http://yoursite.com/img/wechat.jpeg">
+<meta name="twitter:title" content="赵金帅的博客">
   
     <link rel="alternative" href="/atom.xml" title="赵金帅的博客" type="application/atom+xml">
   
@@ -157,271 +150,65 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-title" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      title
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2018" class="archive-year">2018</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2018/10/17/Resource和-Autowired的区别/" class="archive-article-date">
+  	<time datetime="2018-10-17T09:02:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-17</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2018/10/17/Resource和-Autowired的区别/">@Resource和@Autowired的区别</a>
     </h1>
   
 
 
-        
-        <a href="/2018/09/17/title/" class="archive-article-date">
-  	<time datetime="2018-09-17T03:30:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-17</time>
-</a>
-        
-        
-          <span class="archive-article-date">
-            阅读量 <span id="busuanzi_value_page_pv"></span>
-          </span>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>优惠券相关表操作<br><img src="/img/wechat.jpeg" alt=""><br><a id="more"></a></p>
-<h6 id="查询用户优惠券信息（平台），过滤活动类型"><a href="#查询用户优惠券信息（平台），过滤活动类型" class="headerlink" title="查询用户优惠券信息（平台），过滤活动类型"></a>查询用户优惠券信息（平台），过滤活动类型</h6><p>#####接口地址：<a href="http://10.50.8.13:18500/mallcouponuser/api/user/user/listPlatformUserTempByProduct" target="_blank" rel="noopener">http://10.50.8.13:18500/mallcouponuser/api/user/user/listPlatformUserTempByProduct</a></p>
-<p>#####Method：GET</p>
-<p>#####请求参数：</p>
-<table>
-<thead>
-<tr>
-<th>字段</th>
-<th>类型</th>
-<th>是否必传</th>
-<th>注释</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>userId</td>
-<td>int</td>
-<td>是</td>
-<td>用户</td>
-</tr>
-<tr>
-<td>productIds</td>
-<td>string</td>
-<td>是</td>
-<td>商品id 多个商品用数组，转json</td>
-</tr>
-<tr>
-<td>shopId</td>
-<td>int</td>
-<td>否  默认是0</td>
-<td>店铺id</td>
-</tr>
-<tr>
-<td>actType</td>
-<td>int</td>
-<td>否  默认是14</td>
-<td>活动类型  0   无；1  平台其他 ；2  挖矿 ；3 第三方合作；4 大促活动；5 拉新活动；6兑换码兑换券；7 用户补偿；8 退款补贴；9 积分兑换券；10 楚楚街入驻大微信客；11 余额兑换楚币；12 官方营销; 13 领取分享楚币; 14 楚楚推创业礼包; 20 退货补偿</td>
-</tr>
-<tr>
-<td>platform</td>
-<td>string</td>
-<td>否 默认为ccj</td>
-<td>平台标识  放在header中</td>
-</tr>
-</tbody>
-</table>
-<p>#####请求示例：</p>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="link">http://10.50.8.13:18500/mallcouponuser/api/user/user/listPlatformUserTempByProduct?userId=70085689&amp;actType=14&amp;productIds=</span>[<span class="string">11001233182</span>]</span><br></pre></td></tr></table></figure>
-<p>#####返回示例：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"status"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"msg"</span>: <span class="string">""</span>,</span><br><span class="line">    <span class="attr">"data"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"couponUser"</span>: &#123;</span><br><span class="line">                <span class="attr">"id"</span>: <span class="number">1533</span>,</span><br><span class="line">                <span class="attr">"couponSn"</span>: <span class="string">"6F71-2B40-1D36-AA3C-9F9C"</span>,</span><br><span class="line">                <span class="attr">"templateId"</span>: <span class="number">9795896</span>,</span><br><span class="line">                <span class="attr">"userId"</span>: <span class="number">70085689</span>,</span><br><span class="line">                <span class="attr">"usePrice"</span>: <span class="number">1</span>,</span><br><span class="line">                <span class="attr">"status"</span>: <span class="number">1</span>,</span><br><span class="line">                <span class="attr">"drawTime"</span>: <span class="number">1531907913</span>,</span><br><span class="line">                <span class="attr">"platform"</span>: <span class="string">"ccj_cct"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">"couponTemp"</span>: &#123;</span><br><span class="line">                <span class="attr">"id"</span>: <span class="number">9795896</span>,</span><br><span class="line">                <span class="attr">"shopId"</span>: <span class="number">0</span>,</span><br><span class="line">                <span class="attr">"range"</span>: <span class="string">"all"</span>,</span><br><span class="line">                <span class="attr">"type"</span>: <span class="string">"none"</span>,</span><br><span class="line">                <span class="attr">"typeRule"</span>: <span class="string">"&#123;&#125;"</span>,</span><br><span class="line">                <span class="attr">"title"</span>: <span class="string">"积分兑换楚币"</span>,</span><br><span class="line">                <span class="attr">"faceValue"</span>: <span class="number">1</span>,</span><br><span class="line">                <span class="attr">"startTime"</span>: <span class="number">1531907913</span>,</span><br><span class="line">                <span class="attr">"endTime"</span>: <span class="number">1539856713</span>,</span><br><span class="line">                <span class="attr">"maxNum"</span>: <span class="number">1</span>,</span><br><span class="line">                <span class="attr">"createNum"</span>: <span class="number">2</span>,</span><br><span class="line">                <span class="attr">"usedNum"</span>: <span class="number">0</span>,</span><br><span class="line">                <span class="attr">"receiveNum"</span>: <span class="number">1</span>,</span><br><span class="line">                <span class="attr">"status"</span>: <span class="number">0</span>,</span><br><span class="line">                <span class="attr">"isShow"</span>: <span class="number">1</span>,</span><br><span class="line">                <span class="attr">"actType"</span>: <span class="number">14</span>,</span><br><span class="line">                <span class="attr">"link"</span>: <span class="string">""</span>,</span><br><span class="line">                <span class="attr">"mtime"</span>: <span class="number">1531907913</span>,</span><br><span class="line">                <span class="attr">"validityType"</span>: <span class="literal">null</span>,</span><br><span class="line">                <span class="attr">"validityDays"</span>: <span class="literal">null</span>,</span><br><span class="line">                <span class="attr">"distributeStime"</span>: <span class="literal">null</span>,</span><br><span class="line">                <span class="attr">"distributeEtime"</span>: <span class="literal">null</span>,</span><br><span class="line">                <span class="attr">"operaer"</span>: <span class="string">"task"</span>,</span><br><span class="line">                <span class="attr">"feeType"</span>: <span class="number">0</span>,</span><br><span class="line">                <span class="attr">"platform"</span>: <span class="string">"ccj_cct"</span>,</span><br><span class="line">                <span class="attr">"share"</span>: <span class="number">1</span>,</span><br><span class="line">                <span class="attr">"rangeRule"</span>: <span class="string">"&#123;&#125;"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">"forOrdersStatus"</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="attr">"validProductIds"</span>: <span class="literal">null</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"debug"</span>: <span class="string">""</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>赏个好友位呗!!!<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/img/wechat.jpeg">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-            <span id="busuanzi_container_page_pv">
-              本文总阅读量<span id="busuanzi_value_page_pv"></span>次
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">DB</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Spring</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">JAVA</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">注解</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/09/17/title/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2018/09/18/left-join加上where条件的困惑/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          left join加上where条件的困惑
-        
-      </div>
-    </a>
   
   
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#查询用户优惠券信息（平台），过滤活动类型"><span class="toc-number">1.</span> <span class="toc-text">查询用户优惠券信息（平台），过滤活动类型</span></a></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-  
-  <div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="title" data-title="title" data-url="http://yoursite.com/2018/09/17/title/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"true"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-</div>
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -446,9 +233,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
@@ -517,15 +304,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Spring</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">注解</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">DB</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">JAVA</a>
+                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
+                <a href="javascript:void(0)" class="js-tag color2">锁</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -590,6 +385,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           
             <li class="search-li">
               <a href="https://blog.csdn.net/u010368749" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>我的CSDN博客</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://www.54tianzhisheng.cn/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>tianzhisheng的博客</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://blog.didispace.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>程序猿DD的博客</a>
             </li>
           
         </ul>

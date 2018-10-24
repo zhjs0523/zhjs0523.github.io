@@ -8,18 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>synchronized和Lock的区别 | 赵金帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言： 只要你是Java程序员，你就一定离不开多线程，而多线程也是面试过程中面试官经常询问的问题，而多线程最常见的就是synchronized和Lock，小编以前在面试的过程中，多次被问到这个问题，故而在这里整理一下。 区别   类别 synchronized lock     存在层次 java关键字，jvm层次 一个类   锁的释放 1.获取锁的线程执行完同步代码，释放锁；2.发生异常时，j">
-<meta name="keywords" content="多线程,锁">
+  <meta name="keywords" content="多线程,锁">
 <meta property="og:type" content="article">
 <meta property="og:title" content="synchronized和Lock的区别">
 <meta property="og:url" content="http://yoursite.com/2018/10/12/synchronized和Lock的区别/index.html">
 <meta property="og:site_name" content="赵金帅的博客">
-<meta property="og:description" content="前言： 只要你是Java程序员，你就一定离不开多线程，而多线程也是面试过程中面试官经常询问的问题，而多线程最常见的就是synchronized和Lock，小编以前在面试的过程中，多次被问到这个问题，故而在这里整理一下。 区别   类别 synchronized lock     存在层次 java关键字，jvm层次 一个类   锁的释放 1.获取锁的线程执行完同步代码，释放锁；2.发生异常时，j">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-17T09:11:22.626Z">
+<meta property="og:image" content="http://yoursite.com/img/eight.jpeg">
+<meta property="og:updated_time" content="2018-10-24T09:54:53.081Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="synchronized和Lock的区别">
-<meta name="twitter:description" content="前言： 只要你是Java程序员，你就一定离不开多线程，而多线程也是面试过程中面试官经常询问的问题，而多线程最常见的就是synchronized和Lock，小编以前在面试的过程中，多次被问到这个问题，故而在这里整理一下。 区别   类别 synchronized lock     存在层次 java关键字，jvm层次 一个类   锁的释放 1.获取锁的线程执行完同步代码，释放锁；2.发生异常时，j">
+<meta name="twitter:image" content="http://yoursite.com/img/eight.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="赵金帅的博客" type="application/atom+xml">
   
@@ -181,8 +180,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-<p>前言：</p>
+        <p><img src="/img/eight.jpeg" alt=""><br><a id="more"></a><br>前言：</p>
 <pre><code>只要你是Java程序员，你就一定离不开多线程，而多线程也是面试过程中面试官经常询问的问题，而多线程最常见的就是synchronized和Lock，小编以前在面试的过程中，多次被问到这个问题，故而在这里整理一下。
 </code></pre><h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><table>
 <thead>
@@ -373,45 +371,12 @@
         </div>
         
         
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#区别"><span class="toc-number">1.</span> <span class="toc-text">区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lock"><span class="toc-number">2.</span> <span class="toc-text">Lock</span></a></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
     </div>
 </aside>
 
 
 
   
-  <div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="synchronized和Lock的区别" data-title="synchronized和Lock的区别" data-url="http://yoursite.com/2018/10/12/synchronized和Lock的区别/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"true"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-</div>
-
-  
   
   
 
@@ -419,6 +384,22 @@
 
   
 
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "http://yoursite.com/2018/10/12/synchronized和Lock的区别/",
+  owner: 'zhjs0523',
+  repo: 'zhjs0523.github.io',
+  oauth: {
+    client_id: '13c545e2fb017f5bffbb',
+    client_secret: '88295d6455c9211989aeda6e6249071cbe02ee81',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
   
 
 
@@ -515,6 +496,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">DB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Spring</a>
               </li>
              
@@ -527,15 +512,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">线程池</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">并发</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">DB</a>
+                <a href="javascript:void(0)" class="js-tag color4">线程池</a>
               </li>
              
               <li class="article-tag-list-item">

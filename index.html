@@ -174,11 +174,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-<h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p>​     在高并发的环境下，多线程的使用变得越来越重要，但是在很多程序员眼中，不太关注于设置线程池的大小。然而，如果线程池过大，那么大量的线程将在相对很少的CPU和内存资源上发生竞争，这不仅会导致更高的内存使用量，而且还可能耗尽资源；如果线程池设置的过小，那么将导致许多空闲的处理器无法执行工作，从而降低吞吐率。</p>
-<h3 id="计算公式"><a href="#计算公式" class="headerlink" title="计算公式"></a>计算公式</h3><p>线程池最优大小=CPU个数 <em> CPU期望利用率 </em> (1 + 任务等待时间 / 任务处理时间)</p>
-<p>假设有一个应用，部署在8核服务器上，期望任务执行CPU占比约20%,任务平均等待时间为150ms,r任务平均处理时间为50ms<br>线程池最优大小=8<em>0.2</em>（1+150/50）=3</p>
-
+        <p><img src="/img/nine.jpeg" alt=""><br>
+        
+          <a class="article-more-a" href="/2018/10/24/线程池大小的计算/#more">more >></a>
+        
       
       
     </div>
@@ -191,11 +190,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">线程池</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">线程池</a>
         		</li>
       		
 		</ul>
@@ -335,52 +334,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-<p>前言：</p>
-<pre><code>只要你是Java程序员，你就一定离不开多线程，而多线程也是面试过程中面试官经常询问的问题，而多线程最常见的就是synchronized和Lock，小编以前在面试的过程中，多次被问到这个问题，故而在这里整理一下。
-</code></pre><h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><table>
-<thead>
-<tr>
-<th>类别</th>
-<th>synchronized</th>
-<th>lock</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>存在层次</td>
-<td>java关键字，jvm层次</td>
-<td>一个类</td>
-</tr>
-<tr>
-<td>锁的释放</td>
-<td>1.获取锁的线程执行完同步代码，释放锁；2.发生异常时，jvm自动释放锁</td>
-<td>必须手动释放，可以定义在finally代码块中</td>
-</tr>
-<tr>
-<td>锁的获取</td>
-<td>A线程获得锁，B线程等待；A线程阻塞，B线程一直等待</td>
-<td>见下文</td>
-</tr>
-<tr>
-<td>锁的状态</td>
-<td>无法判断</td>
-<td>可以判断</td>
-</tr>
-<tr>
-<td>锁类型</td>
-<td>可重入，轻量锁，偏向锁，不可中断，非公平</td>
-<td>可重入，可中断，公平和非公平皆可</td>
-</tr>
-<tr>
-<td>性能</td>
-<td>少量同步</td>
-<td>大量同步</td>
-</tr>
-</tbody>
-</table>
-<h3 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> java.util.concurrent.locks;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Lock</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    *  获取锁，如果锁被暂用则一直等待知道锁释放</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">lock</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 如果线程A在获取锁的时候进入了等待队列，则可以中断线程A,去做其他的事情</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">lockInterruptibly</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException</span>;</span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 试图获取锁，如果被暂用返回false，否则返回true</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">()</span></span>;</span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 试图获取锁，如果锁被暂用，则等待time时间，到期则中断该线程，抛出InterruptedException异常</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">tryLock</span><span class="params">(<span class="keyword">long</span> time, TimeUnit unit)</span> <span class="keyword">throws</span> InterruptedException</span>;</span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 释放锁</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">unlock</span><span class="params">()</span></span>;</span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 返回一个ConditionObject对象</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">    <span class="function">Condition <span class="title">newCondition</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+        <p><img src="/img/eight.jpeg" alt=""><br>
+        
+          <a class="article-more-a" href="/2018/10/12/synchronized和Lock的区别/#more">more >></a>
+        
       
       
     </div>
@@ -541,14 +498,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-<h1 id="一-可重入锁的概念"><a href="#一-可重入锁的概念" class="headerlink" title="一.可重入锁的概念"></a>一.可重入锁的概念</h1><pre><code>当对一个对象加锁时，同一个线程再次可以再次进入，无需阻塞等待。
-</code></pre><h1 id="二-实现"><a href="#二-实现" class="headerlink" title="二.实现"></a>二.实现</h1><h2 id="1-哪些是可重入锁"><a href="#1-哪些是可重入锁" class="headerlink" title="1.哪些是可重入锁"></a>1.哪些是可重入锁</h2><pre><code>ReentrantLock和synchronized都是可重入锁
-</code></pre><h2 id="2-ReentrantLock和Synchronized的异同"><a href="#2-ReentrantLock和Synchronized的异同" class="headerlink" title="2.ReentrantLock和Synchronized的异同"></a>2.ReentrantLock和Synchronized的异同</h2><h3 id="1-相同点"><a href="#1-相同点" class="headerlink" title="1.相同点"></a>1.相同点</h3><p>  都是可重入锁，两者都是同一个线程每进入一次，计数器加1，等到计数器变为0时才释放锁。都是在用户态把加锁问题解决，避免进入内核造成阻塞，在synchronized引入轻量锁，偏向锁之后，两者性能差不多，官方推荐使用synchronized。</p>
-<h3 id="2-不同点"><a href="#2-不同点" class="headerlink" title="2)不同点"></a>2)不同点</h3><p>  ReentrantLock是jdk实现的，synchronized是jvm实现的；ReentrantLock需要手动释放锁，synchronized是由编译器自动释放；ReentrantLock可以指定是公平锁还是非公平锁，synchronized只能是非公平锁。</p>
-<h2 id="3-代码实现"><a href="#3-代码实现" class="headerlink" title="3.代码实现"></a>3.代码实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        ReenTranlock r = <span class="keyword">new</span> ReenTranlock();</span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            r.func1();</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">func1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"func1 executing..."</span>);</span><br><span class="line">        func2();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">func2</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"func2 executing..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">输出结果：</span><br><span class="line">func1 executing...</span><br><span class="line">func2 executing...</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">在方法上加锁，即为对象加锁，当线程调用func1方法时，func1方法中调用了func2方法，而此时并未释放锁，线程可以重新进入获得锁。</span><br></pre></td></tr></table></figure>
-<h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h4><pre><code>多线程的测试不能在Junit4中进行，因为Junit4没有等待子线程完成再关闭主线程。
-</code></pre>
+        <p><img src="/img/five.jpg" alt=""><br>
+        
+          <a class="article-more-a" href="/2018/09/27/简单可重入锁的实例/#more">more >></a>
+        
       
       
     </div>
@@ -627,154 +580,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-<p>left join的困惑：一旦加上where条件，则显示的结果等于inner join<br>将where 换成 and  </p>
-<p>用where 是先连接然后再筛选<br>用and 是先筛选再连接</p>
-<p>数据库在通过连接两张或多张表来返回记录时，都会生成一张中间的临时表，然后再将这张临时表返回给用户。</p>
-<p>在使用left jion时，on和where条件的区别如下：</p>
-<p>1、 on条件是在生成临时表时使用的条件，它不管on中的条件是否为真，都会返回左边表中的记录。</p>
-<p>2、where条件是在临时表生成好后，再对临时表进行过滤的条件。这时已经没有left join的含义（必须返回左边表的记录）了，条件不为真的就全部过滤掉</p>
-<p>假设有两张表:</p>
-<p>Tab1:</p>
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>size</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>10</td>
-</tr>
-<tr>
-<td>2</td>
-<td>20</td>
-</tr>
-<tr>
-<td>3</td>
-<td>30</td>
-</tr>
-</tbody>
-</table>
-<p>Tab2:</p>
-<table>
-<thead>
-<tr>
-<th>size</th>
-<th>name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>10</td>
-<td>AAA</td>
-</tr>
-<tr>
-<td>20</td>
-<td>BBB</td>
-</tr>
-<tr>
-<td>20</td>
-<td>CCC</td>
-</tr>
-</tbody>
-</table>
-<p>现有以下两条SQL:</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、select * <span class="keyword">form</span> <span class="keyword">tab1</span> left join <span class="keyword">tab2</span> <span class="keyword">on</span> <span class="keyword">tab1</span>.size = <span class="keyword">tab2</span>.size where <span class="keyword">tab2</span>.name=’AAA’</span><br><span class="line">2、select * <span class="keyword">form</span> <span class="keyword">tab1</span> left join <span class="keyword">tab2</span> <span class="keyword">on</span> <span class="keyword">tab1</span>.size = <span class="keyword">tab2</span>.size and <span class="keyword">tab2</span>.name=’AAA’</span><br></pre></td></tr></table></figure>
-<p><strong>第一条SQL的执行过程是</strong>:</p>
-<p>先根据on 条件tab1.size = tab2.size生成一张中间表:</p>
-<table>
-<thead>
-<tr>
-<th>tab1.id</th>
-<th>tab1.size</th>
-<th>tab2.size</th>
-<th>tab2.name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>10</td>
-<td>10</td>
-<td>AAA</td>
-</tr>
-<tr>
-<td>2</td>
-<td>20</td>
-<td>20</td>
-<td>BBB</td>
-</tr>
-<tr>
-<td>2</td>
-<td>20</td>
-<td>20</td>
-<td>CCC</td>
-</tr>
-<tr>
-<td>3</td>
-<td>30</td>
-<td>(null)</td>
-<td>(null)</td>
-</tr>
-</tbody>
-</table>
-<p>然后再从中间表中筛选where条件tab2.name=’AAA’:</p>
-<table>
-<thead>
-<tr>
-<th>tab1.id</th>
-<th>tab1.size</th>
-<th>tab2.size</th>
-<th>tab2.name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>10</td>
-<td>10</td>
-<td>AAA</td>
-</tr>
-</tbody>
-</table>
-<p><strong>第二条SQL的执行过程是:</strong></p>
-<p>直接根据on条件tab1.size = tab2.size and tab2.name=’AAA’查询出来结果</p>
-<table>
-<thead>
-<tr>
-<th>tab1.id</th>
-<th>tab1.size</th>
-<th>tab2.size</th>
-<th>tab2.name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>10</td>
-<td>10</td>
-<td>AAA</td>
-</tr>
-<tr>
-<td>2</td>
-<td>20</td>
-<td>null</td>
-<td>Null</td>
-</tr>
-<tr>
-<td>3</td>
-<td>30</td>
-<td>Null</td>
-<td>Null</td>
-</tr>
-</tbody>
-</table>
-<p>两条语句执行的结果不同。</p>
-<p><strong>总结</strong>：产生以上结果的原因就是SQL语句的执行计划的顺序不同（explain），还有就是left join,right join,full join的特殊性，不管on上的条件是否为真都会返回left或right表中的记录，full则具有left和right的特性的并集。 而inner jion没这个特殊性，则条件放在on中和where中，返回的结果集是相同的。</p>
-
+        <p><img src="/img/third.jpeg" alt=""><br>
+        
+          <a class="article-more-a" href="/2018/09/18/left-join加上where条件的困惑/#more">more >></a>
+        
       
       
     </div>
@@ -923,6 +732,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">DB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Spring</a>
               </li>
              
@@ -935,15 +748,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">线程池</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">并发</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">DB</a>
+                <a href="javascript:void(0)" class="js-tag color4">线程池</a>
               </li>
              
               <li class="article-tag-list-item">

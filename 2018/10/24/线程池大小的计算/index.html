@@ -8,18 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>线程池最优大小的计算 | 赵金帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言​     在高并发的环境下，多线程的使用变得越来越重要，但是在很多程序员眼中，不太关注于设置线程池的大小。然而，如果线程池过大，那么大量的线程将在相对很少的CPU和内存资源上发生竞争，这不仅会导致更高的内存使用量，而且还可能耗尽资源；如果线程池设置的过小，那么将导致许多空闲的处理器无法执行工作，从而降低吞吐率。 计算公式线程池最优大小=CPU个数  CPU期望利用率  (1 + 任务等待时">
-<meta name="keywords" content="线程池,并发">
+  <meta name="keywords" content="并发,线程池">
 <meta property="og:type" content="article">
 <meta property="og:title" content="线程池最优大小的计算">
 <meta property="og:url" content="http://yoursite.com/2018/10/24/线程池大小的计算/index.html">
 <meta property="og:site_name" content="赵金帅的博客">
-<meta property="og:description" content="前言​     在高并发的环境下，多线程的使用变得越来越重要，但是在很多程序员眼中，不太关注于设置线程池的大小。然而，如果线程池过大，那么大量的线程将在相对很少的CPU和内存资源上发生竞争，这不仅会导致更高的内存使用量，而且还可能耗尽资源；如果线程池设置的过小，那么将导致许多空闲的处理器无法执行工作，从而降低吞吐率。 计算公式线程池最优大小=CPU个数  CPU期望利用率  (1 + 任务等待时">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-24T06:07:57.773Z">
+<meta property="og:image" content="http://yoursite.com/img/nine.jpeg">
+<meta property="og:updated_time" content="2018-10-24T09:55:04.516Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线程池最优大小的计算">
-<meta name="twitter:description" content="前言​     在高并发的环境下，多线程的使用变得越来越重要，但是在很多程序员眼中，不太关注于设置线程池的大小。然而，如果线程池过大，那么大量的线程将在相对很少的CPU和内存资源上发生竞争，这不仅会导致更高的内存使用量，而且还可能耗尽资源；如果线程池设置的过小，那么将导致许多空闲的处理器无法执行工作，从而降低吞吐率。 计算公式线程池最优大小=CPU个数  CPU期望利用率  (1 + 任务等待时">
+<meta name="twitter:image" content="http://yoursite.com/img/nine.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="赵金帅的博客" type="application/atom+xml">
   
@@ -181,7 +180,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
+        <p><img src="/img/nine.jpeg" alt=""><br><a id="more"></a></p>
 <h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p>​     在高并发的环境下，多线程的使用变得越来越重要，但是在很多程序员眼中，不太关注于设置线程池的大小。然而，如果线程池过大，那么大量的线程将在相对很少的CPU和内存资源上发生竞争，这不仅会导致更高的内存使用量，而且还可能耗尽资源；如果线程池设置的过小，那么将导致许多空闲的处理器无法执行工作，从而降低吞吐率。</p>
 <h3 id="计算公式"><a href="#计算公式" class="headerlink" title="计算公式"></a>计算公式</h3><p>线程池最优大小=CPU个数 <em> CPU期望利用率 </em> (1 + 任务等待时间 / 任务处理时间)</p>
 <p>假设有一个应用，部署在8核服务器上，期望任务执行CPU占比约20%,任务平均等待时间为150ms,r任务平均处理时间为50ms<br>线程池最优大小=8<em>0.2</em>（1+150/50）=3</p>
@@ -227,11 +226,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">线程池</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">线程池</a>
         		</li>
       		
 		</ul>
@@ -323,45 +322,12 @@
         </div>
         
         
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#计算公式"><span class="toc-number"></span> <span class="toc-text">计算公式</span></a>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
     </div>
 </aside>
 
 
 
   
-  <div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="线程池大小的计算" data-title="线程池最优大小的计算" data-url="http://yoursite.com/2018/10/24/线程池大小的计算/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"true"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-</div>
-
-  
   
   
 
@@ -369,6 +335,22 @@
 
   
 
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "http://yoursite.com/2018/10/24/线程池大小的计算/",
+  owner: 'zhjs0523',
+  repo: 'zhjs0523.github.io',
+  oauth: {
+    client_id: '13c545e2fb017f5bffbb',
+    client_secret: '88295d6455c9211989aeda6e6249071cbe02ee81',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
   
 
 
@@ -465,6 +447,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">DB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Spring</a>
               </li>
              
@@ -477,15 +463,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">线程池</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">并发</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">DB</a>
+                <a href="javascript:void(0)" class="js-tag color4">线程池</a>
               </li>
              
               <li class="article-tag-list-item">

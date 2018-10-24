@@ -8,21 +8,19 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>程序员你为什么这么累:编码习惯之工具类规范 | 赵金帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文作者：晓风轻原文链接：https://zhuanlan.zhihu.com/p/29199049版权归作者所有，转载请注明出处 一个项目不可能没有工具类，工具类的初衷是良好的，代码重用，但到了后面工具类越来越乱，有些项目工具类有几十个，看的眼花缭乱，还有不少重复。如何编写出好的工具类，我有几点建议： 隐藏实现就是要定义自己的工具类，尽量不要在业务代码里面直接调用第三方的工具类。这也是解耦的一">
-<meta name="keywords" content="编程规范,转载">
+  <meta name="keywords" content="编程规范,转载">
 <meta property="og:type" content="article">
 <meta property="og:title" content="程序员你为什么这么累:编码习惯之工具类规范">
 <meta property="og:url" content="http://yoursite.com/2018/09/29/程序员你为什么这么累-编码习惯之工具类规范/index.html">
 <meta property="og:site_name" content="赵金帅的博客">
-<meta property="og:description" content="本文作者：晓风轻原文链接：https://zhuanlan.zhihu.com/p/29199049版权归作者所有，转载请注明出处 一个项目不可能没有工具类，工具类的初衷是良好的，代码重用，但到了后面工具类越来越乱，有些项目工具类有几十个，看的眼花缭乱，还有不少重复。如何编写出好的工具类，我有几点建议： 隐藏实现就是要定义自己的工具类，尽量不要在业务代码里面直接调用第三方的工具类。这也是解耦的一">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/img/first.jpeg">
 <meta property="og:image" content="http://yoursite.com/img/Elicpse-preference-1.jpg">
 <meta property="og:image" content="http://yoursite.com/img/Eclipse-project-1.jpg">
-<meta property="og:updated_time" content="2018-10-12T10:09:22.309Z">
+<meta property="og:updated_time" content="2018-10-24T07:16:01.111Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="程序员你为什么这么累:编码习惯之工具类规范">
-<meta name="twitter:description" content="本文作者：晓风轻原文链接：https://zhuanlan.zhihu.com/p/29199049版权归作者所有，转载请注明出处 一个项目不可能没有工具类，工具类的初衷是良好的，代码重用，但到了后面工具类越来越乱，有些项目工具类有几十个，看的眼花缭乱，还有不少重复。如何编写出好的工具类，我有几点建议： 隐藏实现就是要定义自己的工具类，尽量不要在业务代码里面直接调用第三方的工具类。这也是解耦的一">
-<meta name="twitter:image" content="http://yoursite.com/img/Elicpse-preference-1.jpg">
+<meta name="twitter:image" content="http://yoursite.com/img/first.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="赵金帅的博客" type="application/atom+xml">
   
@@ -184,8 +182,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-<p>本文作者：晓风轻<br>原文链接：<a href="https://zhuanlan.zhihu.com/p/29199049" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/29199049</a><br>版权归作者所有，转载请注明出处</p>
+        <p><img src="/img/first.jpeg" alt=""><br><a id="more"></a><br>本文作者：晓风轻<br>原文链接：<a href="https://zhuanlan.zhihu.com/p/29199049" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/29199049</a><br>版权归作者所有，转载请注明出处</p>
 <p>一个项目不可能没有工具类，工具类的初衷是良好的，代码重用，但到了后面工具类越来越乱，有些项目工具类有几十个，看的眼花缭乱，还有不少重复。如何编写出好的工具类，我有几点建议：</p>
 <h3 id="隐藏实现"><a href="#隐藏实现" class="headerlink" title="隐藏实现"></a>隐藏实现</h3><p>就是要<strong>定义自己的工具类，尽量不要在业务代码里面直接调用第三方的工具类</strong>。这也是<strong>解耦</strong>的一种体现。如果我们不定义自己的工具类而是直接使用第三方的工具类有<strong>2个不好的地方</strong>：</p>
 <ol>
@@ -452,7 +449,7 @@
     </div>
   </div>
 </footer>
-<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
     </div>
     <script>
@@ -534,10 +531,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">DB</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">多线程</a>
               </li>
              
@@ -546,7 +539,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">线程池</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">并发</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">DB</a>
               </li>
              
               <li class="article-tag-list-item">

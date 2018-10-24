@@ -6,16 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>tags | 赵金帅的博客</title>
+  <title>线程池最优大小的计算 | 赵金帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+  <meta name="description" content="前言​     在高并发的环境下，多线程的使用变得越来越重要，但是在很多程序员眼中，不太关注于设置线程池的大小。然而，如果线程池过大，那么大量的线程将在相对很少的CPU和内存资源上发生竞争，这不仅会导致更高的内存使用量，而且还可能耗尽资源；如果线程池设置的过小，那么将导致许多空闲的处理器无法执行工作，从而降低吞吐率。 计算公式线程池最优大小=CPU个数  CPU期望利用率  (1 + 任务等待时">
+<meta name="keywords" content="线程池,并发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程池最优大小的计算">
+<meta property="og:url" content="http://yoursite.com/2018/10/24/线程池大小的计算/index.html">
 <meta property="og:site_name" content="赵金帅的博客">
+<meta property="og:description" content="前言​     在高并发的环境下，多线程的使用变得越来越重要，但是在很多程序员眼中，不太关注于设置线程池的大小。然而，如果线程池过大，那么大量的线程将在相对很少的CPU和内存资源上发生竞争，这不仅会导致更高的内存使用量，而且还可能耗尽资源；如果线程池设置的过小，那么将导致许多空闲的处理器无法执行工作，从而降低吞吐率。 计算公式线程池最优大小=CPU个数  CPU期望利用率  (1 + 任务等待时">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-18T07:32:47.936Z">
+<meta property="og:updated_time" content="2018-10-24T06:07:57.773Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
+<meta name="twitter:title" content="线程池最优大小的计算">
+<meta name="twitter:description" content="前言​     在高并发的环境下，多线程的使用变得越来越重要，但是在很多程序员眼中，不太关注于设置线程池的大小。然而，如果线程池过大，那么大量的线程将在相对很少的CPU和内存资源上发生竞争，这不仅会导致更高的内存使用量，而且还可能耗尽资源；如果线程池设置的过小，那么将导致许多空闲的处理器无法执行工作，从而降低吞吐率。 计算公式线程池最优大小=CPU个数  CPU期望利用率  (1 + 任务等待时">
   
     <link rel="alternative" href="/atom.xml" title="赵金帅的博客" type="application/atom+xml">
   
@@ -151,21 +155,21 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="page-undefined" class="article article-type-page " itemscope itemprop="blogPost">
+            <article id="post-线程池大小的计算" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      tags
+      线程池最优大小的计算
     </h1>
   
 
 
         
-        <a href="/tags/index.html" class="archive-article-date">
-  	<time datetime="2018-09-18T07:31:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-18</time>
+        <a href="/2018/10/24/线程池大小的计算/" class="archive-article-date">
+  	<time datetime="2018-10-24T04:02:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-24</time>
 </a>
         
         
@@ -177,7 +181,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <a id="more"></a>
+<h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p>​     在高并发的环境下，多线程的使用变得越来越重要，但是在很多程序员眼中，不太关注于设置线程池的大小。然而，如果线程池过大，那么大量的线程将在相对很少的CPU和内存资源上发生竞争，这不仅会导致更高的内存使用量，而且还可能耗尽资源；如果线程池设置的过小，那么将导致许多空闲的处理器无法执行工作，从而降低吞吐率。</p>
+<h3 id="计算公式"><a href="#计算公式" class="headerlink" title="计算公式"></a>计算公式</h3><p>线程池最优大小=CPU个数 <em> CPU期望利用率 </em> (1 + 任务等待时间 / 任务处理时间)</p>
+<p>假设有一个应用，部署在8核服务器上，期望任务执行CPU占比约20%,任务平均等待时间为150ms,r任务平均处理时间为50ms<br>线程池最优大小=8<em>0.2</em>（1+150/50）=3</p>
+
       
       
         <div class="page-reward">
@@ -214,6 +222,21 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">线程池</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -264,7 +287,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/tags/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/10/24/线程池大小的计算/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -276,6 +299,16 @@
 </article>
 
   
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/17/Resource和Autowired的区别/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Resource和Autowired的区别</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -290,6 +323,19 @@
         </div>
         
         
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#计算公式"><span class="toc-number"></span> <span class="toc-text">计算公式</span></a>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
     </div>
 </aside>
 
@@ -298,7 +344,7 @@
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="undefined" data-title="tags" data-url="http://yoursite.com/tags/index.html"></div>
+	<div class="ds-thread" data-thread-key="线程池大小的计算" data-title="线程池最优大小的计算" data-url="http://yoursite.com/2018/10/24/线程池大小的计算/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -348,7 +394,7 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

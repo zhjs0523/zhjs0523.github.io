@@ -22,7 +22,8 @@
 <meta property="og:image" content="http://yoursite.com/img/github4.jpg">
 <meta property="og:image" content="http://yoursite.com/img/github5.jpeg">
 <meta property="og:image" content="http://yoursite.com/img/github6.jpeg">
-<meta property="og:updated_time" content="2018-10-25T06:33:42.227Z">
+<meta property="og:image" content="http://yoursite.com/img/github7/jpg">
+<meta property="og:updated_time" content="2018-10-25T08:20:09.644Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GithubPages+Yilia搭建个人博客">
 <meta name="twitter:image" content="http://yoursite.com/img/six.png">
@@ -188,8 +189,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><img src="/img/six.png" alt=""><br><a id="more"></a></p>
-<h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>​    作为一个程序员，日常要学很多东西，如果不及时记录一下，之后就会忘记，而且搭建一个自己的个人博客网站也能在简历上显露一下，提高面试机会。于是乎，我就想搭建一个自己的博客，本来是想着自己写，包括数据库，前端和后台的编码，但是无奈小弟技术有限，时间有限，精力有限，所以就果断放弃。看到网上大神们都用的是githubPages+hexo搭建自己的博客，所以就依葫芦画瓢搞了一个。在这里mark一下自己建站的过程，说多了全是泪啊。</p>
-<h3 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1.准备工作"></a>1.准备工作</h3><ul>
+<h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><pre><code>作为一个程序员，日常要学很多东西，如果不及时记录一下，之后就会忘记，而且搭建一个自己的个人博客网站也能在简历上显露一下，提高面试机会。于是乎，我就想搭建一个自己的博客，本来是想着自己写，包括数据库，前端和后台的编码，但是无奈小弟技术有限，时间有限，精力有限，所以就果断放弃。看到网上大神们都用的是githubPages+hexo搭建自己的博客，所以就依葫芦画瓢搞了一个。在这里mark一下自己建站的过程，说多了全是泪啊。
+</code></pre><h3 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1.准备工作"></a>1.准备工作</h3><ul>
 <li>因为是使用的github pages，所以你要有一个github账号</li>
 <li>安装nodejs，npm（网上全是资料）</li>
 <li>安装hexo,，网上很多教程。</li>
@@ -212,8 +213,7 @@
 <p>hexo deploy(hexo d)  上传博客到github上，你可以直接访问 <a href="http://www.你的github用户名.github.io直接访问你的博客。可能会需要等待10分钟左右才能看到效果。" target="_blank" rel="noopener">http://www.你的github用户名.github.io直接访问你的博客。可能会需要等待10分钟左右才能看到效果。</a></p>
 <h3 id="3-绑定域名"><a href="#3-绑定域名" class="headerlink" title="3.绑定域名"></a>3.绑定域名</h3><p>毕竟是搭建一个自己的博客，还是用自己的域名才会显得更加狂拽酷炫吊炸天，所以申请一个个人域名，我是在阿里云上申请的。因为工商部现在对域名的管理非常严格，所以如果你的服务器是大陆的，是需要在工商部备案的，当然如果是国外的服务器，是无需备案的。</p>
 <h4 id="3-1-域名解析"><a href="#3-1-域名解析" class="headerlink" title="3.1 域名解析"></a>3.1 域名解析</h4><p>申请完域名之后，就要做域名解析啦，这样你才能通过域名访问你的博客，解析也比较简单，在阿里云的<a href="https://account.aliyun.com/login/login.htm" target="_blank" rel="noopener">https://account.aliyun.com/login/login.htm</a> 后台中进行解析<img src="/img/github1.jpg" alt=""><img src="/img/github2.jpg" alt=""></p>
-<p>####3.2 配置github pages的custom domain</p>
-<p><img src="/img/github3.jpg" alt=""></p>
+<h4 id="3-2-配置github-pages的custom-domain"><a href="#3-2-配置github-pages的custom-domain" class="headerlink" title="3.2 配置github pages的custom domain"></a>3.2 配置github pages的custom domain</h4><p><img src="/img/github3.jpg" alt=""></p>
 <p><strong>注意：</strong> 配置完之后，每次提交（hexo deploy）的时候,上诉的custom domain会把值清空，所以你应该在source/_posts/目录下建一个CNAME的文件，文件内容就写你自己的域名。</p>
 <h3 id="4-其他配置"><a href="#4-其他配置" class="headerlink" title="4.其他配置"></a>4.其他配置</h3><h4 id="4-1-评论"><a href="#4-1-评论" class="headerlink" title="4.1 评论"></a>4.1 评论</h4><p>  常见的评论系统有畅言，友言，多说，网易云跟帖，Gitment等。</p>
 <p>畅言是比较常用的，但是畅言是需要备案的。</p>
@@ -233,6 +233,13 @@
 <p> <a href="https://www.jianshu.com/p/57afa4844aaa" target="_blank" rel="noopener">https://www.jianshu.com/p/57afa4844aaa</a></p>
 <p><a href="https://github.com/imsun/gitment/issues/95" target="_blank" rel="noopener">https://github.com/imsun/gitment/issues/95</a></p>
 <p><a href="https://github.com/imsun/gitment/issues/81" target="_blank" rel="noopener">https://github.com/imsun/gitment/issues/81</a></p>
+<p>也有可能会出现的Error：validation failed,这是因为gitment默认的id是页面id，就是文章的唯一的标识，而限制的长度是50，默认的是以URL为id的，所以需要控制在50位之内，所以以创建博客的时间做id，修改如下：</p>
+<p>修改文件themes/yilia/layout/_partial/post/gitment.ejs</p>
+<p><img src="/img/github7/jpg" alt=""></p>
+<p>原来是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id: &quot;&lt;%=url%&gt;&quot;,</span><br></pre></td></tr></table></figure>
+<p>修改为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id: &quot;&lt;%=page.date%&gt;&quot;,</span><br></pre></td></tr></table></figure>
 
       
       
@@ -367,13 +374,26 @@
         </div>
         
         
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言："><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-准备工作"><span class="toc-number">2.</span> <span class="toc-text">1.准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-搭建博客"><span class="toc-number">3.</span> <span class="toc-text">2.搭建博客</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-搭建仓库"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 搭建仓库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-配置博客"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 配置博客</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-配置主题"><span class="toc-number">3.3.</span> <span class="toc-text">2.3 配置主题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-新建-amp-上传博客"><span class="toc-number">3.4.</span> <span class="toc-text">2.4 新建&amp;上传博客</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-绑定域名"><span class="toc-number">4.</span> <span class="toc-text">3.绑定域名</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-域名解析"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 域名解析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-配置github-pages的custom-domain"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 配置github pages的custom domain</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-其他配置"><span class="toc-number">5.</span> <span class="toc-text">4.其他配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-评论"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 评论</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-1-1-注册-OAuth-Application"><span class="toc-number">5.1.1.</span> <span class="toc-text">4.1.1 注册 OAuth Application</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-1-2-配置"><span class="toc-number">5.1.2.</span> <span class="toc-text">4.1.2 配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-1-3-初始化评论"><span class="toc-number">5.1.3.</span> <span class="toc-text">4.1.3 初始化评论</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
     </div>
 </aside>
 
 
 
   
-  
+
   
 
   
@@ -509,11 +529,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">并发</a>
+                <a href="javascript:void(0)" class="js-tag color4">线程池</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">线程池</a>
+                <a href="javascript:void(0)" class="js-tag color3">并发</a>
               </li>
              
               <li class="article-tag-list-item">

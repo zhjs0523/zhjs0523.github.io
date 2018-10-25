@@ -234,7 +234,7 @@
 </tbody>
 </table>
 <p>现有以下两条SQL:</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、select * <span class="keyword">form</span> <span class="keyword">tab1</span> left join <span class="keyword">tab2</span> <span class="keyword">on</span> <span class="keyword">tab1</span>.size = <span class="keyword">tab2</span>.size where <span class="keyword">tab2</span>.name=’AAA’</span><br><span class="line">2、select * <span class="keyword">form</span> <span class="keyword">tab1</span> left join <span class="keyword">tab2</span> <span class="keyword">on</span> <span class="keyword">tab1</span>.size = <span class="keyword">tab2</span>.size and <span class="keyword">tab2</span>.name=’AAA’</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、select * form tab1 left join tab2 on tab1.size = tab2.size where tab2.name=’AAA’</span><br><span class="line">2、select * form tab1 left join tab2 on tab1.size = tab2.size and tab2.name=’AAA’</span><br></pre></td></tr></table></figure>
 <p><strong>第一条SQL的执行过程是</strong>:</p>
 <p>先根据on 条件tab1.size = tab2.size生成一张中间表:</p>
 <table>
@@ -487,8 +487,8 @@ var gitment = new Gitment({
   owner: 'zhjs0523',
   repo: 'zhjs0523.github.io',
   oauth: {
-    client_id: '13c545e2fb017f5bffbb',
-    client_secret: '88295d6455c9211989aeda6e6249071cbe02ee81',
+    client_id: '2f2411f187bc265a55e1',
+    client_secret: '948c043ee9642b127ec13240842b7d9b711aafb9',
   },
 })
 gitment.render('gitment-ctn')

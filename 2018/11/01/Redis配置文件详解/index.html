@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 并发 | 赵金帅的博客</title>
+  <title>Redis配置文件详解 | 赵金帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="赵金帅的博客">
-<meta property="og:url" content="http://yoursite.com/tags/并发/index.html">
+  <meta name="keywords" content="redis,缓存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis配置文件详解">
+<meta property="og:url" content="http://yoursite.com/2018/11/01/Redis配置文件详解/index.html">
 <meta property="og:site_name" content="赵金帅的博客">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/img/seven.jpg">
+<meta property="og:updated_time" content="2018-11-01T06:14:25.452Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="赵金帅的博客">
+<meta name="twitter:title" content="Redis配置文件详解">
+<meta name="twitter:image" content="http://yoursite.com/img/seven.jpg">
   
     <link rel="alternative" href="/atom.xml" title="赵金帅的博客" type="application/atom+xml">
   
@@ -154,108 +158,292 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Redis配置文件详解" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/10/24/线程池大小的计算/" class="archive-article-date">
-  	<time datetime="2018-10-24T04:02:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-24</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/10/24/线程池大小的计算/">线程池最优大小的计算</a>
+    <h1 class="article-title" itemprop="name">
+      Redis配置文件详解
     </h1>
   
 
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/11/01/Redis配置文件详解/" class="archive-article-date">
+  	<time datetime="2018-11-01T03:45:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-01</time>
+</a>
+        
+        
+          <span class="archive-article-date">
+            阅读量 <span id="busuanzi_value_page_pv"></span>
+          </span>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/img/seven.jpg" alt=""><br><a id="more"></a></p>
+<p>作者：纳木错<br>来源：CSDN<br>原文：<a href="https://blog.csdn.net/neubuffer/article/details/17003909" target="_blank" rel="noopener">https://blog.csdn.net/neubuffer/article/details/17003909</a><br>版权声明：本文为博主原创文章，转载请附上博文链接！</p>
+<p>配置redis.conf文件：</p>
+<h4 id="1-daemonize-no"><a href="#1-daemonize-no" class="headerlink" title="1 daemonize  no"></a>1 daemonize  no</h4><p>默认情况下，redis 不是在后台运行的，如果需要在后台运行，把该项的值更改为yes。</p>
+<h4 id="2-pidfile-var-run-redis-pid"><a href="#2-pidfile-var-run-redis-pid" class="headerlink" title="2 pidfile  /var/run/redis.pid"></a>2 pidfile  /var/run/redis.pid</h4><p>当Redis 在后台运行的时候，Redis 默认会把pid 文件放在/var/run/redis.pid，你可以配置到其他地址。当运行多个redis 服务时，需要指定不同的pid 文件和端口</p>
+<h4 id="3-port"><a href="#3-port" class="headerlink" title="3 port"></a>3 port</h4><p>监听端口，默认为6379</p>
+<h4 id="4-bind-127-0-0-1"><a href="#4-bind-127-0-0-1" class="headerlink" title="4 #bind 127.0.0.1"></a>4 #bind 127.0.0.1</h4><p>指定Redis 只接收来自于该IP 地址的请求，如果不进行设置，那么将处理所有请求，在生产环境中为了安全最好设置该项。默认注释掉，不开启</p>
+<h4 id="5-timeout-0"><a href="#5-timeout-0" class="headerlink" title="5 timeout 0"></a>5 timeout 0</h4><p>设置客户端连接时的超时时间，单位为秒。当客户端在这段时间内没有发出任何指令，那么关闭该连接</p>
+<h4 id="6-tcp-keepalive-0"><a href="#6-tcp-keepalive-0" class="headerlink" title="6 tcp-keepalive 0"></a>6 tcp-keepalive 0</h4><p>指定TCP连接是否为长连接,”侦探”信号有server端维护。默认为0.表示禁用</p>
+<h4 id="7-loglevel-notice"><a href="#7-loglevel-notice" class="headerlink" title="7 loglevel notice"></a>7 loglevel notice</h4><p>log 等级分为4 级，debug,verbose, notice, 和warning。生产环境下一般开启notice</p>
+<h4 id="8-logfile-stdout"><a href="#8-logfile-stdout" class="headerlink" title="8 logfile stdout"></a>8 logfile stdout</h4><p>配置log 文件地址，默认使用标准输出，即打印在命令行终端的窗口上，修改为日志文件目录</p>
+<h4 id="9-databases-16"><a href="#9-databases-16" class="headerlink" title="9 databases 16"></a>9 databases 16</h4><p>设置数据库的个数，可以使用SELECT 命令来切换数据库。默认使用的数据库是0号库。默认16个库</p>
+<h4 id="10"><a href="#10" class="headerlink" title="10"></a>10</h4><p>save 900 1<br>save 300 10<br>save 60 10000</p>
+<p>保存数据快照的频率，即将数据持久化到dump.rdb文件中的频度。用来描述”在多少秒期间至少多少个变更操作”触发snapshot数据保存动作</p>
+<p>默认设置，意思是：</p>
+<p>if(在60 秒之内有10000 个keys 发生变化时){</p>
+<p>进行镜像备份</p>
+<p>}else if(在300 秒之内有10 个keys 发生了变化){</p>
+<p>进行镜像备份</p>
+<p>}else if(在900 秒之内有1 个keys 发生了变化){</p>
+<p>进行镜像备份</p>
+<p>}</p>
+<h4 id="11-stop-writes-on-bgsave-error-yes"><a href="#11-stop-writes-on-bgsave-error-yes" class="headerlink" title="11 stop-writes-on-bgsave-error yes"></a>11 stop-writes-on-bgsave-error yes</h4><p>当持久化出现错误时，是否依然继续进行工作，是否终止所有的客户端write请求。默认设置”yes”表示终止，一旦snapshot数据保存故障，那么此server为只读服务。如果为”no”，那么此次snapshot将失败，但下一次snapshot不会受到影响，不过如果出现故障,数据只能恢复到”最近一个成功点”</p>
+<h4 id="12-rdbcompression-yes"><a href="#12-rdbcompression-yes" class="headerlink" title="12 rdbcompression yes"></a>12 rdbcompression yes</h4><p>在进行数据镜像备份时，是否启用rdb文件压缩手段，默认为yes。压缩可能需要额外的cpu开支，不过这能够有效的减小rdb文件的大，有利于存储/备份/传输/数据恢复</p>
+<h4 id="13-rdbchecksum-yes"><a href="#13-rdbchecksum-yes" class="headerlink" title="13 rdbchecksum yes"></a>13 rdbchecksum yes</h4><p>读取和写入时候，会损失10%性能</p>
+<h4 id="14-rdbchecksum-yes"><a href="#14-rdbchecksum-yes" class="headerlink" title="14 rdbchecksum yes"></a>14 rdbchecksum yes</h4><p>是否进行校验和，是否对rdb文件使用CRC64校验和,默认为”yes”，那么每个rdb文件内容的末尾都会追加CRC校验和，利于第三方校验工具检测文件完整性</p>
+<h4 id="15-dir"><a href="#15-dir" class="headerlink" title="15 dir ./"></a>15 dir ./</h4><p>数据库镜像备份的文件rdb/AOF文件放置的路径。这里的路径跟文件名要分开配置是因为Redis 在进行备份时，先会将当前数据库的状态写入到一个临时文件中，等备份完成时，再把该临时文件替换为上面所指定的文件，而这里的临时文件和上面所配置的备份文件都会放在这个指定的路径当中</p>
+<h4 id="16-slaveof"><a href="#16-slaveof" class="headerlink" title="16 # slaveof "></a>16 # slaveof<masterip> <masterport></masterport></masterip></h4><p>设置该数据库为其他数据库的从数据库，并为其指定master信息。</p>
+<h4 id="17-masterauth"><a href="#17-masterauth" class="headerlink" title="17 masterauth"></a>17 masterauth</h4><p>当主数据库连接需要密码验证时，在这里指定</p>
+<h4 id="18-slave-serve-stale-data-yes"><a href="#18-slave-serve-stale-data-yes" class="headerlink" title="18 slave-serve-stale-data yes"></a>18 slave-serve-stale-data yes</h4><p>当主master服务器挂机或主从复制在进行时，是否依然可以允许客户访问可能过期的数据。在”yes”情况下,slave继续向客户端提供只读服务,有可能此时的数据已经过期；在”no”情况下，任何向此server发送的数据请求服务(包括客户端和此server的slave)都将被告知”error”</p>
+<h4 id="19-slave-read-only-yes"><a href="#19-slave-read-only-yes" class="headerlink" title="19 slave-read-only yes"></a>19 slave-read-only yes</h4><p>slave是否为”只读”，强烈建议为”yes”</p>
+<h4 id="20-repl-ping-slave-period-10"><a href="#20-repl-ping-slave-period-10" class="headerlink" title="20 # repl-ping-slave-period 10"></a>20 # repl-ping-slave-period 10</h4><p>slave向指定的master发送ping消息的时间间隔(秒)，默认为10</p>
+<h4 id="21-repl-timeout-60"><a href="#21-repl-timeout-60" class="headerlink" title="21 # repl-timeout 60"></a>21 # repl-timeout 60</h4><p>slave与master通讯中,最大空闲时间,默认60秒.超时将导致连接关闭</p>
+<h4 id="22-repl-disable-tcp-nodelay-no"><a href="#22-repl-disable-tcp-nodelay-no" class="headerlink" title="22 repl-disable-tcp-nodelay no"></a>22 repl-disable-tcp-nodelay no</h4><p>slave与master的连接,是否禁用TCP nodelay选项。”yes”表示禁用,那么socket通讯中数据将会以packet方式发送(packet大小受到socket buffer限制)。</p>
+<p>可以提高socket通讯的效率(tcp交互次数),但是小数据将会被buffer,不会被立即发送,对于接受者可能存在延迟。”no”表示开启tcp nodelay选项,任何数据都会被立即发送,及时性较好,但是效率较低，建议设为no</p>
+<h4 id="23-slave-priority-100"><a href="#23-slave-priority-100" class="headerlink" title="23 slave-priority 100"></a>23 slave-priority 100</h4><p>适用Sentinel模块(unstable,M-S集群管理和监控),需要额外的配置文件支持。slave的权重值,默认100.当master失效后,Sentinel将会从slave列表中找到权重值最低(&gt;0)的slave,并提升为master。如果权重值为0,表示此slave为”观察者”,不参与master选举</p>
+<h4 id="24-requirepass-foobared"><a href="#24-requirepass-foobared" class="headerlink" title="24 # requirepass foobared"></a>24 # requirepass foobared</h4><p>设置客户端连接后进行任何其他指定前需要使用的密码。警告：因为redis 速度相当快，所以在一台比较好的服务器下，一个外部的用户可以在一秒钟进行150K 次的密码尝试，这意味着你需要指定非常非常强大的密码来防止暴力破解。</p>
+<h4 id="25-rename-command-CONFIG-3ed984507a5dcd722aeade310065ce5d-方式-MD5-‘CONFIG-’"><a href="#25-rename-command-CONFIG-3ed984507a5dcd722aeade310065ce5d-方式-MD5-‘CONFIG-’" class="headerlink" title="25 # rename-command CONFIG 3ed984507a5dcd722aeade310065ce5d    (方式:MD5(‘CONFIG^!’))"></a>25 # rename-command CONFIG 3ed984507a5dcd722aeade310065ce5d    (方式:MD5(‘CONFIG^!’))</h4><p>重命名指令,对于一些与”server”控制有关的指令,可能不希望远程客户端(非管理员用户)链接随意使用,那么就可以把这些指令重命名为”难以阅读”的其他字符串</p>
+<h4 id="26-maxclients-10000"><a href="#26-maxclients-10000" class="headerlink" title="26 # maxclients 10000"></a>26 # maxclients 10000</h4><p>限制同时连接的客户数量。当连接数超过这个值时，redis 将不再接收其他连接请求，客户端尝试连接时将收到error 信息。默认为10000，要考虑系统文件描述符限制，不宜过大，浪费文件描述符，具体多少根据具体情况而定</p>
+<h4 id="27-maxmemory"><a href="#27-maxmemory" class="headerlink" title="27 # maxmemory "></a>27 # maxmemory <bytes></bytes></h4><p>redis-cache所能使用的最大内存(bytes),默认为0,表示”无限制”,最终由OS物理内存大小决定(如果物理内存不足,有可能会使用swap)。此值尽量不要超过机器的物理内存尺寸,从性能和实施的角度考虑,可以为物理内存3/4。此配置需要和”maxmemory-policy”配合使用,当redis中内存数据达到maxmemory时,触发”清除策略”。在”内存不足”时,任何write操作(比如set,lpush等)都会触发”清除策略”的执行。在实际环境中,建议redis的所有物理机器的硬件配置保持一致(内存一致),同时确保master/slave中”maxmemory””policy”配置一致。</p>
+<p>当内存满了的时候，如果还接收到set 命令，redis 将先尝试剔除设置过expire 信息的key，而不管该key 的过期时间还没有到达。在删除时，</p>
+<p>将按照过期时间进行删除，最早将要被过期的key 将最先被删除。如果带有expire 信息的key 都删光了，内存还不够用，那么将返回错误。这样，redis 将不再接收写请求，只接收get 请求。maxmemory 的设置比较适合于把redis 当作于类似memcached的缓存来使用。</p>
+<h4 id="28-maxmemory-policy-volatile-lru"><a href="#28-maxmemory-policy-volatile-lru" class="headerlink" title="28 # maxmemory-policy volatile-lru"></a>28 # maxmemory-policy volatile-lru</h4><p>内存不足”时,数据清除策略,默认为”volatile-lru”。</p>
+<p>volatile-lru  -&gt;对”过期集合”中的数据采取LRU(近期最少使用)算法.如果对key使用”expire”指令指定了过期时间,那么此key将会被添加到”过期集合”中。将已经过期/LRU的数据优先移除.如果”过期集合”中全部移除仍不能满足内存需求,将OOM.<br>allkeys-lru -&gt;对所有的数据,采用LRU算法<br>volatile-random -&gt;对”过期集合”中的数据采取”随即选取”算法,并移除选中的K-V,直到”内存足够”为止. 如果如果”过期集合”中全部移除全部移除仍不能满足,将OOM<br>allkeys-random -&gt;对所有的数据,采取”随机选取”算法,并移除选中的K-V,直到”内存足够”为止<br>volatile-ttl -&gt;对”过期集合”中的数据采取TTL算法(最小存活时间),移除即将过期的数据.<br>noeviction -&gt;不做任何干扰操作,直接返回OOM异常<br>另外，如果数据的过期不会对”应用系统”带来异常,且系统中write操作比较密集,建议采取”allkeys-lru”</p>
+<h4 id="29-maxmemory-samples-3"><a href="#29-maxmemory-samples-3" class="headerlink" title="29 # maxmemory-samples 3"></a>29 # maxmemory-samples 3</h4><p>默认值3，上面LRU和最小TTL策略并非严谨的策略，而是大约估算的方式，因此可以选择取样值以便检查</p>
+<h4 id="30-appendfilename-appendonly-aof"><a href="#30-appendfilename-appendonly-aof" class="headerlink" title="30 # appendfilename appendonly.aof"></a>30 # appendfilename appendonly.aof</h4><p>aof文件名字，默认为appendonly.aof</p>
+<h4 id="31"><a href="#31" class="headerlink" title="31"></a>31</h4><p>appendfsync always</p>
+<p>appendfsync everysec</p>
+<p>appendfsync no</p>
+<p>设置对appendonly.aof 文件进行同步的频率。always 表示每次有写操作都进行同步，everysec 表示对写操作进行累积，每秒同步一次。no不主动fsync，由OS自己来完成。这个需要根据实际业务场景进行配置</p>
+<h4 id="32-no-appendfsync-on-rewrite-no"><a href="#32-no-appendfsync-on-rewrite-no" class="headerlink" title="32 no-appendfsync-on-rewrite no"></a>32 no-appendfsync-on-rewrite no</h4><p>在aof rewrite期间,是否对aof新记录的append暂缓使用文件同步策略,主要考虑磁盘IO开支和请求阻塞时间。默认为no,表示”不暂缓”,新的aof记录仍然会被立即同步</p>
+<h4 id="33-auto-aof-rewrite-percentage-100"><a href="#33-auto-aof-rewrite-percentage-100" class="headerlink" title="33 auto-aof-rewrite-percentage 100"></a>33 auto-aof-rewrite-percentage 100</h4><p>当Aof log增长超过指定比例时，重写log file， 设置为0表示不自动重写Aof 日志，重写是为了使aof体积保持最小，而确保保存最完整的数据。</p>
+<h4 id="34-auto-aof-rewrite-min-size-64mb"><a href="#34-auto-aof-rewrite-min-size-64mb" class="headerlink" title="34 auto-aof-rewrite-min-size 64mb"></a>34 auto-aof-rewrite-min-size 64mb</h4><p>触发aof rewrite的最小文件尺寸</p>
+<h4 id="35-lua-time-limit-5000"><a href="#35-lua-time-limit-5000" class="headerlink" title="35 lua-time-limit 5000"></a>35 lua-time-limit 5000</h4><p>lua脚本运行的最大时间</p>
+<h4 id="36-slowlog-log-slower-than-10000"><a href="#36-slowlog-log-slower-than-10000" class="headerlink" title="36 slowlog-log-slower-than 10000"></a>36 slowlog-log-slower-than 10000</h4><p>“慢操作日志”记录,单位:微秒(百万分之一秒,1000 * 1000),如果操作时间超过此值,将会把command信息”记录”起来.(内存,非文件)。其中”操作时间”不包括网络IO开支,只包括请求达到server后进行”内存实施”的时间.”0”表示记录全部操作</p>
+<h4 id="37-slowlog-max-len-128"><a href="#37-slowlog-max-len-128" class="headerlink" title="37 slowlog-max-len 128"></a>37 slowlog-max-len 128</h4><p>“慢操作日志”保留的最大条数,”记录”将会被队列化,如果超过了此长度,旧记录将会被移除。可以通过”SLOWLOG <subcommand> args”查看慢记录的信息(SLOWLOG get 10,SLOWLOG reset)</subcommand></p>
+<h4 id="38"><a href="#38" class="headerlink" title="38"></a>38</h4><p> hash-max-ziplist-entries 512</p>
+<p>hash类型的数据结构在编码上可以使用ziplist和hashtable。ziplist的特点就是文件存储(以及内存存储)所需的空间较小,在内容较小时,性能和hashtable几乎一样.因此redis对hash类型默认采取ziplist。如果hash中条目的条目个数或者value长度达到阀值,将会被重构为hashtable。</p>
+<p>这个参数指的是ziplist中允许存储的最大条目个数，，默认为512，建议为128<br>hash-max-ziplist-value 64</p>
+<p>ziplist中允许条目value值最大字节数，默认为64，建议为1024</p>
+<h4 id="39"><a href="#39" class="headerlink" title="39"></a>39</h4><p>list-max-ziplist-entries 512<br>list-max-ziplist-value 64</p>
+<p>对于list类型,将会采取ziplist,linkedlist两种编码类型。解释同上。</p>
+<h4 id="40-set-max-intset-entries-512"><a href="#40-set-max-intset-entries-512" class="headerlink" title="40 set-max-intset-entries 512"></a>40 set-max-intset-entries 512</h4><p>intset中允许保存的最大条目个数,如果达到阀值,intset将会被重构为hashtable</p>
+<h4 id="41"><a href="#41" class="headerlink" title="41"></a>41</h4><p>zset-max-ziplist-entries 128<br>zset-max-ziplist-value 64</p>
+<p>zset为有序集合,有2中编码类型:ziplist,skiplist。因为”排序”将会消耗额外的性能,当zset中数据较多时,将会被重构为skiplist。</p>
+<h4 id="42-activerehashing-yes"><a href="#42-activerehashing-yes" class="headerlink" title="42 activerehashing yes"></a>42 activerehashing yes</h4><p>是否开启顶层数据结构的rehash功能,如果内存允许,请开启。rehash能够很大程度上提高K-V存取的效率</p>
+<h4 id="43"><a href="#43" class="headerlink" title="43"></a>43</h4><p>client-output-buffer-limit normal 0 0 0<br>client-output-buffer-limit slave 256mb 64mb 60<br>client-output-buffer-limit pubsub 32mb 8mb 60</p>
+<p>客户端buffer控制。在客户端与server进行的交互中,每个连接都会与一个buffer关联,此buffer用来队列化等待被client接受的响应信息。如果client不能及时的消费响应信息,那么buffer将会被不断积压而给server带来内存压力.如果buffer中积压的数据达到阀值,将会导致连接被关闭,buffer被移除。</p>
+<p>buffer控制类型包括:normal -&gt; 普通连接；slave -&gt;与slave之间的连接；pubsub -&gt;pub/sub类型连接，此类型的连接，往往会产生此种问题;因为pub端会密集的发布消息,但是sub端可能消费不足.<br>指令格式:client-output-buffer-limit <class> <hard> <soft> <seconds>“,其中hard表示buffer最大值,一旦达到阀值将立即关闭连接;<br>soft表示”容忍值”,它和seconds配合,如果buffer值超过soft且持续时间达到了seconds,也将立即关闭连接,如果超过了soft但是在seconds之后，buffer数据小于了soft,连接将会被保留.<br>其中hard和soft都设置为0,则表示禁用buffer控制.通常hard值大于soft.</seconds></soft></hard></class></p>
+<h4 id="44-hz-10"><a href="#44-hz-10" class="headerlink" title="44 hz 10"></a>44 hz 10</h4><p>Redis server执行后台任务的频率,默认为10,此值越大表示redis对”间歇性task”的执行次数越频繁(次数/秒)。”间歇性task”包括”过期集合”检测、关闭”空闲超时”的连接等,此值必须大于0且小于500。此值过小就意味着更多的cpu周期消耗,后台task被轮询的次数更频繁。此值过大意味着”内存敏感”性较差。建议采用默认值。</p>
+<h4 id="45"><a href="#45" class="headerlink" title="45"></a>45</h4><p>include /path/to/local.conf</p>
+<p>include /path/to/other.conf</p>
+<p>额外载入配置文件。</p>
+<h4 id="46-dbfilename-dump-rdb"><a href="#46-dbfilename-dump-rdb" class="headerlink" title="46 dbfilename dump.rdb"></a>46 dbfilename dump.rdb</h4><p>镜像备份文件的文件名，默认为 dump.rdb</p>
+<h4 id="47-appendonly-no"><a href="#47-appendonly-no" class="headerlink" title="47 appendonly no"></a>47 appendonly no</h4><p>默认情况下，redis 会在后台异步的把数据库镜像备份到磁盘，但是该备份是非常耗时的，而且备份也不能很频繁。所以redis 提供了另外一种更加高效的数据库备份及灾难恢复方式。开启append only 模式之后，redis 会把所接收到的每一次写操作请求都追加到appendonly.aof 文件中，当redis 重新启动时，会从该文件恢复出之前的状态。但是这样会造成appendonly.aof 文件过大，所以redis 还支持了BGREWRITEAOF 指令，对appendonly.aof 进行重新整理。如果不经常进行数据迁移操作，推荐生产环境下的做法为关闭镜像，开启appendonly.aof，同时可以选择在访问较少的时间每天对appendonly.aof 进行重写一次。</p>
+<p>另外，对master机器,主要负责写，建议使用AOF,对于slave,主要负责读，挑选出1-2台开启AOF，其余的建议关闭</p>
+
+      
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>赏个好友位呗!!!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/wechat.jpeg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+            <span id="busuanzi_container_page_pv">
+              本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">线程池</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">redis</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">缓存</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/11/01/Redis配置文件详解/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/27/简单可重入锁的实例/" class="archive-article-date">
-  	<time datetime="2018-09-27T03:28:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-27</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/30/ReentrantLock源码解析/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ReentrantLock源码解析</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/27/简单可重入锁的实例/">简单可重入锁的实例</a>
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-daemonize-no"><span class="toc-number">1.</span> <span class="toc-text">1 daemonize  no</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-pidfile-var-run-redis-pid"><span class="toc-number">2.</span> <span class="toc-text">2 pidfile  /var/run/redis.pid</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-port"><span class="toc-number">3.</span> <span class="toc-text">3 port</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-bind-127-0-0-1"><span class="toc-number">4.</span> <span class="toc-text">4 #bind 127.0.0.1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-timeout-0"><span class="toc-number">5.</span> <span class="toc-text">5 timeout 0</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-tcp-keepalive-0"><span class="toc-number">6.</span> <span class="toc-text">6 tcp-keepalive 0</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-loglevel-notice"><span class="toc-number">7.</span> <span class="toc-text">7 loglevel notice</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-logfile-stdout"><span class="toc-number">8.</span> <span class="toc-text">8 logfile stdout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-databases-16"><span class="toc-number">9.</span> <span class="toc-text">9 databases 16</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10"><span class="toc-number">10.</span> <span class="toc-text">10</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-stop-writes-on-bgsave-error-yes"><span class="toc-number">11.</span> <span class="toc-text">11 stop-writes-on-bgsave-error yes</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-rdbcompression-yes"><span class="toc-number">12.</span> <span class="toc-text">12 rdbcompression yes</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-rdbchecksum-yes"><span class="toc-number">13.</span> <span class="toc-text">13 rdbchecksum yes</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#14-rdbchecksum-yes"><span class="toc-number">14.</span> <span class="toc-text">14 rdbchecksum yes</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#15-dir"><span class="toc-number">15.</span> <span class="toc-text">15 dir ./</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#16-slaveof"><span class="toc-number">16.</span> <span class="toc-text">16 # slaveof </span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#17-masterauth"><span class="toc-number">17.</span> <span class="toc-text">17 masterauth</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#18-slave-serve-stale-data-yes"><span class="toc-number">18.</span> <span class="toc-text">18 slave-serve-stale-data yes</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#19-slave-read-only-yes"><span class="toc-number">19.</span> <span class="toc-text">19 slave-read-only yes</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#20-repl-ping-slave-period-10"><span class="toc-number">20.</span> <span class="toc-text">20 # repl-ping-slave-period 10</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#21-repl-timeout-60"><span class="toc-number">21.</span> <span class="toc-text">21 # repl-timeout 60</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#22-repl-disable-tcp-nodelay-no"><span class="toc-number">22.</span> <span class="toc-text">22 repl-disable-tcp-nodelay no</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#23-slave-priority-100"><span class="toc-number">23.</span> <span class="toc-text">23 slave-priority 100</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#24-requirepass-foobared"><span class="toc-number">24.</span> <span class="toc-text">24 # requirepass foobared</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#25-rename-command-CONFIG-3ed984507a5dcd722aeade310065ce5d-方式-MD5-‘CONFIG-’"><span class="toc-number">25.</span> <span class="toc-text">25 # rename-command CONFIG 3ed984507a5dcd722aeade310065ce5d    (方式:MD5(‘CONFIG^!’))</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#26-maxclients-10000"><span class="toc-number">26.</span> <span class="toc-text">26 # maxclients 10000</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#27-maxmemory"><span class="toc-number">27.</span> <span class="toc-text">27 # maxmemory </span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#28-maxmemory-policy-volatile-lru"><span class="toc-number">28.</span> <span class="toc-text">28 # maxmemory-policy volatile-lru</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#29-maxmemory-samples-3"><span class="toc-number">29.</span> <span class="toc-text">29 # maxmemory-samples 3</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#30-appendfilename-appendonly-aof"><span class="toc-number">30.</span> <span class="toc-text">30 # appendfilename appendonly.aof</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#31"><span class="toc-number">31.</span> <span class="toc-text">31</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#32-no-appendfsync-on-rewrite-no"><span class="toc-number">32.</span> <span class="toc-text">32 no-appendfsync-on-rewrite no</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#33-auto-aof-rewrite-percentage-100"><span class="toc-number">33.</span> <span class="toc-text">33 auto-aof-rewrite-percentage 100</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#34-auto-aof-rewrite-min-size-64mb"><span class="toc-number">34.</span> <span class="toc-text">34 auto-aof-rewrite-min-size 64mb</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#35-lua-time-limit-5000"><span class="toc-number">35.</span> <span class="toc-text">35 lua-time-limit 5000</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#36-slowlog-log-slower-than-10000"><span class="toc-number">36.</span> <span class="toc-text">36 slowlog-log-slower-than 10000</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#37-slowlog-max-len-128"><span class="toc-number">37.</span> <span class="toc-text">37 slowlog-max-len 128</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#38"><span class="toc-number">38.</span> <span class="toc-text">38</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#39"><span class="toc-number">39.</span> <span class="toc-text">39</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#40-set-max-intset-entries-512"><span class="toc-number">40.</span> <span class="toc-text">40 set-max-intset-entries 512</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#41"><span class="toc-number">41.</span> <span class="toc-text">41</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#42-activerehashing-yes"><span class="toc-number">42.</span> <span class="toc-text">42 activerehashing yes</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#43"><span class="toc-number">43.</span> <span class="toc-text">43</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#44-hz-10"><span class="toc-number">44.</span> <span class="toc-text">44 hz 10</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#45"><span class="toc-number">45.</span> <span class="toc-text">45</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#46-dbfilename-dump-rdb"><span class="toc-number">46.</span> <span class="toc-text">46 dbfilename dump.rdb</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#47-appendonly-no"><span class="toc-number">47.</span> <span class="toc-text">47 appendonly no</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
+        
+    </div>
+</aside>
+
+
+
   
 
-    
+  
+
+  
+
+  
+
+  
+
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://jjeejj.github.io/js/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "Thu Nov 01 2018 11:45:47 GMT+0800",
+  owner: 'zhjs0523',
+  repo: 'zhjs0523.github.io',
+  oauth: {
+    client_id: '2f2411f187bc265a55e1',
+    client_secret: '948c043ee9642b127ec13240842b7d9b711aafb9',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+
+  
 
 
           </div>
@@ -280,9 +468,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

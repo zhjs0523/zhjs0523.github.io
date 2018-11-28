@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 并发 | 赵金帅的博客</title>
+  <title>Log4j转为Log4j2 | 赵金帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="赵金帅的博客">
-<meta property="og:url" content="http://yoursite.com/tags/并发/index.html">
+  <meta name="keywords" content="Log4j2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Log4j转为Log4j2">
+<meta property="og:url" content="http://yoursite.com/2018/11/28/Log4j转为Log4j2/index.html">
 <meta property="og:site_name" content="赵金帅的博客">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/img/fourteen.jpg">
+<meta property="og:updated_time" content="2018-11-28T08:14:22.614Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="赵金帅的博客">
+<meta name="twitter:title" content="Log4j转为Log4j2">
+<meta name="twitter:image" content="http://yoursite.com/img/fourteen.jpg">
   
     <link rel="alternative" href="/atom.xml" title="赵金帅的博客" type="application/atom+xml">
   
@@ -154,108 +158,279 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Log4j转为Log4j2" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/10/24/线程池大小的计算/" class="archive-article-date">
-  	<time datetime="2018-10-24T04:02:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-24</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/10/24/线程池大小的计算/">线程池最优大小的计算</a>
+    <h1 class="article-title" itemprop="name">
+      Log4j转为Log4j2
     </h1>
   
 
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/11/28/Log4j转为Log4j2/" class="archive-article-date">
+  	<time datetime="2018-11-28T07:30:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-28</time>
+</a>
+        
+        
+          <span class="archive-article-date">
+            阅读量 <span id="busuanzi_value_page_pv"></span>
+          </span>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/img/fourteen.jpg" alt=""><br><a id="more"></a></p>
+<h3 id="一-前言"><a href="#一-前言" class="headerlink" title="一. 前言"></a>一. 前言</h3><p>​    之前项目是用的log4j+slf4j，但在高并发的情况下，日志的输出影响到了接口的响应时间，所以打算把项目改为log4j2+slf4j的形式，并使用log4j2的全异步日志形式，最大限度的提高日志的输出效率。</p>
+<h3 id="二-log4j，slf4j，log4j2的介绍"><a href="#二-log4j，slf4j，log4j2的介绍" class="headerlink" title="二. log4j，slf4j，log4j2的介绍"></a>二. log4j，slf4j，log4j2的介绍</h3><h4 id="log4j"><a href="#log4j" class="headerlink" title="log4j"></a>log4j</h4><p>直接在pom文件中引用log4j-1.2.17.jar依赖就可以啦</p>
+<h4 id="slf4j"><a href="#slf4j" class="headerlink" title="slf4j"></a>slf4j</h4><p>slf4j不是一个具体的日志实现方案，是为Java程序提供统一的日志输出接口。就像JDBC一样，只是一种规则。所以slf4j是不能单独工作的，必须搭配其他的日志实现方案</p>
+<h4 id="log4j-slf4j"><a href="#log4j-slf4j" class="headerlink" title="log4j+slf4j"></a>log4j+slf4j</h4><p>如果我们在系统中需要使用slf4j和log4j来进行日志输出的话，我们需要引入下面的jar包：<br>log4j核心jar包：log4j-1.2.17.jar<br>slf4j核心jar包：slf4j-api-1.6.4.jar</p>
+<p>slf4j与log4j的桥接包：slf4j-log4j12-1.6.1.jar，这个包的作用就是使用slf4j的api，但是底层实现是基于log4j</p>
+<h4 id="slf4j-log4j2"><a href="#slf4j-log4j2" class="headerlink" title="slf4j+log4j2"></a>slf4j+log4j2</h4><p>如果我们在系统中需要使用slf4j和log4j2来进行日志输出的话，我们需要引入下面的jar包：<br>log4j2核心jar包：log4j-api-2.7.jar和log4j-core-2.7.jar<br>slf4j核心jar包：slf4j-api-1.6.4.jar</p>
+<p>slf4j与log4j2的桥接包：log4j-slf4j-impl-2.7.jar，这个包的作用就是使用slf4j的api，但是底层实现是基于log4j2</p>
+<h4 id="log4j2"><a href="#log4j2" class="headerlink" title="log4j2"></a>log4j2</h4><h5 id="1-关于配置文件的名称以及在项目中的存放位置"><a href="#1-关于配置文件的名称以及在项目中的存放位置" class="headerlink" title="1.关于配置文件的名称以及在项目中的存放位置"></a>1.关于配置文件的名称以及在项目中的存放位置</h5><p>　　　　log4j 2.x版本不再支持像1.x中的.properties后缀的文件配置方式，2.x版本配置文件后缀名只能为”.xml”,”.json”或者”.jsn”.</p>
+<p>　　　　系统选择配置文件的优先级(从先到后)如下：</p>
+<p>　　　　　　(1).classpath下的名为log4j2-test.json 或者log4j2-test.jsn的文件.</p>
+<p>　　　　　　(2).classpath下的名为log4j2-test.xml的文件.</p>
+<p>　　　　　　(3).classpath下名为log4j2.json 或者log4j2.jsn的文件.</p>
+<p>　　　　　　(4).classpath下名为log4j2.xml的文件.</p>
+<h5 id="2-缺省默认配置文件"><a href="#2-缺省默认配置文件" class="headerlink" title="2.缺省默认配置文件"></a>2.缺省默认配置文件</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">Configuration</span> <span class="attr">status</span>=<span class="string">"WARN"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Appenders</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Console</span> <span class="attr">name</span>=<span class="string">"Console"</span> <span class="attr">target</span>=<span class="string">"SYSTEM_OUT"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">"%d&#123;HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Console</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">Appenders</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Loggers</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Root</span> <span class="attr">level</span>=<span class="string">"error"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">AppenderRef</span> <span class="attr">ref</span>=<span class="string">"Console"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Root</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">Loggers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="3-配置文件节点解析"><a href="#3-配置文件节点解析" class="headerlink" title="3.配置文件节点解析"></a>3.配置文件节点解析</h5><p>(1).根节点Configuration有两个属性:status和monitorinterval,有两个子节点:Appenders和Loggers(表明可以定义多个Appender和Logger).</p>
+<p>　　　　　　　status用来指定log4j本身的打印日志的级别.</p>
+<p>　　　　　　　monitorinterval用于指定log4j自动重新配置的监测间隔时间，单位是s,最小是5s.</p>
+<p>　　　　(2).Appenders节点，常见的有三种子节点:Console、RollingFile、File.</p>
+<p>　　　　　　　<strong>Console</strong>节点用来定义输出到控制台的Appender.</p>
+<p>　　　　　　　　name:指定Appender的名字.</p>
+<p>　　　　　　　　target:SYSTEM_OUT 或 SYSTEM_ERR,一般只设置默认:SYSTEM_OUT.</p>
+<p>　　　　　　　　PatternLayout:输出格式，不设置默认为:%m%n.</p>
+<p>　　　　　　　<strong>File</strong>节点用来定义输出到指定位置的文件的Appender.</p>
+<p>　　　　　　　　name:指定Appender的名字.</p>
+<p>　　　　　　　　fileName:指定输出日志的目的文件带全路径的文件名.</p>
+<p>　　　　　　　　PatternLayout:输出格式，不设置默认为:%m%n.</p>
+<p>　　　　　　　<strong>RollingFile</strong>节点用来定义超过指定大小自动删除旧的创建新的的Appender.</p>
+<p>　　　　　　　　name:指定Appender的名字.</p>
+<p>　　　　　　　　fileName:指定输出日志的目的文件带全路径的文件名.</p>
+<p>　　　　　　　　PatternLayout:输出格式，不设置默认为:%m%n.</p>
+<p>　　　　　　　　filePattern:指定新建日志文件的名称格式.</p>
+<p>　　　　　　　　Policies:指定滚动日志的策略，就是什么时候进行新建日志文件输出日志.</p>
+<p>　　　　　　　 TimeBasedTriggeringPolicy:Policies子节点，基于时间的滚动策略，interval属性用来指定多久滚动一次，默认是1 hour。modulate=true用来调整时间：比如现在是早上3am，interval是4，那么第一次滚动是在4am，接着是8am，12am…而不是7am.</p>
+<p>　　　　　　　　SizeBasedTriggeringPolicy:Policies子节点，基于指定文件大小的滚动策略，size属性用来定义每个日志文件的大小.</p>
+<p>　　　　　　　　DefaultRolloverStrategy:用来指定同一个文件夹下最多有几个日志文件时开始删除最旧的，创建新的(通过max属性)。</p>
+<p>　　　　(3).Loggers节点，常见的有两种:Root和Logger.</p>
+<p>　　　　　　　<strong>Root</strong>节点用来指定项目的根日志，如果没有单独指定Logger，那么就会默认使用该Root日志输出</p>
+<p>　　　　　　　　　level:日志输出级别，共有8个级别，按照从低到高为：All &lt; Trace &lt; Debug &lt; Info &lt; Warn &lt; Error &lt; Fatal &lt; OFF.</p>
+<p>　　　　　　　　　AppenderRef：Root的子节点，用来指定该日志输出到哪个Appender.</p>
+<p>　　　　　　　<strong>Logger</strong>节点用来单独指定日志的形式，比如要为指定包下的class指定不同的日志级别等。</p>
+<p>　　　　　　　　　level:日志输出级别，共有8个级别，按照从低到高为：All &lt; Trace &lt; Debug &lt; Info &lt; Warn &lt; Error &lt; Fatal &lt; OFF.</p>
+<p>　　　　　　　　　name:用来指定该Logger所适用的类或者类所在的包全路径,继承自Root节点.</p>
+<p>　　　　　　　　　AppenderRef：Logger的子节点，用来指定该日志输出到哪个Appender,如果没有指定，就会默认继承自Root.如果指定了，那么会在指定的这个Appender和Root的Appender中都会输出，此时我们可以设置Logger的additivity=”false”只在自定义的Appender中进行输出。</p>
+<p>　　　　(4).关于日志level.</p>
+<p>　　　　　　共有8个级别，按照从低到高为：All &lt; Trace &lt; Debug &lt; Info &lt; Warn &lt; Error &lt; Fatal &lt; OFF.</p>
+<p>　　　　　　All:最低等级的，用于打开所有日志记录.</p>
+<p>　　　　　　Trace:是追踪，就是程序推进以下，你就可以写个trace输出，所以trace应该会特别多，不过没关系，我们可以设置最低日志级别不让他输出.</p>
+<p>　　　　　　Debug:指出细粒度信息事件对调试应用程序是非常有帮助的.</p>
+<p>　　　　　　Info:消息在粗粒度级别上突出强调应用程序的运行过程.</p>
+<p>　　　　　　Warn:输出警告及warn以下级别的日志.</p>
+<p>　　　　　　Error:输出错误信息日志.</p>
+<p>　　　　　　Fatal:输出每个严重的错误事件将会导致应用程序的退出的日志.</p>
+<p>　　　　　　OFF:最高等级的，用于关闭所有日志记录.</p>
+<p>　　　　　　<strong>程序会打印高于或等于所设置级别的日志，设置的日志等级越高，打印出来的日志就越少</strong>。</p>
+<h5 id="4-比较完整的log4j2-xml配置模板"><a href="#4-比较完整的log4j2-xml配置模板" class="headerlink" title="4.比较完整的log4j2.xml配置模板"></a>4.比较完整的log4j2.xml配置模板</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"> <span class="comment">&lt;!--日志级别以及优先级排序: OFF &gt; FATAL &gt; ERROR &gt; WARN &gt; INFO &gt; DEBUG &gt; TRACE &gt; ALL --&gt;</span></span><br><span class="line"> <span class="comment">&lt;!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出--&gt;</span></span><br><span class="line"> <span class="comment">&lt;!--monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数--&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">configuration</span> <span class="attr">status</span>=<span class="string">"WARN"</span> <span class="attr">monitorInterval</span>=<span class="string">"30"</span>&gt;</span></span><br><span class="line">     <span class="comment">&lt;!--先定义所有的appender--&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">appenders</span>&gt;</span></span><br><span class="line">     <span class="comment">&lt;!--这个输出控制台的配置--&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">console</span> <span class="attr">name</span>=<span class="string">"Console"</span> <span class="attr">target</span>=<span class="string">"SYSTEM_OUT"</span>&gt;</span></span><br><span class="line">         <span class="comment">&lt;!--输出日志的格式--&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">"[%d&#123;HH:mm:ss:SSS&#125;] [%p] - %l - %m%n"</span>/&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">console</span>&gt;</span></span><br><span class="line">     <span class="comment">&lt;!--文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，这个也挺有用的，适合临时测试用--&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">File</span> <span class="attr">name</span>=<span class="string">"log"</span> <span class="attr">fileName</span>=<span class="string">"log/test.log"</span> <span class="attr">append</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">"%d&#123;HH:mm:ss.SSS&#125; %-5level %class&#123;36&#125; %L %M - %msg%xEx%n"</span>/&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">File</span>&gt;</span></span><br><span class="line">     <span class="comment">&lt;!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档--&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">RollingFile</span> <span class="attr">name</span>=<span class="string">"RollingFileInfo"</span> <span class="attr">fileName</span>=<span class="string">"$&#123;sys:user.home&#125;/logs/info.log"</span></span></span><br><span class="line"><span class="tag">                      <span class="attr">filePattern</span>=<span class="string">"$&#123;sys:user.home&#125;/logs/$$&#123;date:yyyy-MM&#125;/info-%d&#123;yyyy-MM-dd&#125;-%i.log"</span>&gt;</span></span><br><span class="line">             <span class="comment">&lt;!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）--&gt;</span>        </span><br><span class="line">             <span class="tag">&lt;<span class="name">ThresholdFilter</span> <span class="attr">level</span>=<span class="string">"info"</span> <span class="attr">onMatch</span>=<span class="string">"ACCEPT"</span> <span class="attr">onMismatch</span>=<span class="string">"DENY"</span>/&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">"[%d&#123;HH:mm:ss:SSS&#125;] [%p] - %l - %m%n"</span>/&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">Policies</span>&gt;</span></span><br><span class="line">                 <span class="tag">&lt;<span class="name">TimeBasedTriggeringPolicy</span>/&gt;</span></span><br><span class="line">                 <span class="tag">&lt;<span class="name">SizeBasedTriggeringPolicy</span> <span class="attr">size</span>=<span class="string">"100 MB"</span>/&gt;</span></span><br><span class="line">             <span class="tag">&lt;/<span class="name">Policies</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">RollingFile</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">RollingFile</span> <span class="attr">name</span>=<span class="string">"RollingFileWarn"</span> <span class="attr">fileName</span>=<span class="string">"$&#123;sys:user.home&#125;/logs/warn.log"</span></span></span><br><span class="line"><span class="tag">                      <span class="attr">filePattern</span>=<span class="string">"$&#123;sys:user.home&#125;/logs/$$&#123;date:yyyy-MM&#125;/warn-%d&#123;yyyy-MM-dd&#125;-%i.log"</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">ThresholdFilter</span> <span class="attr">level</span>=<span class="string">"warn"</span> <span class="attr">onMatch</span>=<span class="string">"ACCEPT"</span> <span class="attr">onMismatch</span>=<span class="string">"DENY"</span>/&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">"[%d&#123;HH:mm:ss:SSS&#125;] [%p] - %l - %m%n"</span>/&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">Policies</span>&gt;</span></span><br><span class="line">                 <span class="tag">&lt;<span class="name">TimeBasedTriggeringPolicy</span>/&gt;</span></span><br><span class="line">                 <span class="tag">&lt;<span class="name">SizeBasedTriggeringPolicy</span> <span class="attr">size</span>=<span class="string">"100 MB"</span>/&gt;</span></span><br><span class="line">             <span class="tag">&lt;/<span class="name">Policies</span>&gt;</span></span><br><span class="line">         <span class="comment">&lt;!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 --&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">DefaultRolloverStrategy</span> <span class="attr">max</span>=<span class="string">"20"</span>/&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">RollingFile</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">RollingFile</span> <span class="attr">name</span>=<span class="string">"RollingFileError"</span> <span class="attr">fileName</span>=<span class="string">"$&#123;sys:user.home&#125;/logs/error.log"</span></span></span><br><span class="line"><span class="tag">                      <span class="attr">filePattern</span>=<span class="string">"$&#123;sys:user.home&#125;/logs/$$&#123;date:yyyy-MM&#125;/error-%d&#123;yyyy-MM-dd&#125;-%i.log"</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">ThresholdFilter</span> <span class="attr">level</span>=<span class="string">"error"</span> <span class="attr">onMatch</span>=<span class="string">"ACCEPT"</span> <span class="attr">onMismatch</span>=<span class="string">"DENY"</span>/&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">"[%d&#123;HH:mm:ss:SSS&#125;] [%p] - %l - %m%n"</span>/&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">Policies</span>&gt;</span></span><br><span class="line">                 <span class="tag">&lt;<span class="name">TimeBasedTriggeringPolicy</span>/&gt;</span></span><br><span class="line">                 <span class="tag">&lt;<span class="name">SizeBasedTriggeringPolicy</span> <span class="attr">size</span>=<span class="string">"100 MB"</span>/&gt;</span></span><br><span class="line">             <span class="tag">&lt;/<span class="name">Policies</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">RollingFile</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">appenders</span>&gt;</span></span><br><span class="line">     <span class="comment">&lt;!--然后定义logger，只有定义了logger并引入的appender，appender才会生效--&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">loggers</span>&gt;</span></span><br><span class="line">         <span class="comment">&lt;!--过滤掉spring和mybatis的一些无用的DEBUG信息--&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"org.springframework"</span> <span class="attr">level</span>=<span class="string">"INFO"</span>&gt;</span><span class="tag">&lt;/<span class="name">logger</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"org.mybatis"</span> <span class="attr">level</span>=<span class="string">"INFO"</span>&gt;</span><span class="tag">&lt;/<span class="name">logger</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">"all"</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"Console"</span>/&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"RollingFileInfo"</span>/&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"RollingFileWarn"</span>/&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"RollingFileError"</span>/&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">loggers</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="三-搭建步骤"><a href="#三-搭建步骤" class="headerlink" title="三. 搭建步骤"></a>三. 搭建步骤</h3><h4 id="3-1-pom文件"><a href="#3-1-pom文件" class="headerlink" title="3.1 pom文件"></a>3.1 pom文件</h4> <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.13<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jcl-over-slf4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.13<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--核心log4j2jar包--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.logging.log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.4.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.logging.log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.4.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--用于与slf4j保持桥接--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.logging.log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j-slf4j-impl<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.4.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- log4j2异步日志需要加载disruptor-3.0.0.jar或者更高的版本 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.lmax<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>disruptor<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-2-log4j2-xml"><a href="#3-2-log4j2-xml" class="headerlink" title="3.2 log4j2.xml"></a>3.2 log4j2.xml</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding= "UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">Configuration</span> <span class="attr">status</span>=<span class="string">"off"</span> <span class="attr">monitorInterval</span>=<span class="string">"1800"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">Properties</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"projectName"</span>&gt;</span>activity<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"logPattern"</span>&gt;</span>[%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125;] [%t] %-5level %logger&#123;36&#125;-%msg%n<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"logPath"</span>&gt;</span>/app/logs/sell/sellActServer<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"fileName"</span>&gt;</span>$&#123;logPath&#125;/$&#123;projectName&#125;/info.log<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"errorFileName"</span>&gt;</span>$&#123;logPath&#125;/$&#123;projectName&#125;/error.log<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"warnFileName"</span>&gt;</span>$&#123;logPath&#125;/$&#123;projectName&#125;/warn.log<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"rollingFilePattern"</span>&gt;</span>$&#123;logPath&#125;/$&#123;projectName&#125;/info.log.%d&#123;yyyy-MM-dd-HH&#125;<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"errorRollingFilePattern"</span>&gt;</span>$&#123;logPath&#125;/$&#123;projectName&#125;/error.log.%d&#123;yyyy-MM-dd-HH&#125;<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"warnRollingFilePattern"</span>&gt;</span>$&#123;logPath&#125;/$&#123;projectName&#125;/warn.log.%d&#123;yyyy-MM-dd-HH&#125;<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"everyFileSize"</span>&gt;</span>3 MB<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxFiles"</span>&gt;</span>50<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">Properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">Appenders</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- 所有日志 --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">RollingFile</span> <span class="attr">name</span>=<span class="string">"RollingFile"</span> <span class="attr">fileName</span>=<span class="string">"$&#123;fileName&#125;"</span></span></span><br><span class="line"><span class="tag">			<span class="attr">filePattern</span>=<span class="string">"$&#123;rollingFilePattern&#125;"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">"$&#123;logPattern&#125;"</span> /&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">Policies</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">TimeBasedTriggeringPolicy</span> /&gt;</span></span><br><span class="line">				<span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">				&lt;SizeBasedTriggeringPolicy size="$&#123;everyFileSize&#125;" /&gt;</span></span><br><span class="line"><span class="comment">				--&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">Policies</span>&gt;</span></span><br><span class="line">			<span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">			&lt;DefaultRolloverStrategy max="$&#123;maxFiles&#125;" /&gt;</span></span><br><span class="line"><span class="comment">			--&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">RollingFile</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">&lt;!-- warn 日志 --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">RollingFile</span> <span class="attr">name</span>=<span class="string">"WarnRollingFile"</span> <span class="attr">fileName</span>=<span class="string">"$&#123;warnFileName&#125;"</span></span></span><br><span class="line"><span class="tag">								 <span class="attr">filePattern</span>=<span class="string">"$&#123;warnRollingFilePattern&#125;"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">PatternLayout</span></span></span><br><span class="line"><span class="tag">					<span class="attr">pattern</span>=<span class="string">"$&#123;logPattern&#125;"</span>/&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">Policies</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">TimeBasedTriggeringPolicy</span> /&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">Policies</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">Filters</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">ThresholdFilter</span> <span class="attr">level</span>=<span class="string">"ERROR"</span> <span class="attr">onMatch</span>=<span class="string">"DENY"</span> <span class="attr">onMismatch</span>=<span class="string">"NEUTRAL"</span>/&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">ThresholdFilter</span> <span class="attr">level</span>=<span class="string">"WARN"</span> <span class="attr">onMatch</span>=<span class="string">"ACCEPT"</span> <span class="attr">onMismatch</span>=<span class="string">"DENY"</span>/&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">Filters</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">RollingFile</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">&lt;!-- error日志 --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">RollingFile</span> <span class="attr">name</span>=<span class="string">"ErrorRollingFile"</span> <span class="attr">fileName</span>=<span class="string">"$&#123;errorFileName&#125;"</span></span></span><br><span class="line"><span class="tag">					 <span class="attr">filePattern</span>=<span class="string">"$&#123;errorRollingFilePattern&#125;"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">"$&#123;logPattern&#125;"</span> /&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">Policies</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">TimeBasedTriggeringPolicy</span> /&gt;</span></span><br><span class="line">				<span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">				&lt;SizeBasedTriggeringPolicy size="$&#123;everyFileSize&#125;" /&gt;</span></span><br><span class="line"><span class="comment">				--&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">Policies</span>&gt;</span></span><br><span class="line">			<span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">			&lt;DefaultRolloverStrategy max="$&#123;maxFiles&#125;" /&gt;</span></span><br><span class="line"><span class="comment">			--&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">Filters</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">ThresholdFilter</span> <span class="attr">level</span>=<span class="string">"error"</span> <span class="attr">onMatch</span>=<span class="string">"ACCEPT"</span> <span class="attr">onMismatch</span>=<span class="string">"DENY"</span>/&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">Filters</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">RollingFile</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">Console</span> <span class="attr">name</span>=<span class="string">"Console"</span> <span class="attr">target</span>=<span class="string">"SYSTEM_OUT"</span> <span class="attr">ignoreExceptions</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">"$&#123;logPattern&#125;"</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">Console</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">Appenders</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">Loggers</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"com.zhjs"</span> <span class="attr">level</span>=<span class="string">"debug"</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"com.zhjs.sell.activity.service.util"</span> <span class="attr">level</span>=<span class="string">"info"</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"com.alibaba.dubbo"</span> <span class="attr">level</span>=<span class="string">"info"</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"com.zhjs.sell.common.web.filter.RequestLogFilter"</span> <span class="attr">level</span>=<span class="string">"debug"</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"com.zhjs.db.mybatis.memcached"</span> <span class="attr">level</span>=<span class="string">"info"</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"com.zhjs.db.mybatis.memcached.MemcachedCache"</span> <span class="attr">level</span>=<span class="string">"debug"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">Root</span> <span class="attr">level</span>=<span class="string">"info"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">AppenderRef</span> <span class="attr">ref</span>=<span class="string">"Console"</span> /&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">AppenderRef</span> <span class="attr">ref</span>=<span class="string">"RollingFile"</span> /&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">AppenderRef</span> <span class="attr">ref</span>=<span class="string">"WarnRollingFile"</span> /&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">AppenderRef</span> <span class="attr">ref</span>=<span class="string">"ErrorRollingFile"</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">Root</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">Loggers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-3-全异步日志"><a href="#3-3-全异步日志" class="headerlink" title="3.3 全异步日志"></a>3.3 全异步日志</h4><p>第一种方式：</p>
+<p> JVM启动参数（boot.ini）加上“-DLog4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector”</p>
+<p>第二种方式：</p>
+<p>classpath中添加文件“log4j2.component.properties”，文件增加以下内容：<br>“Log4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector”</p>
+<p>第三种方式：</p>
+<p>log4j2.xml配置文件中使用AsyncRoot/AsyncLogger替代Root/Logger</p>
+<p>第四种方式：</p>
+<p>在主程序的开头加一句：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.setProperty(<span class="string">"Log4jContextSelector"</span>, <span class="string">"org.apache.logging.log4j.core.async.AsyncLoggerContextSelector"</span>);</span><br></pre></td></tr></table></figure>
+
+      
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>赏个好友位呗!!!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/wechat.jpeg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+            <span id="busuanzi_container_page_pv">
+              本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">线程池</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Log4j2</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/11/28/Log4j转为Log4j2/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/27/简单可重入锁的实例/" class="archive-article-date">
-  	<time datetime="2018-09-27T03:28:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-27</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/11/26/JVM原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JVM原理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/27/简单可重入锁的实例/">简单可重入锁的实例</a>
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一-前言"><span class="toc-number">1.</span> <span class="toc-text">一. 前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二-log4j，slf4j，log4j2的介绍"><span class="toc-number">2.</span> <span class="toc-text">二. log4j，slf4j，log4j2的介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#log4j"><span class="toc-number">2.1.</span> <span class="toc-text">log4j</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#slf4j"><span class="toc-number">2.2.</span> <span class="toc-text">slf4j</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#log4j-slf4j"><span class="toc-number">2.3.</span> <span class="toc-text">log4j+slf4j</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#slf4j-log4j2"><span class="toc-number">2.4.</span> <span class="toc-text">slf4j+log4j2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#log4j2"><span class="toc-number">2.5.</span> <span class="toc-text">log4j2</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-关于配置文件的名称以及在项目中的存放位置"><span class="toc-number">2.5.1.</span> <span class="toc-text">1.关于配置文件的名称以及在项目中的存放位置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-缺省默认配置文件"><span class="toc-number">2.5.2.</span> <span class="toc-text">2.缺省默认配置文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-配置文件节点解析"><span class="toc-number">2.5.3.</span> <span class="toc-text">3.配置文件节点解析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-比较完整的log4j2-xml配置模板"><span class="toc-number">2.5.4.</span> <span class="toc-text">4.比较完整的log4j2.xml配置模板</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三-搭建步骤"><span class="toc-number">3.</span> <span class="toc-text">三. 搭建步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-pom文件"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 pom文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-log4j2-xml"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 log4j2.xml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-全异步日志"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 全异步日志</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
+        
+    </div>
+</aside>
+
+
+
   
 
-    
+  
+
+  
+
+  
+
+  
+
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://jjeejj.github.io/js/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "Wed Nov 28 2018 15:30:21 GMT+0800",
+  owner: 'zhjs0523',
+  repo: 'zhjs0523.github.io',
+  oauth: {
+    client_id: '2f2411f187bc265a55e1',
+    client_secret: '948c043ee9642b127ec13240842b7d9b711aafb9',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+
+  
 
 
           </div>
@@ -280,9 +455,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | 赵金帅的博客</title>
+  <title>单例模式下的静态成员加载的顺序 | 赵金帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="赵金帅的博客">
-<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
+  <meta name="keywords" content="JVM,单例模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单例模式下的静态成员加载的顺序">
+<meta property="og:url" content="http://yoursite.com/2018/12/06/单例模式下的静态成员加载的顺序/index.html">
 <meta property="og:site_name" content="赵金帅的博客">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/img/first.jpeg">
+<meta property="og:updated_time" content="2018-12-06T09:51:58.442Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="赵金帅的博客">
+<meta name="twitter:title" content="单例模式下的静态成员加载的顺序">
+<meta name="twitter:image" content="http://yoursite.com/img/first.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="赵金帅的博客" type="application/atom+xml">
   
@@ -154,150 +158,255 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-单例模式下的静态成员加载的顺序" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/29/程序员你为什么这么累-编码习惯之工具类规范/" class="archive-article-date">
-  	<time datetime="2018-09-29T07:10:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-29</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/29/程序员你为什么这么累-编码习惯之工具类规范/">程序员你为什么这么累:编码习惯之工具类规范</a>
+    <h1 class="article-title" itemprop="name">
+      单例模式下的静态成员加载的顺序
     </h1>
   
 
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/12/06/单例模式下的静态成员加载的顺序/" class="archive-article-date">
+  	<time datetime="2018-12-06T06:56:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-06</time>
+</a>
+        
+        
+          <span class="archive-article-date">
+            阅读量 <span id="busuanzi_value_page_pv"></span>
+          </span>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/img/first.jpeg" alt=""><br><a id="more"></a></p>
+<p>各位客官，请看代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> x = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> y;</span><br><span class="line">    Singleton()&#123;</span><br><span class="line">        x++;</span><br><span class="line">        y++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Singleton s = Singleton.getInstance();</span><br><span class="line">        System.out.println(s.x);</span><br><span class="line">        System.out.println(s.y);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码如何输出呢？</p>
+<p>如果没有仔细看的话，肯定会以为是输出1，1。</p>
+<p>但是，但是，但是，实际的结果是0，1。这是为什么呢?</p>
+<p>这与Java的初始化顺序有关，按照以上的代码，完整是顺序应该是：</p>
+<ol>
+<li><p>第一步，JVM调用main方法，因为main方法时static的，所以JVM会先构造所有的静态成员。指针初始化为null，数值为0。此时，<strong>x=0;y=0</strong></p>
+</li>
+<li><p>第二步，按照自上而下的顺序，分别进行静态成员的赋值操作。先进行的是Singleton instance = new Singleton();  此时，<strong>x=1;y=1</strong></p>
+</li>
+<li>第三步，执行int x = 0; 此时，<strong>x=0;y=1</strong></li>
+<li>第四步，执行int y。没有赋值操作。此时，<strong>x=0;y=1</strong></li>
+</ol>
+<p>所以最后的结果是0，1.</p>
+<p>如果你把private static Singleton instance = new Singleton()放在下面又是不一样的结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> x = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> y;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</span><br><span class="line">    Singleton()&#123;</span><br><span class="line">        x++;</span><br><span class="line">        y++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Singleton s = Singleton.getInstance();</span><br><span class="line">        System.out.println(s.x);</span><br><span class="line">        System.out.println(s.y);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时，输出的结果就是1，1啦。</p>
+<p>PS：</p>
+<p>java静态成员和非静态成员的类加载机制也不一样：</p>
+<p><strong>clinit</strong></p>
+<ol>
+<li>.java =&gt; 编译 =&gt; .class =&gt; clinit =&gt; 类构造器</li>
+<li>类构造器 将静态变量（初始化）和静态语句块收敛（将一系列操作集合起来执行）到clinit<br>收敛顺序：父类静态变量初始化，父类静态语句块，子类静态变量初始化，子类静态语句块，</li>
+<li>父类是接口，则不调用父类的clinit</li>
+<li>若一个类没有static 语句块，或者static 变量赋值，则可以没有clinit</li>
+<li>clinit 类加载时期执行</li>
+</ol>
+<p><strong>init</strong></p>
+<ol>
+<li><p>.java =&gt; 编译 =&gt; .class =&gt; init =&gt; 实例构造器</p>
+</li>
+<li><p>实例构造器 将变量（初始化），语句块，父类构造器，收敛到init<br>收敛顺序（非静态）：父类变量初始化，父类语句块，父类构造函数，子类变量初始化，子类语句块，子类构造器</p>
+</li>
+<li><p>init 对象实例化时期执行</p>
+</li>
+</ol>
+<p>  对象实例化执行的整个过程<br>  父类静态变量初始化，父类静态语句块，子类静态变量初始化，子类静态语句块，父类变量初始化，父类语句块，父类构造函数，子类变量初始化，子类语句块，子类构造器。</p>
+
+      
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>赏个好友位呗!!!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/wechat.jpeg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+            <span id="busuanzi_container_page_pv">
+              本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">编程规范</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">转载</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">单例模式</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/12/06/单例模式下的静态成员加载的顺序/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/27/简单可重入锁的实例/" class="archive-article-date">
-  	<time datetime="2018-09-27T03:28:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-27</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/11/28/Log4j转为Log4j2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Log4j转为Log4j2</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/27/简单可重入锁的实例/">简单可重入锁的实例</a>
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    目录，不存在的…
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/18/left-join加上where条件的困惑/" class="archive-article-date">
-  	<time datetime="2018-09-18T06:35:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/18/left-join加上where条件的困惑/">left join加上where条件的困惑</a>
-    </h1>
-  
+        
+    </div>
+</aside>
 
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">DB</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
+  
+  <div id="lv-container" data-id="city" data-uid="MTAyMC80MDU1MS8xNzA3OA==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-    </nav>
+  
+
+  
+
+  
+
+  
+
   
 
 
@@ -323,8 +432,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

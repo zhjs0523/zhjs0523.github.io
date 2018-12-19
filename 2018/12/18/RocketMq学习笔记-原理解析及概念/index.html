@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: JVM | 赵金帅的博客</title>
+  <title>RocketMq学习笔记---原理解析及概念 | 赵金帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="赵金帅的博客">
-<meta property="og:url" content="http://yoursite.com/tags/JVM/index.html">
+  <meta name="keywords" content="-- RocketMq -- 中间件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RocketMq学习笔记---原理解析及概念">
+<meta property="og:url" content="http://yoursite.com/2018/12/18/RocketMq学习笔记-原理解析及概念/index.html">
 <meta property="og:site_name" content="赵金帅的博客">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/img/sixteen.jpeg">
+<meta property="og:image" content="http://yoursite.com/img/20181218Rocketmq学习笔记-1.png">
+<meta property="og:image" content="http://yoursite.com/img/20181218Rocketmq学习笔记-2.png">
+<meta property="og:updated_time" content="2018-12-19T02:19:06.267Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="赵金帅的博客">
+<meta name="twitter:title" content="RocketMq学习笔记---原理解析及概念">
+<meta name="twitter:image" content="http://yoursite.com/img/sixteen.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="赵金帅的博客" type="application/atom+xml">
   
@@ -154,104 +160,227 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-RocketMq学习笔记-原理解析及概念" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/12/06/单例模式下的静态成员加载的顺序/" class="archive-article-date">
-  	<time datetime="2018-12-06T06:56:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-06</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/12/06/单例模式下的静态成员加载的顺序/">单例模式下的静态成员加载的顺序</a>
+    <h1 class="article-title" itemprop="name">
+      RocketMq学习笔记---原理解析及概念
     </h1>
   
 
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/12/18/RocketMq学习笔记-原理解析及概念/" class="archive-article-date">
+  	<time datetime="2018-12-18T07:38:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
+</a>
+        
+        
+          <span class="archive-article-date">
+            阅读量 <span id="busuanzi_value_page_pv"></span>
+          </span>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/img/sixteen.jpeg" alt=""><br><a id="more"></a></p>
+<h3 id="一-前言"><a href="#一-前言" class="headerlink" title="一.前言"></a>一.前言</h3><pre><code>LZ之前是一直在用rabbitmq的，虽说知道rocketmq的存在，但是一直没有去研究。但直到今年rocketmq发布的4.3版本中，支持了分布式事物，瞬间引起了LZ的注意，看了一下rmq的分布式事物的设计，感觉还不错，于是乎就想着去学习一下rocketmq。
+</code></pre><h3 id="二-RocketMq-的物理部署"><a href="#二-RocketMq-的物理部署" class="headerlink" title="二. RocketMq 的物理部署"></a>二. RocketMq 的物理部署</h3><p><img src="/img/20181218Rocketmq学习笔记-1.png" alt=""></p>
+<h3 id="三-RocketMq的几个重要的概念"><a href="#三-RocketMq的几个重要的概念" class="headerlink" title="三. RocketMq的几个重要的概念"></a>三. RocketMq的几个重要的概念</h3><p>1.broker:  消息中转角色，存储消息，转发消息。其实就是我们所说的Mq。Broker接收生产者的消息，存储以及为消费者拉取消息做准备。</p>
+<p>2.name Server: 接收broker的请求注册信息；保存活跃的broker列表；下图是namesrv在整个rmq中的结构：</p>
+<p><img src="/img/20181218Rocketmq学习笔记-2.png" alt=""></p>
+<p>3.producer: 消息生产者，负责产生消息，一般由业务系统负责产生消息。</p>
+<p>4.Consumer: 消息消费者，负责消费消息，一般是后台系统负责异步消费。<br>5.Push Consumer: Consumer 的一种，应用通常吐 Consumer 对象注册一个 Listener 接口，一旦收到消息，Consumer 对象立刻回调 Listener 接口方法。<br>6.Pull Consumer: Consumer 的一种，应用通常主动调用 Consumer 的拉消息方法从 Broker 拉消息，主动权由应用控制。<br>7.Producer Group : 一类 Producer 的集合名称。<br>8.Consumer Group：一类 Consumer 的集合名称。</p>
+<p>9.广播消费：一条消息被多个 Consumer 消费，即使这些 Consumer 属于同一个 Consumer Group，消息也会被 ConsumerGroup 中的每个 Consumer 都消费一次，广播消费中的 Consumer Group 概念可以认为在消息划分方面无意义。</p>
+<p>10.集群消费：一个 Consumer Group 中的 Consumer 实例平均分摊消费消息。例如某个 Topic 有 9 条消息，其中一个Consumer Group 有 3 个实例（可能是 3 个进程，或者 3 台机器），那么每个实例只消费其中的 3 条消息。<br>在 CORBA Notification 规范中，无此消费方式。<br>在 JMS 规范中，JMS point-to-point model 与之类似，但是 RocketMQ 的集群消费功能大等于 PTP 模型。<br>因为 RocketMQ 单个 Consumer Group 内的消费者类似于 PTP，但是一个 Topic/Queue 可以被多个 Consumer<br>Group 消费。</p>
+<p>11.顺序消息：消费消息的顺序要同接收消息的顺序一致，在 RocketMQ 中，主要指的是局部顺序，即一类消息为满足顺序性，必须 Producer 单线程顺序发送，且发送到同一个队列，这样 Consumer 就可以按照 Producer 发送<br>的顺序去消费消息。<br>12.普通顺序消息：顺序消息的一种，正常情况下可以保证完全的顺序消息，但是一旦发生通信异常，Broker 重启，由于队列总数发生发化，哈希取模后定位的队列会发化，产生短暂的消息顺序不一致。<br>如果业务能容忍在集群异常情况（如某个 Broker 宕机或者重启）下，消息短暂的乱序，使用普通顺序方<br>式比较合适。<br>13严格顺序消息：顺序消息的一种，无论正常异常情况都能保证顺序，但是牺牲了分布式 Failover 特性，即 Broker 集群中只要有一台机器不可用，则整个集群都不可用，服务可用性大大降低。<br>如果服务器部署为同步双写模式，此缺陷可通过备机自动切换为主避免，不过仍然会存在几分钟的服务不<br>可用。目前已知的应用只有数据库 binlog 同步强依赖严格顺序消息，其他应用绝大部分都可以容忍短暂乱序，推<br>荐使用普通的顺序消息。<br>14.Message Queue：在 RocketMQ 中，所有消息队列都是持久化，长度无限的数据结构，所谓长度无限是指队列中的每个存储单元都是定长，访问其中的存储单元使用 Offset 来访问，offset 为 java long 类型，64 位，理论上在 100年内不会溢出，所以认为是长度无限，另外队列中只保存最近几天的数据，之前的数据会按照过期时间来<br>删除。也可以认为 Message Queue 是一个长度无限的数组，offset 就是下标。</p>
+<h3 id="四-Broker的几种搭建形式"><a href="#四-Broker的几种搭建形式" class="headerlink" title="四. Broker的几种搭建形式"></a>四. Broker的几种搭建形式</h3><p>1.单个Master模式 : 这种方式风险较大，一旦 Broker 重启或者宕机时，会导致整个服务不可用，不建议线上环境使用</p>
+<p>2.多个Master模式： 一个集群无 Slave，全是 Master，例如 2 个 Master 戒者 3 个 Master<br>    优点：配置简单，单个 Master 宕机或重启维护对应用无影响，在磁盘配置为 RAID10 时，即使机器宕机不可恢复情况下，由于 RAID10 磁盘非常可靠，消息也不会丢（异步刷盘丢失少量消息，同步刷盘一条会丢）。性能最高。<br>    缺点：单台机器宕机期间，这台机器上未被消费的消息在机器恢复之前不可订阅，消息实时性会受到影响。</p>
+<p>3.多Msater多slave模式，异步复制 ： 每个 Master 配置一个 Slave，有多对 Master-Slave，HA 采用异步复制方式，主备有短暂消息延迟，毫秒级。<br>    优点：即使磁盘损坏，消息丢失的非常少，且消息实时性不会受影响，因为 Master 宕机后，消费者仍然可以从 Slave 消费，此过程对应用透明。不需要人工干预。性能同多 Master 模式几乎一样。<br>    缺点：Master 宕机，磁盘损坏情况，会丢失少量消息</p>
+<p>4.多Master多slave模式，同步双写 ： 每个 Master 配置一个 Slave，有多对 Master-Slave，HA 采用同步双写方式，主备都写成功，向应用返回成功。<br>        优点：数据不服务都无单点，Master 宕机情况下，消息无延迟，服务可用性与数据可用性都非常高<br>        缺点：性能比异步复制模式略低，大约低 10%左右，发送单个消息的 RT 会略高。目前主宕机后，备机不能能自动切换为主机，后续会支持自动切换功能。</p>
+
+      
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>赏个好友位呗!!!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/wechat.jpeg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+            <span id="busuanzi_container_page_pv">
+              本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">单例模式</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">-- RocketMq -- 中间件</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/12/18/RocketMq学习笔记-原理解析及概念/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/26/JVM原理/" class="archive-article-date">
-  	<time datetime="2018-11-26T04:13:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-26</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/12/06/单例模式下的静态成员加载的顺序/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">单例模式下的静态成员加载的顺序</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/26/JVM原理/">JVM原理</a>
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一-前言"><span class="toc-number">1.</span> <span class="toc-text">一.前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二-RocketMq-的物理部署"><span class="toc-number">2.</span> <span class="toc-text">二. RocketMq 的物理部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三-RocketMq的几个重要的概念"><span class="toc-number">3.</span> <span class="toc-text">三. RocketMq的几个重要的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四-Broker的几种搭建形式"><span class="toc-number">4.</span> <span class="toc-text">四. Broker的几种搭建形式</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
+        
+    </div>
+</aside>
+
+
+
   
 
-    
+  
+
+  
+
+  
+
+  
+
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://jjeejj.github.io/js/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "Tue Dec 18 2018 15:38:23 GMT+0800",
+  owner: 'zhjs0523',
+  repo: 'zhjs0523.github.io',
+  oauth: {
+    client_id: '2f2411f187bc265a55e1',
+    client_secret: '948c043ee9642b127ec13240842b7d9b711aafb9',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+
+  
 
 
           </div>
@@ -276,9 +405,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

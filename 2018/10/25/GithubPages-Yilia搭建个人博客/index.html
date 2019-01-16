@@ -229,9 +229,9 @@
 <p>如果你的界面如果如下所示<img src="/img/github5.jpeg" alt="">，那说明你配置成功。</p>
 <p>如果你的界面如下所示<img src="/img/github6.jpeg" alt="">，那就有可能是多种原因造成，我当时配置时出现了这种情况，在网上找了很多种解决方案，都没有成功，最后发现是因为配置的gitment的URL错误导致的。</p>
 <p>打开你的blog本地仓库<code>themes\yilia\layout\_partial\post\gitment.ejs</code>将</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"//imsun.github.io/gitment/style/default.css"</span>&gt;</span><br><span class="line">&lt;script src=<span class="string">"//imsun.github.io/gitment/dist/gitment.browser.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"//imsun.github.io/gitment/style/default.css"</span>&gt;</span><br><span class="line">&lt;script src=<span class="string">"//imsun.github.io/gitment/dist/gitment.browser.js"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
 <p>更改为</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"https://jjeejj.github.io/css/gitment.css"</span>&gt;</span><br><span class="line">&lt;script src=<span class="string">"https://jjeejj.github.io/js/gitment.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"https://jjeejj.github.io/css/gitment.css"</span>&gt;</span><br><span class="line">&lt;script src=<span class="string">"https://jjeejj.github.io/js/gitment.js"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
 <p>然后再登录你的github账号初始化即可。</p>
 <p><strong>其他原因传送门:</strong></p>
 <p> <a href="https://www.jianshu.com/p/57afa4844aaa" target="_blank" rel="noopener">https://www.jianshu.com/p/57afa4844aaa</a></p>
@@ -528,14 +528,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">RocketMq</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">中间件</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">锁</a>
               </li>
              
@@ -552,19 +544,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
+                <a href="javascript:void(0)" class="js-tag color4">RocketMq</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">JVM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
+                <a href="javascript:void(0)" class="js-tag color4">中间件</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">DB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -576,7 +568,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Log4j2</a>
+                <a href="javascript:void(0)" class="js-tag color4">JVM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -589,6 +585,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">缓存</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Log4j2</a>
               </li>
              
               <li class="article-tag-list-item">

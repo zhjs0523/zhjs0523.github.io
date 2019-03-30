@@ -6,28 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>分布式事物的原理及解决方案 | 赵金帅的博客</title>
+  <title>Archives: 2019/3 | 赵金帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="分布式事物">
-<meta property="og:type" content="article">
-<meta property="og:title" content="分布式事物的原理及解决方案">
-<meta property="og:url" content="http://yoursite.com/2018/11/20/分布式事物的原理及解决方案/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="赵金帅的博客">
+<meta property="og:url" content="http://yoursite.com/archives/2019/03/index.html">
 <meta property="og:site_name" content="赵金帅的博客">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/img/twelve.jpg">
-<meta property="og:image" content="http://yoursite.com/img/20181120分布式事物-1.jpg">
-<meta property="og:image" content="http://yoursite.com/img/20181120分布式事物-2.jpg">
-<meta property="og:image" content="http://yoursite.com/img/20181120分布式事物-3.jpg">
-<meta property="og:image" content="http://yoursite.com/img/20181120分布式事物-4.jpg">
-<meta property="og:image" content="http://yoursite.com/img/20181120分布式事物-5.jpg">
-<meta property="og:image" content="http://yoursite.com/img/20181120分布式事物-6.jpg">
-<meta property="og:image" content="http://yoursite.com/img/20181120分布式事物-7.jpg">
-<meta property="og:image" content="http://yoursite.com/img/20181120分布式事物-8.jpg">
-<meta property="og:image" content="http://yoursite.com/img/20181120分布式事物-9.jpg">
-<meta property="og:updated_time" content="2018-11-22T09:36:52.697Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="分布式事物的原理及解决方案">
-<meta name="twitter:image" content="http://yoursite.com/img/twelve.jpg">
+<meta name="twitter:title" content="赵金帅的博客">
   
     <link rel="alternative" href="/atom.xml" title="赵金帅的博客" type="application/atom+xml">
   
@@ -167,485 +154,61 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-分布式事物的原理及解决方案" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      分布式事物的原理及解决方案
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/03/30/蚂蚁金服笔试-电话一面经验/" class="archive-article-date">
+  	<time datetime="2019-03-30T03:53:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-30</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/03/30/蚂蚁金服笔试-电话一面经验/">蚂蚁金服笔试+电话一面经验</a>
     </h1>
   
 
 
-        
-        <a href="/2018/11/20/分布式事物的原理及解决方案/" class="archive-article-date">
-  	<time datetime="2018-11-20T09:06:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-20</time>
-</a>
-        
-        
-          <span class="archive-article-date">
-            阅读量 <span id="busuanzi_value_page_pv"></span>
-          </span>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/img/twelve.jpg" alt=""><br><a id="more"></a></p>
-<blockquote>
-<p>作者：李占卫</p>
-<p>链接：<a href="https://juejin.im/post/5bf379b4e51d457e052fe5e0" target="_blank" rel="noopener">https://juejin.im/post/5bf379b4e51d457e052fe5e0</a></p>
-<p>来源：掘金</p>
-</blockquote>
-<h3 id="1-引言"><a href="#1-引言" class="headerlink" title="1.引言"></a>1.引言</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">分布式事务是企业集成中的一个技术难点，也是每一个分布式系统架构中都会涉及到的一个东西，特别是在这几年越来越火的微服务架构中，几乎可以说是无法避免，本文就围绕单机事务，分布式事务以及分布式事务的处理方式来展开。</span><br></pre></td></tr></table></figure>
-<h3 id="2-事物"><a href="#2-事物" class="headerlink" title="2.事物"></a>2.事物</h3><p>事务提供一种“要么什么都不做，要么做全套（All or Nothing）”的机制，她有ACID四大特性</p>
-<ul>
-<li>原子性（Atomicity）：事务作为一个整体被执行，包含在其中的对数据库的操作要么全部被执行，要么都不执行。</li>
-<li>一致性（Consistency）：事务应确保数据库的状态从一个一致状态转变为另一个一致状态。一致状态是指数据库中的数据应满足完整性约束。除此之外，一致性还有另外一层语义，就是事务的中间状态不能被观察到（这层语义也有说应该属于原子性）。</li>
-<li>隔离性（Isolation）：多个事务并发执行时，一个事务的执行不应影响其他事务的执行，如同只有这一个操作在被数据库所执行一样。</li>
-<li><p>持久性（Durability）：已被提交的事务对数据库的修改应该永久保存在数据库中。在事务结束时，此操作将不可逆转</p>
-<h4 id="2-1单机事物"><a href="#2-1单机事物" class="headerlink" title="2.1单机事物"></a>2.1单机事物</h4></li>
-</ul>
-<p>以mysql的InnoDB存储引擎为例，来了解单机事务是如何保证ACID特性的。</p>
-<p><img src="/img/20181120分布式事物-1.jpg" alt=""></p>
-<p>事务的隔离性是通过数据库锁的机制实现的，持久性通过redo log（重做日志）来实现，原子性和一致性通过Undo log来实现。</p>
-<h4 id="2-2分布式事物"><a href="#2-2分布式事物" class="headerlink" title="2.2分布式事物"></a>2.2分布式事物</h4><p>单机事务是通过将操作限制在一个会话内通过数据库本身的锁以及日志来实现ACID，那么分布式环境下该如何保证ACID特性那?</p>
-<h5 id="2-2-1-XA协议实现分布式事物"><a href="#2-2-1-XA协议实现分布式事物" class="headerlink" title="2.2.1 XA协议实现分布式事物"></a>2.2.1 XA协议实现分布式事物</h5><h6 id="2-2-1-1-XA描述"><a href="#2-2-1-1-XA描述" class="headerlink" title="2.2.1.1 XA描述"></a>2.2.1.1 XA描述</h6><p>X/Open DTP(X/Open Distributed Transaction Processing Reference Model) 是X/Open 这个组织定义的一套分布式事务的标准，也就是了定义了规范和API接口，由各个厂商进行具体的实现。 X/Open DTP 定义了三个组件： AP，TM，RM</p>
-<p><img src="/img/20181120分布式事物-2.jpg" alt=""></p>
-<ul>
-<li>AP(Application Program)：也就是应用程序，可以理解为使用DTP的程序</li>
-<li>RM(Resource Manager)：资源管理器，这里可以理解为一个DBMS系统，或者消息服务器管理系统，应用程序通过资源管理器对资源进行控制。资源必须实现XA定义的接口</li>
-<li>TM(Transaction Manager)：事务管理器，负责协调和管理事务，提供给AP应用程序编程接口以及管理资源管理器</li>
-</ul>
-<p>其中在DTP定义了以下几个概念</p>
-<ul>
-<li>事务：一个事务是一个完整的工作单元，由多个独立的计算任务组成，这多个任务在逻辑上是原子的</li>
-<li>全局事务：对于一次性操作多个资源管理器的事务，就是全局事务</li>
-<li>分支事务：在全局事务中，某一个资源管理器有自己独立的任务，这些任务的集合作为这个资源管理器的分支任务</li>
-<li>控制线程：用来表示一个工作线程，主要是关联AP,TM,RM三者的一个线程，也就是事务上下文环境。简单的说，就是需要标识一个全局事务以及分支事务的关系</li>
-</ul>
-<p>如果一个事务管理器管理着多个资源管理器，DTP是通过两阶段提交协议来控制全局事务和分支事务。</p>
-<ul>
-<li>第一阶段：准备阶段 事务管理器通知资源管理器准备分支事务，资源管理器告之事务管理器准备结果</li>
-<li>第二阶段：提交阶段 事务管理器通知资源管理器提交分支事务，资源管理器告之事务管理器结果</li>
-</ul>
-<h6 id="2-2-1-2-XA的ACID特性"><a href="#2-2-1-2-XA的ACID特性" class="headerlink" title="2.2.1.2 XA的ACID特性"></a>2.2.1.2 XA的ACID特性</h6><ul>
-<li>原子性：XA议使用2PC原子提交协议来保证分布式事务原子性</li>
-<li>隔离性：XA要求每个RMs实现本地的事务隔离，子事务的隔离来保证整个事务的隔离。</li>
-<li>一致性：通过原子性、隔离性以及自身一致性的实现来保证“数据库从一个一致状态转变为另一个一致状态”；通过MVCC来保证中间状态不能被观察到。</li>
-</ul>
-<h6 id="2-2-1-3-XA的优缺点"><a href="#2-2-1-3-XA的优缺点" class="headerlink" title="2.2.1.3 XA的优缺点"></a>2.2.1.3 XA的优缺点</h6><p>优点：<br> 对业务无侵入，对RM要求高</p>
-<p>缺点：<br> 同步阻塞：在二阶段提交的过程中，所有的节点都在等待其他节点的响应，无法进行其他操作。这种同步阻塞极大的限制了分布式系统的性能。</p>
-<p> 单点问题：协调者在整个二阶段提交过程中很重要，如果协调者在提交阶段出现问题，那么整个流程将无法运转。更重要的是，其他参与者将会处于一直锁定事务资源的状态中，而无法继续完成事务操作。</p>
-<p> 数据不一致：假设当协调者向所有的参与者发送commit请求之后，发生了局部网络异常，或者是协调者在尚未发送完所有 commit请求之前自身发生了崩溃，导致最终只有部分参与者收到了commit请求。这将导致严重的数据不一致问题。</p>
-<p> 容错性不好：如果在二阶段提交的提交询问阶段中，参与者出现故障，导致协调者始终无法获取到所有参与者的确认信息，这时协调者只能依靠其自身的超时机制，判断是否需要中断事务。显然，这种策略过于保守。换句话说，二阶段提交协议没有设计较为完善的容错机制，任意一个节点是失败都会导致整个事务的失败。</p>
-<h5 id="2-2-2-TCC协议实现分布式事物"><a href="#2-2-2-TCC协议实现分布式事物" class="headerlink" title="2.2.2 TCC协议实现分布式事物"></a>2.2.2 TCC协议实现分布式事物</h5><h6 id="2-2-2-1-TCC描述"><a href="#2-2-2-1-TCC描述" class="headerlink" title="2.2.2.1 TCC描述"></a>2.2.2.1 TCC描述</h6><p>TCC（Try-Confirm-Cancel）分布式事务模型相对于 XA 等传统模型，其特征在于它不依赖资源管理器（RM）对分布式事务的支持，而是通过对业务逻辑的分解来实现分布式事务。</p>
-<p><img src="/img/20181120分布式事物-3.jpg" alt=""></p>
-<ul>
-<li>第一阶段：CanCommit</li>
-</ul>
-<blockquote>
-<p>3PC的CanCommit阶段其实和2PC的准备阶段很像。协调者向参与者发送commit请求，参与者如果可以提交就返回Yes响应，否则返回No响应。<br> 事务询问：协调者向参与者发送CanCommit请求。询问是否可以执行事务提交操作。然后开始等待参与者的响应<br> 响应反馈：参与者接到CanCommit请求之后，正常情况下，如果其自身认为可以顺利执行事务，则返回Yes响应，并进入预备状态；否则反馈No。</p>
-</blockquote>
-<ul>
-<li>第二阶段：PreCommit<br> 协调者在得到所有参与者的响应之后，会根据结果执行2种操作：执行事务预提交，或者中断事务</li>
-</ul>
-<blockquote>
-<p>执行事务预提交<br> 发送预提交请求：协调者向所有参与者节点发出 preCommit 的请求，并进入 prepared 状态。<br> 事务预提交：参与者受到 preCommit 请求后，会执行事务操作，对应 2PC 准备阶段中的 “执行事务”，也会 Undo 和 Redo 信息记录到事务日志中。<br> 各参与者响应反馈:如果参与者成功执行了事务，就反馈 ACK 响应，同时等待指令：提交（commit） 或终止（abort）</p>
-</blockquote>
-<blockquote>
-<p>中断事务<br> 发送中断请求：协调者向所有参与者节点发出 abort 请求 。<br> 中断事务：参与者如果收到 abort 请求或者超时了，都会中断事务。</p>
-</blockquote>
-<ul>
-<li>第三阶段：Do Commit<br> 该阶段进行真正的事务提交，也可以分为以下两种情况</li>
-</ul>
-<blockquote>
-<p>执行提交<br> 发送提交请求：协调者接收到各参与者发送的ACK响应，那么他将从预提交状态进入到提交状态。并向所有参与者发送 doCommit 请求。<br> 事务提交：参与者接收到 doCommit 请求之后，执行正式的事务提交。并在完成事务提交之后释放所有事务资源。<br> 响应反馈：事务提交完之后，向协调者发送 ACK 响应。<br> 完成事务：协调者接收到所有参与者的 ACK 响应之后，完成事务。</p>
-</blockquote>
-<blockquote>
-<p>中断事务<br> 协调者没有接收到参与者发送的 ACK 响应（可能是接受者发送的不是ACK响应，也可能响应超时），那么就会执行中断事务。<br> 发送中断请求：协调者向所有参与者发送 abort 请求。<br> 事务回滚：参与者接收到 abort 请求之后，利用其在阶段二记录的 undo 信息来执行事务的回滚操作，并在完成回滚之后释放所有的事务资源。<br> 反馈结果：参与者完成事务回滚之后，向协调者发送 ACK 消息。<br> 中断事务：协调者接收到参与者反馈的 ACK 消息之后，完成事务的中断。</p>
-</blockquote>
-<h6 id="2-2-2-2-TCC的ACID特性"><a href="#2-2-2-2-TCC的ACID特性" class="headerlink" title="2.2.2.2 TCC的ACID特性"></a>2.2.2.2 TCC的ACID特性</h6><p>原子性：TCC 模型也使用 2PC 原子提交协议来保证事务原子性。Try 操作对应2PC 的一阶段准备（Prepare）；Confirm 对应 2PC 的二阶段提交（Commit），Cancel 对应 2PC 的二阶段回滚（Rollback），可以说 TCC 就是应用层的 2PC。</p>
-<p>隔离性：隔离的本质是控制并发，放弃在数据库层面加锁通过在业务层面加锁来实现。【比如在账户管理模块设计中，增加可用余额和冻结金额的设置】</p>
-<p>一致性：通过原子性保证事务的原子提交、业务隔离性控制事务的并发访问，实现分布式事务的一致性状态转变；事务的中间状态不能被观察到这点并不保证[本协议是基于柔性事务理论提出的]。。</p>
-<h6 id="2-2-2-3-TCC的优缺点"><a href="#2-2-2-3-TCC的优缺点" class="headerlink" title="2.2.2.3 TCC的优缺点"></a>2.2.2.3 TCC的优缺点</h6><p>优点：<br> 相对于二阶段提交，三阶段提交主要解决的单点故障问题，并减少了阻塞的时间。因为一旦参与者无法及时收到来自协调者的信息之后，他会默认执行 commit。而不会一直持有事务资源并处于阻塞状态。</p>
-<p>缺点：<br> 三阶段提交也会导致数据一致性问题。由于网络原因，协调者发送的 Cancel 响应没有及时被参与者接收到，那么参与者在等待超时之后执行了 commit 操作。这样就和其他接到 Cancel 命令并执行回滚的参与者之间存在数据不一致的情况。</p>
-<h5 id="2-2-3-SAGA协议实现分布式事物"><a href="#2-2-3-SAGA协议实现分布式事物" class="headerlink" title="2.2.3 SAGA协议实现分布式事物"></a>2.2.3 SAGA协议实现分布式事物</h5><h6 id="2-2-3-1-SAGA协议介绍"><a href="#2-2-3-1-SAGA协议介绍" class="headerlink" title="2.2.3.1 SAGA协议介绍"></a>2.2.3.1 SAGA协议介绍</h6><p>Saga的组成：</p>
-<ul>
-<li>每个Saga由一系列sub-transaction Ti 组成</li>
-<li>每个Ti 都有对应的补偿动作Ci，补偿动作用于撤销Ti造成的结果</li>
-</ul>
-<p>saga的执行顺序有两种：</p>
-<ul>
-<li>T1, T2, T3, …, Tn</li>
-<li>T1, T2, …, Tj, Cj,…, C2, C1，其中0 &lt; j &lt; n</li>
-</ul>
-<p>Saga定义了两种恢复策略：</p>
-<ul>
-<li>backward recovery，向后恢复，即上面提到的第二种执行顺序，其中j是发生错误的sub-transaction，这种做法的效果是撤销掉之前所有成功的sub-transation，使得整个Saga的执行结果撤销。</li>
-<li>forward recovery，向前恢复，适用于必须要成功的场景，执行顺序是类似于这样的：T1, T2, …, Tj(失败), Tj(重试),…, Tn，其中j是发生错误的sub-transaction。该情况下不需要Ci。</li>
-</ul>
-<p>Saga的注意事项</p>
-<ul>
-<li>Ti和Ci是幂等的。举个例子，假设在执行Ti的时候超时了，此时我们是不知道执行结果的，如果采用forward recovery策略就会再次发送Ti，那么就有可能出现Ti被执行了两次，所以要求Ti幂等。如果采用backward recovery策略就会发送Ci，而如果Ci也超时了，就会尝试再次发送Ci，那么就有可能出现Ci被执行两次，所以要求Ci幂等。</li>
-<li>Ci必须是能够成功的，如果无法成功则需要人工介入。如果Ci不能执行成功就意味着整个Saga无法完全撤销，这个是不允许的。但总会出现一些特殊情况比如Ci的代码有bug、服务长时间崩溃等，这个时候就需要人工介入了</li>
-<li>Ti - Ci和Ci - Ti的执行结果必须是一样的：sub-transaction被撤销了。举例说明，还是考虑Ti执行超时的场景，我们采用了backward recovery，发送一个Ci，那么就会有三种情况：<br> 1：Ti的请求丢失了，服务之前没有、之后也不会执行Ti<br> 2：Ti在Ci之前执行<br> 3：Ci在Ti之前执行<br> 对于第1种情况，容易处理。对于第2、3种情况，则要求Ti和Ci是可交换的（commutative)，并且其最终结果都是sub-transaction被撤销。</li>
-</ul>
-<p>Saga架构<br>   <img src="/img/20181120分布式事物-4.jpg" alt=""></p>
-<ul>
-<li><p>Saga Execution Component解析请求JSON并构建请求图</p>
-</li>
-<li><p>TaskRunner 用任务队列确保请求的执行顺序</p>
-</li>
-<li><p>TaskConsumer 处理Saga任务，将事件写入saga log，并将请求发送到远程服务</p>
-</li>
-</ul>
-<h6 id="2-2-3-2-SAGA的ACID特性"><a href="#2-2-3-2-SAGA的ACID特性" class="headerlink" title="2.2.3.2 SAGA的ACID特性"></a>2.2.3.2 SAGA的ACID特性</h6><ul>
-<li><p>原子性：通过SAGA协调器实现</p>
-</li>
-<li><p>一致性：本地事务+SAGA Log</p>
-</li>
-<li><p>持久性：SAGA Log</p>
-</li>
-<li><p>隔离性：不保证（同TCC）</p>
-</li>
-</ul>
-<h3 id="3-分布式事物的处理方案"><a href="#3-分布式事物的处理方案" class="headerlink" title="3.分布式事物的处理方案"></a>3.分布式事物的处理方案</h3><h4 id="3-1-XA"><a href="#3-1-XA" class="headerlink" title="3.1 XA"></a>3.1 XA</h4><p>仅在同一个事务上下文中需要协调多种资源（即数据库，以及消息主题或队列）时，才有必要使用 X/Open XA 接口。数据库接入XA需要使用XA版的数据库驱动，消息队列要实现XA需要实现javax.transaction.xa.XAResource接口。</p>
-<h5 id="3-1-1-jotm的分布式事务"><a href="#3-1-1-jotm的分布式事务" class="headerlink" title="3.1.1 jotm的分布式事务"></a>3.1.1 jotm的分布式事务</h5><p>代码如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserDao userDao;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> LogDao logDao;</span><br><span class="line">    <span class="meta">@Transactional</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(User user)</span></span>&#123;</span><br><span class="line">        userDao.save(user);</span><br><span class="line">        logDao.save(user);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Resource</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserDao</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Resource</span>(name=<span class="string">"jdbcTemplateA"</span>)</span><br><span class="line">    <span class="keyword">private</span> JdbcTemplate jdbcTemplate;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(User user)</span></span>&#123;</span><br><span class="line">        jdbcTemplate.update(<span class="string">"insert into user(name,age) values(?,?)"</span>,user.getName(),user.getAge());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LogDao</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Resource</span>(name=<span class="string">"jdbcTemplateB"</span>)</span><br><span class="line">    <span class="keyword">private</span> JdbcTemplate jdbcTemplate;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(User user)</span></span>&#123;</span><br><span class="line">        jdbcTemplate.update(<span class="string">"insert into log(name,age) values(?,?)"</span>,user.getName(),user.getAge());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>配置：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jotm"</span> <span class="attr">class</span>=<span class="string">"org.objectweb.jotm.Current"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"transactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.transaction.jta.JtaTransactionManager"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"userTransaction"</span> <span class="attr">ref</span>=<span class="string">"jotm"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">"transactionManager"</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 配置数据源 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSourceA"</span> <span class="attr">class</span>=<span class="string">"org.enhydra.jdbc.pool.StandardXAPoolDataSource"</span>  <span class="attr">destroy-method</span>=<span class="string">"shutdown"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.enhydra.jdbc.standard.StandardXADataSource"</span> <span class="attr">destroy-method</span>=<span class="string">"shutdown"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"transactionManager"</span> <span class="attr">ref</span>=<span class="string">"jotm"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverName"</span> <span class="attr">value</span>=<span class="string">"com.mysql.jdbc.Driver"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"jdbc:mysql://localhost:3306/test?useUnicode=true&amp;amp;characterEncoding=utf-8"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">value</span>=<span class="string">"xxx"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"xxx"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 配置数据源 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSourceB"</span>   <span class="attr">class</span>=<span class="string">"org.enhydra.jdbc.pool.StandardXAPoolDataSource"</span>  <span class="attr">destroy-method</span>=<span class="string">"shutdown"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.enhydra.jdbc.standard.StandardXADataSource"</span> <span class="attr">destroy-method</span>=<span class="string">"shutdown"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"transactionManager"</span> <span class="attr">ref</span>=<span class="string">"jotm"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverName"</span> <span class="attr">value</span>=<span class="string">"com.mysql.jdbc.Driver"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"jdbc:mysql://localhost:3306/test2?useUnicode=true&amp;amp;characterEncoding=utf-8"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">value</span>=<span class="string">"xxx"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"xxx"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jdbcTemplateA"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.core.JdbcTemplate"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSourceA"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jdbcTemplateB"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.core.JdbcTemplate"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSourceB"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>使用到的JAR包:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;org.ow2.jotm:jotm-core:2.3.1-M1&apos;</span><br><span class="line">compile &apos;org.ow2.jotm:jotm-datasource:2.3.1-M1&apos;</span><br><span class="line">compile &apos;com.experlog:xapool:1.5.0&apos;</span><br></pre></td></tr></table></figure>
-<p>事务配置: 我们知道分布式事务中需要一个事务管理器即接口javax.transaction.TransactionManager、面向开发人员的javax.transaction.UserTransaction。对于jotm来说，他们的实现类都是Current</p>
-<blockquote>
-<p>public class Current implements UserTransaction, TransactionManager</p>
-</blockquote>
-<p>我们如果想使用分布式事务的同时，又想使用Spring带给我们的@Transactional便利，就需要配置一个JtaTransactionManager，而该JtaTransactionManager是需要一个userTransaction实例的，所以用到了上面的Current，如下配置:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jotm"</span> <span class="attr">class</span>=<span class="string">"org.objectweb.jotm.Current"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"transactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.transaction.jta.JtaTransactionManager"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"userTransaction"</span> <span class="attr">ref</span>=<span class="string">"jotm"</span> /&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">"transactionManager"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-<p>执行过程：</p>
-<ul>
-<li>第一步：事务拦截器开启事务<br> 我们知道加入了@Transactional注解，同时开启tx:annotation-driven，会对本对象进行代理，加入事务拦截器。在事务拦截器中，获取javax.transaction.UserTransaction，这里即org.objectweb.jotm.Current，然后使用它开启事务，并和当前线程进行绑定，绑定关系数据存放在org.objectweb.jotm.Current中。</li>
-<li>第二步：使用jdbcTemplate进行业务操作<br> dbcTemplateA要从dataSourceA中获取Connection,和当前线程进行绑定，同时以对应的dataSourceA作为key。同时判断当前线程是否含有事务，通过dataSourceA中的org.objectweb.jotm.Current发现当前线程有事务，则把Connection自动提交设置为false,同时将该连接纳入当前事务中。<br> jdbcTemplateB要从dataSourceB中获取Connection,和当前线程进行绑定，同时以对应的dataSourceB作为key。同时判断当前线程是否含有事务，通过dataSourceB中的org.objectweb.jotm.Current发现当前线程有事务，则把Connection自动提交设置为false,同时将该连接纳入当前事务中。</li>
-<li>第三步：异常回滚 一旦抛出异常，则需要进行事务的回滚操作。回滚就是将当前事务进行回滚，该事务的回滚会调用和它关联的所有Connection的回滚。</li>
-</ul>
-<h5 id="3-1-2-Atomikos的分布式事务"><a href="#3-1-2-Atomikos的分布式事务" class="headerlink" title="3.1.2 Atomikos的分布式事务"></a>3.1.2 Atomikos的分布式事务</h5><p>代码同上，配置如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"atomikosUserTransaction"</span> <span class="attr">class</span>=<span class="string">"com.atomikos.icatch.jta.UserTransactionImp"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"transactionTimeout"</span> <span class="attr">value</span>=<span class="string">"300"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"springTransactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.transaction.jta.JtaTransactionManager"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"userTransaction"</span> <span class="attr">ref</span>=<span class="string">"atomikosUserTransaction"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">"springTransactionManager"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 配置数据源 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSourceC"</span> <span class="attr">class</span>=<span class="string">"com.atomikos.jdbc.AtomikosDataSourceBean"</span> <span class="attr">init-method</span>=<span class="string">"init"</span> <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"uniqueResourceName"</span> <span class="attr">value</span>=<span class="string">"XA1DBMS"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"xaDataSourceClassName"</span> <span class="attr">value</span>=<span class="string">"com.mysql.jdbc.jdbc2.optional.MysqlXADataSource"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"xaProperties"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"URL"</span>&gt;</span>jdbc:mysql://localhost:3306/test?useUnicode=true&amp;amp;characterEncoding=utf-8<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"user"</span>&gt;</span>xxx<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"password"</span>&gt;</span>xxx<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"poolSize"</span> <span class="attr">value</span>=<span class="string">"3"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minPoolSize"</span> <span class="attr">value</span>=<span class="string">"3"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxPoolSize"</span> <span class="attr">value</span>=<span class="string">"5"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 配置数据源 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSourceD"</span> <span class="attr">class</span>=<span class="string">"com.atomikos.jdbc.AtomikosDataSourceBean"</span> <span class="attr">init-method</span>=<span class="string">"init"</span> <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"uniqueResourceName"</span> <span class="attr">value</span>=<span class="string">"XA2DBMS"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"xaDataSourceClassName"</span> <span class="attr">value</span>=<span class="string">"com.mysql.jdbc.jdbc2.optional.MysqlXADataSource"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"xaProperties"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"URL"</span>&gt;</span>jdbc:mysql://localhost:3306/test2?useUnicode=true&amp;amp;characterEncoding=utf-8<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"user"</span>&gt;</span>xxx<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"password"</span>&gt;</span>xxx<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"poolSize"</span> <span class="attr">value</span>=<span class="string">"3"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minPoolSize"</span> <span class="attr">value</span>=<span class="string">"3"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxPoolSize"</span> <span class="attr">value</span>=<span class="string">"5"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jdbcTemplateC"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.core.JdbcTemplate"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSourceC"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jdbcTemplateD"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.core.JdbcTemplate"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSourceD"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>事务配置：<br> 我们知道分布式事务中需要一个事务管理器即接口javax.transaction.TransactionManager、面向开发人员的javax.transaction.UserTransaction。对于Atomikos来说分别对应如下：</p>
-<ul>
-<li>com.atomikos.icatch.jta.UserTransactionImp</li>
-<li>com.atomikos.icatch.jta.UserTransactionManager 我们如果想使用分布式事务的同时，又想使用Spring带给我们的@Transactional便利，就需要配置一个JtaTransactionManager，而该JtaTransactionManager是需要一个userTransaction实例的</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"userTransaction"</span> <span class="attr">class</span>=<span class="string">"com.atomikos.icatch.jta.UserTransactionImp"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"transactionTimeout"</span> <span class="attr">value</span>=<span class="string">"300"</span> /&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"springTransactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.transaction.jta.JtaTransactionManager"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"userTransaction"</span> <span class="attr">ref</span>=<span class="string">"userTransaction"</span> /&gt;</span>   </span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">"springTransactionManager"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-<p>可以对比下jotm的案例配置jotm的分布式事务配置。可以看到jotm中使用的xapool中的StandardXADataSource是需要一个transactionManager的，而Atomikos使用的AtomikosNonXADataSourceBean则不需要。我们知道，StandardXADataSource中有了transactionManager就可以获取当前线程的事务，同时把XAResource加入进当前事务中去，而AtomikosNonXADataSourceBean却没有，它是怎么把XAResource加入进当前线程绑定的事务呢？这时候就需要可以通过静态方法随时获取当前线程绑定的事务。 使用到的JAR包:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile <span class="string">'com.atomikos:transactions-jdbc:4.0.0M4'</span></span><br></pre></td></tr></table></figure>
-<h4 id="3-2-单机事物-同步（异步）回调"><a href="#3-2-单机事物-同步（异步）回调" class="headerlink" title="3.2 单机事物 + 同步（异步）回调"></a>3.2 单机事物 + 同步（异步）回调</h4><p>以订单子系统和支付子系统为例，如下图：</p>
-<p><img src="/img/20181120分布式事物-5.jpg" alt=""></p>
-<p>如上图，payment是支付系统，trade是订单系统，两个系统对应的数据库是分开的。支付完成之后，支付系统需要通知订单系统状态变更。<br>对于payment要执行的操作可以用伪代码表示如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">begin tx;</span><br><span class="line">  count = update account set amount = amount - $&#123;cash&#125; where uid = $&#123;uid&#125; and amount &gt;= amount</span><br><span class="line">  <span class="keyword">if</span> (count &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span></span><br><span class="line">    update payment_record set status = paid where trade_id = $&#123;tradeId&#125;</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
-<p>对于trade要执行的操作可以用伪代码表示如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">begin tx;</span><br><span class="line">  count = update trade_record set status = paid where trade_id = $&#123;trade_id&#125; and status = unpaid</span><br><span class="line">  <span class="keyword">if</span> (count &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span></span><br><span class="line">    <span class="keyword">do</span> other things ...</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
-<p>但是对于这两段代码如何串起来是个问题，我们增加一个事务表，即图中的tx_info，来记录成功完成的支付事务，tx_info中需要有可以标示被支付系统处理状态的字段，为了和支付信息一致，需要放入事务中，代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">begin tx;</span><br><span class="line">  count = update account set amount = amount - $&#123;cash&#125; where uid = $&#123;uid&#125; and amount &gt;= amount</span><br><span class="line">  <span class="keyword">if</span> (count &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span></span><br><span class="line">    update payment_record set status = paid where trade_id = $&#123;tradeId&#125;</span><br><span class="line">    <span class="function">insert into tx_info <span class="title">values</span><span class="params">($&#123;trade_id&#125;,$&#123;amount&#125;...)</span></span></span><br><span class="line"><span class="function">commit</span>;</span><br></pre></td></tr></table></figure>
-<p>支付系统边界到此为止，接下来就是订单系统轮询访问tx_info，拉取已经支付成功的订单信息，对每一条信息都执行trade系统的逻辑，伪代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">foreach trade_id in tx_info</span><br><span class="line">  <span class="keyword">do</span> trade_tx</span><br><span class="line">  save tx_info.id to some store</span><br></pre></td></tr></table></figure>
-<p>事无延迟取决于时间程序轮询间隔，这样我们做到了一致性，最终订单都会在支付之后的最大时间间隔内完成状态迁移。<br> 当然，这里也可以采用支付系统通过RPC方式同步通知订单系统的方式来实现，处理状态通过tx_info中的字段来表示。<br> 另外，交易系统每次拉取数据的起点以及消费记录需要记录下来，这样才能不遗漏不重复地执行，所以需要增加一张表用于排重，即上图中的tx_duplication。但是每次对tx_duplication表的插入要在trade_tx的事务中完成，伪代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">begin tx;</span><br><span class="line">  c = <span class="function">insert ignore tx_duplication <span class="title">values</span><span class="params">($trade_id...)</span></span></span><br><span class="line"><span class="function">  <span class="title">if</span> <span class="params">(c &lt;= <span class="number">0</span>)</span> return <span class="keyword">false</span></span></span><br><span class="line"><span class="function">    count </span>= update trade_record set status = paid where trade_id = $&#123;trade_id&#125; and status = unpaid</span><br><span class="line">  <span class="keyword">if</span> (count &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">false</span></span><br><span class="line">    <span class="keyword">do</span> other things ...</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
-<p>另外，tx_duplication表中trade_id表上必须有唯一键，这个算是结合之前的幂等篇来保证trade_tx的操作是幂等的。</p>
-<h4 id="3-3MQ做中间表角色"><a href="#3-3MQ做中间表角色" class="headerlink" title="3.3MQ做中间表角色"></a>3.3MQ做中间表角色</h4><p>在上面的方案中，tx_info表所起到的作用就是队列作用，记录一个系统的表更，作为通知给需要感知的系统的事件。而时间程序去拉取只是系统去获取感兴趣事件的一个方式，而对应交易系统的本地事务只是对应消费事件的一个过程。在这样的描述下，这些功能就是一个MQ——消息中间件。如下图<br> <img src="/img/20181120分布式事物-6.jpg" alt=""></p>
-<p>这样tx_info表的功能就交给了MQ，消息消费的偏移量也不需要关心了，MQ会搞定的，但是tx_duplication还是必须存在的，因为MQ并不能避免消息的重复投递，这其中的原因有很多，主要是还是分布式的CAP造成的，再次不详细描述。<br> 这要求MQ必须支持事务功能，可以达到本地事务和消息发出是一致性的，但是不必是强一致的。通常使用的方式如下的伪代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sendPrepare();</span><br><span class="line">isCommit = local_tx()</span><br><span class="line"><span class="keyword">if</span> (isCommit) sendCommit()</span><br><span class="line">  <span class="keyword">else</span> sendRollback()</span><br></pre></td></tr></table></figure>
-<p>在做本地事务之前，先向MQ发送一个prepare消息，然后执行本地事务，本地事务提交成功的话，向MQ发送一个commit消息，否则发送一个abort消息，取消之前的消息。MQ只会在收到commit确认才会将消息投递出去，所以这样的形式可以保证在一切正常的情况下，本地事务和MQ可以达到一致性。<br> 但是分布式存在异常情况，网络超时，机器宕机等等，比如当系统执行了local_tx()成功之后，还没来得及将commit消息发送给MQ，或者说发送出去了，网络超时了等等原因，MQ没有收到commit，即commit消息丢失了，那么MQ就不会把prepare消息投递出去。如果这个无法保证的话，那么这个方案是不可行的。针对这种情况，需要一个第三方异常校验模块来对MQ中在一定时间段内没有commit/abort 的消息和发消息的系统进行检查，确认该消息是否应该投递出去或者丢弃，得到系统的确认之后，MQ会做投递还是丢弃，这样就完全保证了MQ和发消息的系统的一致性，从而保证了接收消息系统的一致性。<br> 这个方案要求MQ的系统可用性必须非常高，至少要超过使用MQ的系统（推荐rocketmq，kafka都支持发送预备消息和业务回查），这样才能保证依赖他的系统能稳定运行。</p>
-<h4 id="3-4-SAGA方案"><a href="#3-4-SAGA方案" class="headerlink" title="3.4 SAGA方案"></a>3.4 SAGA方案</h4><p>项目地址：<a href="https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Fapache%2Fservicecomb-saga" target="_blank" rel="noopener">github.com/apache/serv…</a> Saga处理场景是要求相关的子事务提供事务处理函数同时也提供补偿函数。Saga协调器alpha会根据事务的执行情况向omega发送相关的指令，确定是否向前重试或者向后恢复。</p>
-<h5 id="成功场景"><a href="#成功场景" class="headerlink" title="成功场景"></a>成功场景</h5><p>成功场景下，每个事务都会有开始和有对应的结束事件。</p>
-<p><img src="/img/20181120分布式事物-7.jpg" alt=""></p>
-<h5 id="异常场景"><a href="#异常场景" class="headerlink" title="异常场景"></a>异常场景</h5><p>异常场景下，omega会向alpha上报中断事件，然后alpha会向该全局事务的其它已完成的子事务发送补偿指令，确保最终所有的子事务要么都成功，要么都回滚。</p>
-<p><img src="/img/20181120分布式事物-8.jpg" alt=""></p>
-<h5 id="超市场景"><a href="#超市场景" class="headerlink" title="超市场景"></a>超市场景</h5><p>超时场景下，已超时的事件会被alpha的定期扫描器检测出来，与此同时，该超时事务对应的全局事务也会被中断。</p>
-<p><img src="/img/20181120分布式事物-9.jpg" alt=""></p>
-<h5 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h5><p>假设要租车、预订酒店满足分布式事务。<br>租车服务</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CarBookingService</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Map&lt;Integer, CarBooking&gt; bookings = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Compensable</span>(compensationMethod = <span class="string">"cancel"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">order</span><span class="params">(CarBooking booking)</span> </span>&#123;</span><br><span class="line">    booking.confirm();</span><br><span class="line">    bookings.put(booking.getId(), booking);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">cancel</span><span class="params">(CarBooking booking)</span> </span>&#123;</span><br><span class="line">    Integer id = booking.getId();</span><br><span class="line">    <span class="keyword">if</span> (bookings.containsKey(id)) &#123;</span><br><span class="line">      bookings.get(id).cancel();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">Collection&lt;CarBooking&gt; <span class="title">getAllBookings</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> bookings.values();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">clearAllBookings</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    bookings.clear();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>酒店预订</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HotelBookingService</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Map&lt;Integer, HotelBooking&gt; bookings = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Compensable</span>(compensationMethod = <span class="string">"cancel"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">order</span><span class="params">(HotelBooking booking)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (booking.getAmount() &gt; <span class="number">2</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"can not order the rooms large than two"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    booking.confirm();</span><br><span class="line">    bookings.put(booking.getId(), booking);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">cancel</span><span class="params">(HotelBooking booking)</span> </span>&#123;</span><br><span class="line">    Integer id = booking.getId();</span><br><span class="line">    <span class="keyword">if</span> (bookings.containsKey(id)) &#123;</span><br><span class="line">      bookings.get(id).cancel();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">Collection&lt;HotelBooking&gt; <span class="title">getAllBookings</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> bookings.values();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">clearAllBookings</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    bookings.clear();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>主服务</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookingController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Value</span>(<span class="string">"$&#123;car.service.address:http://car.servicecomb.io:8080&#125;"</span>)</span><br><span class="line">  <span class="keyword">private</span> String carServiceUrl;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Value</span>(<span class="string">"$&#123;hotel.service.address:http://hotel.servicecomb.io:8080&#125;"</span>)</span><br><span class="line">  <span class="keyword">private</span> String hotelServiceUrl;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> RestTemplate template;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@SagaStart</span></span><br><span class="line">  <span class="meta">@PostMapping</span>(<span class="string">"/booking/&#123;name&#125;/&#123;rooms&#125;/&#123;cars&#125;"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">order</span><span class="params">(@PathVariable String name,  @PathVariable Integer rooms, @PathVariable Integer cars)</span> </span>&#123;</span><br><span class="line">    template.postForEntity(</span><br><span class="line">        carServiceUrl + <span class="string">"/order/&#123;name&#125;/&#123;cars&#125;"</span>,</span><br><span class="line">        <span class="keyword">null</span>, String.class, name, cars);</span><br><span class="line"></span><br><span class="line">    postCarBooking();</span><br><span class="line"></span><br><span class="line">    template.postForEntity(</span><br><span class="line">        hotelServiceUrl + <span class="string">"/order/&#123;name&#125;/&#123;rooms&#125;"</span>,</span><br><span class="line">        <span class="keyword">null</span>, String.class, name, rooms);</span><br><span class="line"></span><br><span class="line">    postBooking();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> name + <span class="string">" booking "</span> + rooms + <span class="string">" rooms and "</span> + cars + <span class="string">" cars OK"</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// This method is used by the byteman to inject exception here</span></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">postCarBooking</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// This method is used by the byteman to inject the faults such as the timeout or the crash</span></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">postBooking</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>执行流程</p>
-<ul>
-<li>在Alpha目录执行  mvn clean package -DskipTests -Pdemo</li>
-<li>执行 java -Dspring.profiles.active=prd -D”spring.datasource.url=jdbc:postgresql://host_address:5432/saga?useSSL=false” -jar alpha-server-](<a href="https://juejin.im/equation?tex=%7Bhost_address%7D%3A5432%2Fsaga%3FuseSSL%3Dfalse%22%20-jar%20alpha-server-){saga_version}-exec.jar" target="_blank" rel="noopener">https://juejin.im/equation?tex=%7Bhost_address%7D%3A5432%2Fsaga%3FuseSSL%3Dfalse%22%20-jar%20alpha-server-){saga_version}-exec.jar</a></li>
-<li>在saga spring demo目录执行 mvn clean package -DskipTests -Pdemo</li>
-<li>java -Dserver.port=8081 -Dalpha.cluster.address=alpha_address:8080 -jar hotel-](<a href="https://juejin.im/equation?tex=%7Balpha_address%7D%3A8080%20-jar%20hotel-){saga_version}-exec.jar" target="_blank" rel="noopener">https://juejin.im/equation?tex=%7Balpha_address%7D%3A8080%20-jar%20hotel-){saga_version}-exec.jar</a></li>
-<li>java -Dserver.port=8082 -Dalpha.cluster.address=alpha_address:8080 -jar car-](<a href="https://juejin.im/equation?tex=%7Balpha_address%7D%3A8080%20-jar%20car-){saga_version}-exec.jar" target="_blank" rel="noopener">https://juejin.im/equation?tex=%7Balpha_address%7D%3A8080%20-jar%20car-){saga_version}-exec.jar</a></li>
-<li>java -Dserver.port=8083 -Dalpha.cluster.address=alpha_address:8080 -Dcar.service.address=](<a href="https://juejin.im/equation?tex=%7Balpha_address%7D%3A8080%20-Dcar.service.address%3D){host_address}:8082" target="_blank" rel="noopener">https://juejin.im/equation?tex=%7Balpha_address%7D%3A8080%20-Dcar.service.address%3D){host_address}:8082</a> -Dhotel.service.address=host_address:8081  -jar booking-](<a href="https://juejin.im/equation?tex=%7Bhost_address%7D%3A8081%20%20-jar%20booking-){saga_version}-exec.jar[alpha_address不带http其他地址要带上http]" target="_blank" rel="noopener">https://juejin.im/equation?tex=%7Bhost_address%7D%3A8081%20%20-jar%20booking-){saga_version}-exec.jar[alpha_address不带http其他地址要带上http]</a></li>
-</ul>
-<p>### </p>
-<h4 id="3-5-TCC解决方案"><a href="#3-5-TCC解决方案" class="headerlink" title="3.5 TCC解决方案"></a>3.5 TCC解决方案</h4><p>项目地址<a href="https://github.com/QNJR-GROUP/EasyTransaction[对比tcc-transaction，Hmily，ByteTCC来说EasyTransaction性能最好，压测未发现错误]" target="_blank" rel="noopener">https://github.com/QNJR-GROUP/EasyTransaction[对比tcc-transaction，Hmily，ByteTCC来说EasyTransaction性能最好，压测未发现错误]</a>, 当然你也可以使用上面提到的SAGA项目，也是支持TCC协议的。下面我们举个例子来看TCC是如何处理业务逻辑的。</p>
-<p>eg：订单支付</p>
-<ul>
-<li>1：订单服务-&gt;修改订单状态</li>
-<li>2：库存服务-&gt;扣减库存</li>
-<li>3：积分服务-&gt;增加积分</li>
-<li>4：仓库服务-&gt;创建出库单</li>
-</ul>
-<p>try阶段</p>
-<ul>
-<li>1：订单服务-&gt;状态变更为“UpDating”</li>
-<li>2：库存服务-&gt;可用库存减少1，冻结库存增加1</li>
-<li>3：积分服务-&gt;积分不变，增加预备积分</li>
-<li>4：仓库服务-&gt;创建出库单，状态设置为“UnKnown”</li>
-</ul>
-<p>confirm阶段</p>
-<ul>
-<li>1：订单服务-&gt;状态变更为“已支付”</li>
-<li>2：库存服务-&gt;冻结库存清零</li>
-<li>3：积分服务-&gt;积分增加，预备积分清零</li>
-<li>4：仓库服务-&gt;状态设置为“出库单已创建”</li>
-</ul>
-<p>cancel阶段</p>
-<ul>
-<li>1：订单服务-&gt;状态变更为“已取消”</li>
-<li>2：库存服务-&gt;可用库存增加，冻结库存清零</li>
-<li>3：积分服务-&gt;预备积分清零</li>
-<li>4：仓库服务-&gt;状态设置为“已取消”</li>
-</ul>
-<h4 id="4-小结"><a href="#4-小结" class="headerlink" title="4.小结"></a>4.小结</h4><table>
-<thead>
-<tr>
-<th>基本概念</th>
-<th>优点</th>
-<th>缺点</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>本地事务。事务由资源管理器（如DBMS）本地管理</td>
-<td>严格的ACID</td>
-<td>不具备分布事务处理能力</td>
-</tr>
-<tr>
-<td>全局事务（DTP模型）TX协议：应用或应用服务器与事务管理器的接口  XA协议：全局事务管理器与资源管理器的接口</td>
-<td>严格的ACID</td>
-<td>效率非常低</td>
-</tr>
-<tr>
-<td>JTA:面向应用、应用服务器与资源管理器的高层事务接口JTS:JTA事务管理器的实现标准，向上支持JTA，向下通过CORBA OTS实现跨事务域的互操作性EJB</td>
-<td>简单一致的编程模型；跨域分布处理的ACID保证</td>
-<td>DTP模型本身的局限；缺少充分公开的大规模、高可用、密集事务应用的成功案例</td>
-</tr>
-<tr>
-<td>基于MQ</td>
-<td>消息数据独立存储、独立伸缩；降低业务系统与消息系统间的耦合</td>
-<td>一次消息发送需要两次请求；业务处理服务需实现消息状态回查接口</td>
-</tr>
-<tr>
-<td>二阶段提交</td>
-<td>原理简单，实现方便</td>
-<td>同步阻塞：在二阶段提交的过程中，所有的节点都在等待其他节点的响应，无法进行其他操作。这种同步阻塞极大的限制了分布式系统的性能。   单点问题：协调者在整个二阶段提交过程中很重要，如果协调者在提交阶段出现问题，那么整个流程将无法运转。更重要的是，其他参与者将会处于一直锁定事务资源的状态中，而无法继续完成事务操作。  数据不一致：假设当协调者向所有的参与者发送commit请求之后，发生了局部网络异常，或者是协调者在尚未发送完所有 commit请求之前自身发生了崩溃，导致最终只有部分参与者收到了commit请求。这将导致严重的数据不一致问题。  容错性不好：如果在二阶段提交的提交询问阶段中，参与者出现故障，导致协调者始终无法获取到所有参与者的确认信息，这时协调者只能依靠其自身的超时机制，判断是否需要中断事务。显然，这种策略过于保守。换句话说，二阶段提交协议没有设计较为完善的容错机制，任意一个节点是失败都会导致整个事务的失败。</td>
-</tr>
-<tr>
-<td>TCC</td>
-<td>相对于二阶段提交，三阶段提交主要解决的单点故障问题，并减少了阻塞的时间。因为一旦参与者无法及时收到来自协调者的信息之后，他会默认执行 commit。而不会一直持有事务资源并处于阻塞状态</td>
-<td>三阶段提交也会导致数据一致性问题。由于网络原因，协调者发送的 abort 响应没有及时被参与者接收到，那么参与者在等待超时之后执行了 commit 操作。这样就和其他接到 abort 命令并执行回滚的参与者之间存在数据不一致的情况。</td>
-</tr>
-<tr>
-<td>SAGA</td>
-<td>简单业务使用TCC需要修改原来业务逻辑，saga只需要添加一个补偿动作。由于没有预留动作所以不用担心资源释放的问题异常处理简单</td>
-<td>由于没有预留动作导致补偿处理麻烦</td>
-</tr>
-</tbody>
-</table>
-<p>业务各有各的不同，有些业务能容忍短期不一致，有些业务的操作可以幂等，无论什么样的分布式事务解决方案都有其优缺点，没有一个银弹能够适配所有。因此，业务需要什么样的解决方案，还需要结合自身的业务需求、业务特点、技术架构以及各解决方案的特性，综合分析，才能找到最适合的方案。</p>
-
-      
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>赏个好友位呗!!!<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/img/wechat.jpeg">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-            <span id="busuanzi_container_page_pv">
-              本文总阅读量<span id="busuanzi_value_page_pv"></span>次
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">分布式事物</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">面经</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/11/20/分布式事物的原理及解决方案/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2018/11/26/JVM原理/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          JVM原理
-        
-      </div>
-    </a>
   
   
-    <a href="/2018/11/01/Redis配置文件详解/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Redis配置文件详解</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-引言"><span class="toc-number">1.</span> <span class="toc-text">1.引言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-事物"><span class="toc-number">2.</span> <span class="toc-text">2.事物</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1单机事物"><span class="toc-number">2.1.</span> <span class="toc-text">2.1单机事物</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2分布式事物"><span class="toc-number">2.2.</span> <span class="toc-text">2.2分布式事物</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-1-XA协议实现分布式事物"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 XA协议实现分布式事物</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#2-2-1-1-XA描述"><span class="toc-number">2.2.1.1.</span> <span class="toc-text">2.2.1.1 XA描述</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-2-1-2-XA的ACID特性"><span class="toc-number">2.2.1.2.</span> <span class="toc-text">2.2.1.2 XA的ACID特性</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-2-1-3-XA的优缺点"><span class="toc-number">2.2.1.3.</span> <span class="toc-text">2.2.1.3 XA的优缺点</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-2-TCC协议实现分布式事物"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 TCC协议实现分布式事物</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#2-2-2-1-TCC描述"><span class="toc-number">2.2.2.1.</span> <span class="toc-text">2.2.2.1 TCC描述</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-2-2-2-TCC的ACID特性"><span class="toc-number">2.2.2.2.</span> <span class="toc-text">2.2.2.2 TCC的ACID特性</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-2-2-3-TCC的优缺点"><span class="toc-number">2.2.2.3.</span> <span class="toc-text">2.2.2.3 TCC的优缺点</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-3-SAGA协议实现分布式事物"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.2.3 SAGA协议实现分布式事物</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#2-2-3-1-SAGA协议介绍"><span class="toc-number">2.2.3.1.</span> <span class="toc-text">2.2.3.1 SAGA协议介绍</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-2-3-2-SAGA的ACID特性"><span class="toc-number">2.2.3.2.</span> <span class="toc-text">2.2.3.2 SAGA的ACID特性</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-分布式事物的处理方案"><span class="toc-number">3.</span> <span class="toc-text">3.分布式事物的处理方案</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-XA"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 XA</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1-1-jotm的分布式事务"><span class="toc-number">3.1.1.</span> <span class="toc-text">3.1.1 jotm的分布式事务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1-2-Atomikos的分布式事务"><span class="toc-number">3.1.2.</span> <span class="toc-text">3.1.2 Atomikos的分布式事务</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-单机事物-同步（异步）回调"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 单机事物 + 同步（异步）回调</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3MQ做中间表角色"><span class="toc-number">3.3.</span> <span class="toc-text">3.3MQ做中间表角色</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-SAGA方案"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 SAGA方案</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#成功场景"><span class="toc-number">3.4.1.</span> <span class="toc-text">成功场景</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#异常场景"><span class="toc-number">3.4.2.</span> <span class="toc-text">异常场景</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#超市场景"><span class="toc-number">3.4.3.</span> <span class="toc-text">超市场景</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#例子"><span class="toc-number">3.4.4.</span> <span class="toc-text">例子</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-5-TCC解决方案"><span class="toc-number">3.5.</span> <span class="toc-text">3.5 TCC解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-小结"><span class="toc-number">3.6.</span> <span class="toc-text">4.小结</span></a></li></ol></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
+    </div></section>
   
 
-  
-
-  
-
-  
-
-  
-
-  
-  <div id="gitment-ctn"></div> 
-<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
-<script src="https://jjeejj.github.io/js/gitment.js"></script>
-<script>
-var gitment = new Gitment({
-  id: "Tue Nov 20 2018 17:06:29 GMT+0800",
-  owner: 'zhjs0523',
-  repo: 'zhjs0523.github.io',
-  oauth: {
-    client_id: '2f2411f187bc265a55e1',
-    client_secret: '948c043ee9642b127ec13240842b7d9b711aafb9',
-  },
-})
-gitment.render('gitment-ctn')
-</script>
-
-  
+    
 
 
           </div>
@@ -670,8 +233,8 @@ gitment.render('gitment-ctn')
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

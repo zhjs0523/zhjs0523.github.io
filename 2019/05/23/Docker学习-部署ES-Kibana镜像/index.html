@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: zookeeper | 赵金帅的博客</title>
+  <title>Docker部署ES+Kibana | 赵金帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="赵金帅的博客">
-<meta property="og:url" content="http://yoursite.com/tags/zookeeper/index.html">
+  <meta name="keywords" content="docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker部署ES+Kibana">
+<meta property="og:url" content="http://yoursite.com/2019/05/23/Docker学习-部署ES-Kibana镜像/index.html">
 <meta property="og:site_name" content="赵金帅的博客">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/img/twentyOne.jpg">
+<meta property="og:image" content="http://yoursite.com/img/20190523Docker学习-1.jpg">
+<meta property="og:image" content="http://yoursite.com/img/20190523Docker学习-2.jpg">
+<meta property="og:image" content="http://yoursite.com/img/20190523Docker学习-3.jpg">
+<meta property="og:updated_time" content="2019-05-23T02:09:58.154Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="赵金帅的博客">
+<meta name="twitter:title" content="Docker部署ES+Kibana">
+<meta name="twitter:image" content="http://yoursite.com/img/twentyOne.jpg">
   
     <link rel="alternative" href="/atom.xml" title="赵金帅的博客" type="application/atom+xml">
   
@@ -154,61 +161,257 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Docker学习-部署ES-Kibana镜像" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/01/09/zookeeper重复注册/" class="archive-article-date">
-  	<time datetime="2019-01-09T10:28:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-09</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/01/09/zookeeper重复注册/">zookeeper重复注册</a>
+    <h1 class="article-title" itemprop="name">
+      Docker部署ES+Kibana
     </h1>
   
 
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/05/23/Docker学习-部署ES-Kibana镜像/" class="archive-article-date">
+  	<time datetime="2019-05-23T01:32:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-23</time>
+</a>
+        
+        
+          <span class="archive-article-date">
+            阅读量 <span id="busuanzi_value_page_pv"></span>
+          </span>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/img/twentyOne.jpg" alt=""><br><a id="more"></a></p>
+<blockquote>
+<p>   最近学习docker，瞬间感觉docker的强大，被docker的魅力深深折服，所以打算把我本机所包含的服务全部部署在docker容器中，本篇是第一篇ES+Kibana的学习，mark一下~</p>
+</blockquote>
+<h3 id="ES镜像"><a href="#ES镜像" class="headerlink" title="ES镜像"></a>ES镜像</h3><p>直接使用docker Hub上的镜像，还是比较强大的，话不多说，先上命令：</p>
+<blockquote>
+<p>docker pull docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.0</p>
+</blockquote>
+<p>然后在本机运行开发模式下的es：</p>
+<blockquote>
+<p>docker run -d –name es-zhjs -p 9000:9200 -p 9100:9300 -e ES_JAVA_OPTS=”-Xms512m -Xmx512m” -e “http.host=0.0.0.0” -e “transport.host=127.0.0.1” docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.0</p>
+</blockquote>
+<p><strong>注意：</strong> 因为我本机是安装es的，端口是9200和9300，所以为了防止端口冲突，我就重新开启了端口9000和9100</p>
+<p>启动之后，docker ps一下，可以看到：</p>
+<p><img src="/img/20190523Docker学习-1.jpg" alt=""></p>
+<p>在浏览器上输入127.0.0.1:9000，就可以看到如下所示啦：</p>
+<p><img src="/img/20190523Docker学习-2.jpg" alt=""></p>
+<h3 id="Kibana镜像"><a href="#Kibana镜像" class="headerlink" title="Kibana镜像"></a>Kibana镜像</h3><p>拉取官方的镜像：</p>
+<blockquote>
+<p>docker pull docker.elastic.co/kibana/kibana-oss:6.3.0</p>
+</blockquote>
+<p>运行Kibana：</p>
+<blockquote>
+<p>docker run –name kibana-zhjs -p 5600:5601 -e “ELASTICSEARCH_URL=<a href="http://172.17.0.4:9200&quot;" target="_blank" rel="noopener">http://172.17.0.4:9200&quot;</a> -d docker.elastic.co/kibana/kibana-oss:6.3.0</p>
+</blockquote>
+<p><strong>注意：</strong> 此处的172.17.0.4是我的es镜像的主机ip，刚开始我连接127.0.0.1:9000的时候，打开Kibana界面，发现连接不上es，所以我就直接写了es镜像的ip，具体查看方法如下：</p>
+<blockquote>
+<p>进入es镜像：</p>
+<p>docker exec -it es-zhjs bash</p>
+<p>查看主机ip:</p>
+<p>cat /etc/hosts</p>
+</blockquote>
+<p>启动之后，就可以看到容器啦。</p>
+<p>在浏览器上输入127.0.0.1:5600，就可以看到如下界面啦：</p>
+<p><img src="/img/20190523Docker学习-3.jpg" alt=""></p>
+<p>至此，docker部署es+Kibana就结束啦，开始你的docker之旅吧~~~</p>
+
+      
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>赏个好友位呗!!!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/wechat.jpeg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+            <span id="busuanzi_container_page_pv">
+              本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">zookeeper</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">docker</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/05/23/Docker学习-部署ES-Kibana镜像/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/05/23/Docker学习-Dockerfile制作MySQL镜像/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Docker学习-Dockerfile制作MySQL镜像
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2019/05/16/Docker学习-docker部署搭建我的第一个springboot项目/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Docker学习-docker部署搭建我的第一个springboot项目</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#ES镜像"><span class="toc-number">1.</span> <span class="toc-text">ES镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kibana镜像"><span class="toc-number">2.</span> <span class="toc-text">Kibana镜像</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
   
 
-    
+  
+
+  
+
+  
+
+  
+
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://jjeejj.github.io/js/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "Thu May 23 2019 09:32:51 GMT+0800",
+  owner: 'zhjs0523',
+  repo: 'zhjs0523.github.io',
+  oauth: {
+    client_id: '2f2411f187bc265a55e1',
+    client_secret: '948c043ee9642b127ec13240842b7d9b711aafb9',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+
+  
 
 
           </div>
@@ -233,9 +436,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

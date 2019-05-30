@@ -23,7 +23,7 @@
 <meta property="og:image" content="http://yoursite.com/img/20190529Docker学习-6.jpg">
 <meta property="og:image" content="http://yoursite.com/img/20190529Docker学习-7.jpg">
 <meta property="og:image" content="http://yoursite.com/img/20190529Docker学习-8.jpg">
-<meta property="og:updated_time" content="2019-05-29T05:54:06.769Z">
+<meta property="og:updated_time" content="2019-05-30T02:09:54.510Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker学习-redis-cluster搭建三主三从集群">
 <meta name="twitter:image" content="http://yoursite.com/img/twentyThree.jpg">
@@ -222,14 +222,7 @@
 <p>创建完之后，docker network ls 查看一下：</p>
 <p><img src="/img/20190529Docker学习-3.jpg" alt=""></p>
 <p>然后运行三主三从六个节点：</p>
-<blockquote>
-<p>docker run -d –net redis-network –ip 172.19.0.91  -p 6001:6379 –name redis-6001 zhjs/redis-server</p>
-<p>docker run -d –net redis-network –ip 172.19.0.92  -p 6002:6379 –name redis-6002 zhjs/redis-server</p>
-<p>docker run -d –net redis-network –ip 172.19.0.93  -p 6003:6379 –name redis-6003 zhjs/redis-server</p>
-<p>docker run -d –net redis-network –ip 172.19.0.94  -p 6004:6379 –name redis-6004 zhjs/redis-server</p>
-<p>docker run -d –net redis-network –ip 172.19.0.95  -p 6005:6379 –name redis-6005 zhjs/redis-server</p>
-<p>docker run -d –net redis-network –ip 172.19.0.96  -p 6006:6379 –name redis-6006 zhjs/redis-server</p>
-</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --net redis-network --ip 172.19.0.91  -p 6001:6379 --name redis-6001 zhjs/redis-server</span><br><span class="line"></span><br><span class="line">docker run -d --net redis-network --ip 172.19.0.92  -p 6002:6379 --name redis-6002 zhjs/redis-server</span><br><span class="line"></span><br><span class="line">docker run -d --net redis-network --ip 172.19.0.93  -p 6003:6379 --name redis-6003 zhjs/redis-server</span><br><span class="line"></span><br><span class="line">docker run -d --net redis-network --ip 172.19.0.94  -p 6004:6379 --name redis-6004 zhjs/redis-server</span><br><span class="line"></span><br><span class="line">docker run -d --net redis-network --ip 172.19.0.95  -p 6005:6379 --name redis-6005 zhjs/redis-server</span><br><span class="line"></span><br><span class="line">docker run -d --net redis-network --ip 172.19.0.96  -p 6006:6379 --name redis-6006 zhjs/redis-server</span><br></pre></td></tr></table></figure>
 <p>创建完上述六个节点容器之后，docker ps：</p>
 <p><img src="/img/20190529Docker学习-4.jpg" alt=""></p>
 <p>然后在redis-cluster目录下创建一个文件夹ruby，里面放redis-trib.rb,下载对应redis版本的redis-trib.rb，</p>
@@ -559,10 +552,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">DB</a>
               </li>
              
@@ -572,6 +561,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">中间件</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -599,15 +592,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Log4j2</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">redis</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">缓存</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Log4j2</a>
               </li>
              
               <li class="article-tag-list-item">

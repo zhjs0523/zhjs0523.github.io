@@ -23,7 +23,7 @@
 <meta property="og:image" content="http://yoursite.com/img/20190529Docker学习-6.jpg">
 <meta property="og:image" content="http://yoursite.com/img/20190529Docker学习-7.jpg">
 <meta property="og:image" content="http://yoursite.com/img/20190529Docker学习-8.jpg">
-<meta property="og:updated_time" content="2019-05-30T02:09:54.510Z">
+<meta property="og:updated_time" content="2019-06-04T02:32:38.141Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker学习-redis-cluster搭建三主三从集群">
 <meta name="twitter:image" content="http://yoursite.com/img/twentyThree.jpg">
@@ -216,9 +216,7 @@
 <p>docker images 看一下：</p>
 <p><img src="/img/20190529Docker学习-2.jpg" alt=""></p>
 <p>创建好镜像之后，为了使不同的集群端口之间相互不冲突，自己创建一个network:</p>
-<blockquote>
-<p>docker network create –subnet=172.19.0.0/16  redis-network  </p>
-</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network create --subnet=172.19.0.0/16  redis-network</span><br></pre></td></tr></table></figure>
 <p>创建完之后，docker network ls 查看一下：</p>
 <p><img src="/img/20190529Docker学习-3.jpg" alt=""></p>
 <p>然后运行三主三从六个节点：</p>
@@ -235,21 +233,13 @@
 <p>如下图所示：</p>
 <p><img src="/img/20190529Docker学习-5.jpg" alt=""></p>
 <p>创建好了之后，在跟刚才运行的redis节点相同的network环境下执行：</p>
-<blockquote>
-<p>docker run –net=redis-network –ip 172.19.0.100 –name ruby-zhjs -i -d ruby-redis</p>
-</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --net=redis-network --ip 172.19.0.100 --name ruby-zhjs -i -d ruby-redis</span><br></pre></td></tr></table></figure>
 <p>然后进入ruby容器：</p>
-<blockquote>
-<p>docker exec -it ruby-zhjs  bash</p>
-</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec --it ruby-zhjs  bash</span><br></pre></td></tr></table></figure>
 <p>进入容器之后，执行:</p>
-<blockquote>
-<p>gem install redis –version 3.0.7</p>
-</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install redis --version 3.0.7</span><br></pre></td></tr></table></figure>
 <p>然后把刚才创建的六个节点添加到一个集群中去：</p>
-<blockquote>
-<p>./redis-trib.rb  create –replicas 1  172.19.0.91:6379 172.19.0.92:6379 172.19.0.93:6379 172.19.0.94:6379 172.19.0.95:6379 172.19.0.96:6379</p>
-</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./redis-trib.rb  create --replicas 1  172.19.0.91:6379 172.19.0.92:6379 172.19.0.93:6379 172.19.0.94:6379 172.19.0.95:6379 172.19.0.96:6379</span><br></pre></td></tr></table></figure>
 <p><img src="/img/20190529Docker学习-6.jpg" alt=""></p>
 <p>到此为止，你就搭建好了一个三主三从的redis集群，现在就去验证一下吧：</p>
 <p>随便进入一个节点容器，然后执行:</p>
@@ -540,10 +530,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Spring</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">锁</a>
               </li>
              
@@ -552,7 +538,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">DB</a>
+                <a href="javascript:void(0)" class="js-tag color2">Spring</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -564,11 +550,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
+                <a href="javascript:void(0)" class="js-tag color3">DB</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">zookeeper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -580,15 +570,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">线程池</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">并发</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">线程池</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">githubPages</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Log4j2</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -597,10 +591,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">缓存</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Log4j2</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2018/11 | 赵金帅的博客</title>
+  <title>高并发下数据库与缓存的双写一致性 | 赵金帅的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="赵金帅的博客">
-<meta property="og:url" content="http://yoursite.com/archives/2018/11/index.html">
+  <meta name="keywords" content="redis,数据一致性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高并发下数据库与缓存的双写一致性">
+<meta property="og:url" content="http://yoursite.com/2019/07/30/高并发下数据库与缓存的双写一致性/index.html">
 <meta property="og:site_name" content="赵金帅的博客">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/img/twentyFour.jpg">
+<meta property="og:updated_time" content="2019-07-30T09:55:19.405Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="赵金帅的博客">
+<meta name="twitter:title" content="高并发下数据库与缓存的双写一致性">
+<meta name="twitter:image" content="http://yoursite.com/img/twentyFour.jpg">
   
     <link rel="alternative" href="/atom.xml" title="赵金帅的博客" type="application/atom+xml">
   
@@ -154,154 +158,137 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-高并发下数据库与缓存的双写一致性" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      高并发下数据库与缓存的双写一致性
+    </h1>
+  
+
+
+        
+        <a href="/2019/07/30/高并发下数据库与缓存的双写一致性/" class="archive-article-date">
+  	<time datetime="2019-07-30T08:38:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-30</time>
+</a>
+        
+        
+          <span class="archive-article-date">
+            阅读量 <span id="busuanzi_value_page_pv"></span>
+          </span>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/img/twentyFour.jpg" alt=""><br><a id="more"></a></p>
+<blockquote>
+<p>今天和建志兄讨论了一下高并发下的数据库与缓存的双写一致性的可行性方案，又参考了一下网上大神们的文章，颇有感触，所以mark一下~~~</p>
+</blockquote>
+<blockquote>
+<p>一说起缓存一致性，那就是涉及到缓存的更新策略，而缓存的更新策略无外乎三种：</p>
+<p>1.先更新数据库，再更新缓存</p>
+<p>2.先删除缓存，再更新数据库</p>
+<p>3.先更新数据库，再删除缓存</p>
+<p>PS：从理论上来说，给缓存设置过期时间，可以保证数据的最终一致性。</p>
+</blockquote>
+<h4 id="先更新数据库，再更新缓存"><a href="#先更新数据库，再更新缓存" class="headerlink" title="先更新数据库，再更新缓存"></a>先更新数据库，再更新缓存</h4><p>  其实这个策略是被大多数人鄙视的，因为这会导致脏数据的出现，比如下面这个案例：</p>
+<p>线程A做更新操作</p>
+<p>线程B做更新操作</p>
+<ol>
+<li>线程A更新了数据库</li>
+<li>线程B更新了数据库</li>
+<li>线程B更新了缓存</li>
+<li>线程A更新了缓存</li>
+</ol>
+<p>本来线程A更新数据早于线程B，所以此时最终的数据应该是B更新的数据，但是线程B先更新了缓存，然后线程A再更新缓存，这就导致了脏数据。</p>
+<p>还有一点就是根据业务场景的不同，有些写入缓存的数据是经过几个表的数据计算叠加在一起的，每次更新数据库后，还要重新连表查询计算再放入缓存，对性能造成很大的浪费。</p>
+<h4 id="先删除缓存，再更新数据库"><a href="#先删除缓存，再更新数据库" class="headerlink" title="先删除缓存，再更新数据库"></a>先删除缓存，再更新数据库</h4><p>有以下场景：</p>
+<p>线程A做更新操作</p>
+<p>线程B做查询操作</p>
+<ol>
+<li>线程A进行写操作，删除缓存</li>
+<li>线程B查询数据，发现缓存数据不存在</li>
+<li>线程B穿库查询旧值并写入数据到缓存</li>
+<li>线程A把新数据更新到数据库中，此时数据库中的数据是最终的，但缓存的数据还是旧值</li>
+</ol>
+<p>这种情况，可以先给缓存设置过期时间，但是如果缓存数据一致没过期，那读取到的数据就一直是脏数据。</p>
+<p>所以，采用延时双删策略：</p>
+<ol>
+<li>先删除缓存</li>
+<li>再更新数据库</li>
+<li>休眠1秒（根据业务场景定），再次删除缓存</li>
+</ol>
+<p>我们既然是高并发环境，那我们真实的生产环境下的数据库就肯定不是单机的，肯定是集群的，并且是读写分离的，读写分离的数据库架构下又怎么办呢？</p>
+<ol>
+<li>线程A更新数据，删除缓存</li>
+<li>线程A将数据更新到<strong>主</strong>库中</li>
+<li>线程B查询缓存，未找到</li>
+<li>线程B穿<strong>从</strong>库查询，此时，还未进行主从同步，所以查询的值是旧值</li>
+<li>线程B将旧值写入缓存</li>
+<li>数据库完成主从同步，<strong>从</strong>库变为新值</li>
+</ol>
+<p>也是采用双删延时策略，睡眠时间为主从同步的延时时间加上业务处理的时间.</p>
+<p>但是如果第二次删除缓存失败了，那咋办？</p>
+<h4 id="先更新数据库，再删除缓存"><a href="#先更新数据库，再删除缓存" class="headerlink" title="先更新数据库，再删除缓存"></a>先更新数据库，再删除缓存</h4><p>这种情况就不会有数据不一致问题吗？</p>
+<p>线程A做查询操作</p>
+<p>线程B做更新操作</p>
+<ol>
+<li>缓存刚好失效</li>
+<li>线程A查询数据库，得到一个旧值</li>
+<li>线程B更新新值到数据库</li>
+<li>线程B删除缓存</li>
+<li>请求A将查询到的旧值更新到缓存中</li>
+</ol>
+<p>如果法伤以上情况，就有可能会出现脏数据</p>
+<p>但是出现这种情况的概率又有多大呢？</p>
+<p>要想出现上述情况，步骤4先于步骤5，那就要求写数据的耗时要比读数据的耗时更短，这是基本不会出现的，因为读操作比较快，耗资源少，这就是读写分离的目的。</p>
+<p>但是如果我们非得抬杠呢，那怎么解决呢？</p>
+<p>那就设置过期时间，或者采用双删延时策略。</p>
+<p>但是这个和上一个策略都有一个问题，那就是如果第二次删除缓存失败咋办？</p>
+<h4 id="重试机制"><a href="#重试机制" class="headerlink" title="重试机制"></a>重试机制</h4><p>针对二次删除缓存失败的问题，我们可以提供一个保障的重试机制：</p>
+<p>放入mq进行重试</p>
+<p>监听mysql binlog日志</p>
+
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>赏个好友位呗!!!<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/wechat.jpeg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+            <span id="busuanzi_container_page_pv">
+              本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/28/Log4j转为Log4j2/" class="archive-article-date">
-  	<time datetime="2018-11-28T07:30:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/28/Log4j转为Log4j2/">Log4j转为Log4j2</a>
-    </h1>
-  
+      
+    </div>
 
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Log4j2</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/26/JVM原理/" class="archive-article-date">
-  	<time datetime="2018-11-26T04:13:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/26/JVM原理/">JVM原理</a>
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JVM</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/20/分布式事物的原理及解决方案/" class="archive-article-date">
-  	<time datetime="2018-11-20T09:06:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/20/分布式事物的原理及解决方案/">分布式事物的原理及解决方案</a>
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">分布式事物</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/01/Redis配置文件详解/" class="archive-article-date">
-  	<time datetime="2018-11-01T03:45:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/01/Redis配置文件详解/">Redis配置文件详解</a>
-    </h1>
-  
-
-
-        <div class="article-info info-on-right">
-          
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -311,25 +298,144 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">缓存</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">数据一致性</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/30/高并发下数据库与缓存的双写一致性/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2019/05/27/Docker学习-redis-cluster搭建三主三从集群/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Docker学习-redis-cluster搭建三主三从集群</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#先更新数据库，再更新缓存"><span class="toc-number">1.</span> <span class="toc-text">先更新数据库，再更新缓存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#先删除缓存，再更新数据库"><span class="toc-number">2.</span> <span class="toc-text">先删除缓存，再更新数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#先更新数据库，再删除缓存"><span class="toc-number">3.</span> <span class="toc-text">先更新数据库，再删除缓存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重试机制"><span class="toc-number">4.</span> <span class="toc-text">重试机制</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
   
 
-    
+  
+
+  
+
+  
+
+  
+
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="https://jjeejj.github.io/css/gitment.css">
+<script src="https://jjeejj.github.io/js/gitment.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "Tue Jul 30 2019 16:38:21 GMT+0800",
+  owner: 'zhjs0523',
+  repo: 'zhjs0523.github.io',
+  oauth: {
+    client_id: '2f2411f187bc265a55e1',
+    client_secret: '948c043ee9642b127ec13240842b7d9b711aafb9',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+
+  
 
 
           </div>
@@ -354,8 +460,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
